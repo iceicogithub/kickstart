@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\StudentController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
@@ -51,6 +52,8 @@ Route::get('/list-admin', function () {
 })->name('list-admin');
 
 
+
+
 Route::get('/dashboard', function () {
     return view('dashboard.dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -60,6 +63,13 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+
+// student auth
+Route::get('student/login', [StudentController::class, 'showLoginForm'])->name('student.login');
+Route::post('student/login', [StudentController::class, 'login']);
+Route::get('student/register', [StudentController::class, 'showRegistrationForm'])->name('student.register');
+Route::post('student/register', [StudentController::class, 'register']);
 
 // Route::any('/notes', [NotesController::class, 'index'])->name('notes');
 // Route::any('/notes/store', [NotesController::class, 'store'])->name('notes.store');
