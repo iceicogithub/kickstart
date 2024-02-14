@@ -38,6 +38,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/home', function () {
+    return view('layouts.index');
+});
+
 Route::get('/add-admin', function () {
     return view('admin.create');
 })->name('add-admin');
@@ -62,5 +66,7 @@ Route::middleware('auth')->group(function () {
 // Route::any('/notes-edit/{id}', [NotesController::class, 'edit'])->name('notes.edit');
 // Route::any('/notes-edit/{id}', [NotesController::class, 'edit'])->name('notes.edit');
 // Route::any('/notes/{id}/update', [NotesController::class, 'update'])->name('notes.update');
+
+
 
 require __DIR__ . '/auth.php';
