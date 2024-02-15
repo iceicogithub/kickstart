@@ -40,6 +40,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/home', function () {
+    return view('layouts.index');
+});
 
 Route::get('add/admin', function () {
     return view('admin.create');
@@ -81,5 +84,7 @@ Route::get('admin/delete/{id}', [RegisteredUserController::class, 'delete'])->na
 // Route::any('/notes-edit/{id}', [NotesController::class, 'edit'])->name('notes.edit');
 // Route::any('/notes-edit/{id}', [NotesController::class, 'edit'])->name('notes.edit');
 // Route::any('/notes/{id}/update', [NotesController::class, 'update'])->name('notes.update');
+
+
 
 require __DIR__ . '/auth.php';

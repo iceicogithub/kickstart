@@ -1,20 +1,78 @@
-<div class="card text-center">
-    <div class="card-header">
-        <ul class="nav nav-pills card-header-pills">
-            <li class="nav-item">
-                <a class="nav-link active" href="#">Active</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link disabled">Disabled</a>
-            </li>
-        </ul>
-    </div>
-    <div class="card-body">
-        <h5 class="card-title">Special title treatment</h5>
-        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-        <a href="#" class="btn btn-primary">Go somewhere</a>
+<div class="container-fluid" id="footer_bg">
+    <div class="container">
+        <div class="row mt-5 pt-5 justify-content-center ">
+            <div class="col-sm-6 col-md-6 col-lg-3">
+                {{-- <p><b>LOGO</b></p> --}}
+                <img src="{{asset('img/logoNoBg.png')}}" class="foot-logo" alt="not-found">
+                <p class="p_tag mt-3 text-capitalize fw-light" style="color: #6084a4">Our goal is to empower the next generation of tech leaders. Our internship
+                    program
+                    offers hands-on experience in different fields.</p>
+            </div>
+            <div class="col-sm-6 col-md-6 col-lg-3">
+                <h3 class="footer_h fw-bold">Find more</h3>
+                <ul class="list ps-2">
+                    <li>
+                        <a href="" class="link">
+                            <p class="footer_p">Home</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="" class="link">
+                            <p class="footer_p">About Us</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="" class="link">
+                            <p class="footer_p">Contact Us</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="" class="link">
+                            <p class="footer_p">VIP</p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="col-sm-6 col-md-6 col-lg-3">
+                <h3 class="footer_h fw-bold">Follow Us</h3>
+                <ul class="list ps-0">
+                    <li>
+                        <a href="" class="link">
+                            <p class="footer_p"><i class="fa-brands fa-linkedin-in fa-xl me-3 "></i>Linkedin</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="" class="link">
+                            <p class="footer_p"><i class="fa-brands fa-telegram fa-xl me-3"></i>Telegram</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="" class="link">
+                            <p class="footer_p"><i class="fa-brands fa-youtube fa-xl me-3"></i>Youtube</p>
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+            <div class="col-sm-6 col-md-6 col-lg-3">
+                <h3 class="footer_h">Address</h3>
+                <ul class="list ps-0">
+                    <li>
+                        <p class="footer_p"><i class="fa-solid fa-location-dot fa-xl me-3"></i>Bhopal, Madhya
+                            Pradesh
+                            India</p>
+                    </li>
+                    <li>
+                        <a href="" class="link">
+                            <p class="footer_p"><i class="fa-solid fa-envelope fa-xl me-3"></i>Email:
+                                bharatintern.info@gmail.com</p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <hr class="mt-5 ">
+            <p class="p_tag text-center">Copyright © 2023 Bharat Intern. All rights reserved by BharatIntern</p>
+        </div>
     </div>
 </div>
