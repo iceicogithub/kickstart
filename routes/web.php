@@ -37,12 +37,12 @@ Route::get('optimize', function () {
 });
 
 Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/home', function () {
     return view('layouts.index');
 });
+
+// Route::get('/home', function () {
+//     return view('layouts.index');
+// });
 
 Route::get('add/admin', function () {
     return view('admin.create');
