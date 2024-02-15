@@ -13,12 +13,12 @@
                     </a>
                     <ul class="submenu-angle" aria-expanded="true">
                         <li>
-                            <a title="Add Admin" href="{{Route('add-admin')}}">
+                            <a title="Add Admin" href="{{Route('add.admin')}}">
                                 <span class="mini-sub-pro">Add Admin</span>
                             </a>
                         </li>
                         <li>
-                            <a title="Admin List" href="{{Route('list-admin')}}">
+                            <a title="Admin List" href="{{Route('admin.list')}}">
                                 <span class="mini-sub-pro">Admin List</span>
                             </a>
                         </li>
@@ -67,12 +67,7 @@
                     </a>
                     <ul class="submenu-angle" aria-expanded="true">
                         <li>
-                            <a title="Add Student" href="#">
-                                <span class="mini-sub-pro">Add Student</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a title="Student List" href="#">
+                            <a title="Student List" href="{{Route('student.list')}}">
                                 <span class="mini-sub-pro">Student List</span>
                             </a>
                         </li>
