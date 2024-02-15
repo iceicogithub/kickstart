@@ -3,8 +3,8 @@
         <div class="row mt-5 pt-5 justify-content-center ">
             <div class="col-sm-6 col-md-6 col-lg-3">
                 {{-- <p><b>LOGO</b></p> --}}
-                <img src="{{asset('img/logoNoBg.png')}}" class="foot-logo" alt="not-found">
-                <p class="p_tag mt-3 text-capitalize fw-light" style="color: #6084a4">Our goal is to empower the next generation of tech leaders. Our internship
+                <img src="{{asset('img/logoNoBg.png')}}" class="foot-logo mb-2" alt="not-found">
+                <p class="p_tag mt-3 ps-3 text-capitalize fw-light" style="color: #6084a4">Our goal is to empower the next generation of tech leaders. Our internship
                     program
                     offers hands-on experience in different fields.</p>
             </div>
@@ -56,6 +56,7 @@
                 </ul>
             </div>
             <div class="col-sm-6 col-md-6 col-lg-3">
+                <img src="{{asset('img/cross.svg')}}" class="cross-img" alt="">
                 <h3 class="footer_h">Address</h3>
                 <ul class="list ps-0">
                     <li>

@@ -1,5 +1,5 @@
 <div class="header  pt-3 ">
-    <nav class="navbar navbar-expand-md  container-fluid">
+    <nav class="navbar container navbar-expand-md  container-fluid">
       <img src="{{asset('img/logoNoBg.png')}}" class="head-logo" alt="not-found">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -7,13 +7,13 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto ">
-                <li class="nav-item pt-2 px-1">
+                <li class="nav-item pt-2 px-lg-2 px-md-0">
                     <a class="nav-link" aria-current="page" href="#">Home</a>
                 </li>
-                <li class="nav-item pt-2 px-1">
+                <li class="nav-item pt-2 px-lg-2 px-md-0">
                     <a class="nav-link" href="#">About</a>
                 </li>
-                <li class="nav-item pt-2 px-1">
+                <li class="nav-item pt-2 px-lg-2 px-md-0">
                     <a class="nav-link" href="#">Contact</a>
                 </li>
                 <li class="nav-item">
