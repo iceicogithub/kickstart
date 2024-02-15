@@ -706,8 +706,8 @@
                             <li><a data-toggle="collapse" data-target="#Charts" href="#">Admin <span
                                         class="admin-project-icon nalika-icon nalika-down-arrow"></span></a>
                                 <ul class="collapse dropdown-header-top">
-                                    <li><a href="{{Route('add-admin')}}">Add Admin</a></li>
-                                    <li><a href="{{Route('list-admin')}}">Admin List</a></li>
+                                    <li><a href="{{Route('add.admin')}}">Add Admin</a></li>
+                                    <li><a href="{{Route('admin.list')}}">Admin List</a></li>
                                 </ul>
                             </li>
                             {{-- <li><a data-toggle="collapse" data-target="#Charts" href="#">Mentor <span

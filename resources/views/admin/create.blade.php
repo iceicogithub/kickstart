@@ -48,85 +48,72 @@
                             </ul>
                             <div id="myTabContent" class="tab-content custom-product-edit">
                                 <div class="product-tab-list tab-pane fade active in" id="description">
-                                    <form id="myForm" action="" method="post">
+                                    <form id="myForm" action="{{Route('register.store')}}" method="post">
+                                        @csrf
                                         <div class="row">
                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                                 <div class="review-content-section">
                                                     <div class="input-group mg-b-pro-edt">
                                                         <span class="input-group-addon"><i class="icon nalika-user"
                                                                 aria-hidden="true"></i></span>
-                                                        <input type="text" class="form-control" placeholder="First Name">
+                                                        <input type="text" name="name" class="form-control"
+                                                            placeholder="Full Name" value="{{ old('name') }}">
                                                     </div>
+                                                    @error('name')
+                                                        <span class="text-danger">{{ $message }}</span>
+                                                    @enderror
                                                     <div class="input-group mg-b-pro-edt">
-                                                        <span class="input-group-addon"><i class="icon nalika-edit"
+                                                        <span class="input-group-addon"><i class="fa fa-eye-slash"
                                                                 aria-hidden="true"></i></span>
-                                                        <input type="text" class="form-control"
-                                                            placeholder="Product Title">
+                                                        <input type="password" name="password" class="form-control"
+                                                            placeholder="Password">
                                                     </div>
+                                                    @error('password')
+                                                        <span class="text-danger">{{ $message }}</span>
+                                                    @enderror
                                                     <div class="input-group mg-b-pro-edt">
-                                                        <span class="input-group-addon"><i class="fa fa-usd"
+                                                        <span class="input-group-addon"><i class="fa fa-star"
                                                                 aria-hidden="true"></i></span>
-                                                        <input type="text" class="form-control"
-                                                            placeholder="Regular Price">
+                                                        <select name="role"
+                                                            class="form-control pro-edt-select form-control-primary">
+                                                            <option selected disabled>Select Role</option>
+                                                            <option value="superadmin">Super-Admin</option>
+                                                            <option value="admin">Admin</option>
+                                                        </select>
                                                     </div>
-                                                    <div class="input-group mg-b-pro-edt">
-                                                        <span class="input-group-addon"><i class="icon nalika-new-file"
-                                                                aria-hidden="true"></i></span>
-                                                        <input type="text" class="form-control" placeholder="Tax">
-                                                    </div>
-                                                    <div class="input-group mg-b-pro-edt">
-                                                        <span class="input-group-addon"><i class="icon nalika-favorites"
-                                                                aria-hidden="true"></i></span>
-                                                        <input type="text" class="form-control" placeholder="Quantity">
-                                                    </div>
+                                                    @error('role')
+                                                        <span class="text-danger">{{ $message }}</span>
+                                                    @enderror
                                                 </div>
                                             </div>
                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                                 <div class="review-content-section">
                                                     <div class="input-group mg-b-pro-edt">
-                                                        <span class="input-group-addon"><i class="icon nalika-user"
+                                                        <span class="input-group-addon"><i class="fa fa-envelope-o"
                                                                 aria-hidden="true"></i></span>
-                                                        <input type="text" class="form-control" placeholder="Last Name">
+                                                        <input type="email" name="email" class="form-control"
+                                                            placeholder="Email" value="{{ old('email') }}">
                                                     </div>
+                                                    @error('email')
+                                                        <span class="text-danger">{{ $message }}</span>
+                                                    @enderror
                                                     <div class="input-group mg-b-pro-edt">
-                                                        <span class="input-group-addon"><i
-                                                                class="icon nalika-favorites-button"
+                                                        <span class="input-group-addon"><i class="fa fa-eye-slash"
                                                                 aria-hidden="true"></i></span>
-                                                        <input type="text" class="form-control"
-                                                            placeholder="Product Description">
+                                                        <input type="password" name="password_confirmation"
+                                                            class="form-control" placeholder="Confirm Password"
+                                                            value="{{ old('password_confirmation') }}">
                                                     </div>
-                                                    <div class="input-group mg-b-pro-edt">
-                                                        <span class="input-group-addon"><i class="fa fa-usd"
-                                                                aria-hidden="true"></i></span>
-                                                        <input type="text" class="form-control" placeholder="Sale Price">
-                                                    </div>  
-                                                    
-                                                    <div class="input-group mg-b-pro-edt">
-                                                        <span class="input-group-addon"><i class="icon nalika-like"
-                                                                aria-hidden="true"></i></span>
-                                                        <input type="text" class="form-control" placeholder="Category">
-                                                    </div>
-                                                    <select name="select"
-                                                        class="form-control pro-edt-select form-control-primary">
-                                                        <option selected>Select One Value Only</option>
-                                                        <option value="opt2">2</option>
-                                                        <option value="opt3">3</option>
-                                                        <option value="opt4">4</option>
-                                                        <option value="opt5">5</option>
-                                                        <option value="opt6">6</option>
-                                                    </select>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                 <div class="text-center custom-pro-edt-ds">
-                                                    <button type="button"
-                                                        class="btn btn-ctl-bt waves-effect waves-light m-r-10">Save
-                                                    </button>
-                                                    <button id="resetButton" type="button"
-                                                        class="btn btn-ctl-bt waves-effect waves-light">Reset
-                                                    </button>
+                                                    <button type="submit"
+                                                        class="btn btn-ctl-bt waves-effect waves-light m-r-10">Save</button>
+                                                    <button id="resetButton" type="reset"
+                                                        class="btn btn-ctl-bt waves-effect waves-light">Reset</button>
                                                 </div>
                                             </div>
                                         </div>

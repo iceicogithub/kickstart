@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Student;
+use App\Models\StudentDetail;
 use Illuminate\Support\Facades\Validator;
 
 class StudentController extends Controller
@@ -87,5 +88,26 @@ class StudentController extends Controller
         return redirect()->back()->withInput($request->only('email_or_mobile', 'remember'))->withErrors([
             'email_or_mobile' => 'These credentials do not match our records.',
         ]);
+    }
+
+    public function studentList()
+    {
+        $student = Student::all();
+        $studentDetails = StudentDetail::all();
+        return view('student.list', compact('student', 'studentDetails'));
+    }
+
+    public function studentDetails($id)
+    {
+        // Retrieve the student details based on the provided ID
+        $studentDetail = StudentDetail::where('student_id', $id)->first();
+
+        // Check if the student details exist
+        if (!$studentDetail) {
+            abort(404); // Or handle the case where the student details are not found
+        }
+
+        // Pass the student details to the view
+        return view('student.view', compact('studentDetail'));
     }
 }

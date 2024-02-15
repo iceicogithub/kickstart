@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StudentController;
 use Illuminate\Support\Facades\Artisan;
@@ -40,15 +41,9 @@ Route::get('/', function () {
 });
 
 
-Route::get('/add-admin', function () {
+Route::get('add/admin', function () {
     return view('admin.create');
-})->name('add-admin');
-
-Route::get('/list-admin', function () {
-    return view('admin.list');
-})->name('list-admin');
-
-
+})->name('add.admin');
 
 
 Route::get('/dashboard', function () {
@@ -67,6 +62,19 @@ Route::get('student/login', [StudentController::class, 'showLoginForm'])->name('
 Route::post('student/login', [StudentController::class, 'login']);
 Route::get('student/register', [StudentController::class, 'showRegistrationForm'])->name('student.register');
 Route::post('student/register', [StudentController::class, 'register']);
+
+// student dashboard
+Route::get('student/list', [StudentController::class, 'studentList'])->name('student.list');
+Route::get('student/view/{id}', [StudentController::class, 'studentDetails'])->name('student.view');
+
+// admin dashboard
+Route::get('admin/list', [RegisteredUserController::class, 'adminList'])->name('admin.list');
+Route::post('admin/register', [RegisteredUserController::class, 'store'])->name('register.store');
+Route::get('admin/edit/{id}', [RegisteredUserController::class, 'edit'])->name('register.edit');
+Route::post('admin/update/{id}', [RegisteredUserController::class, 'update'])->name('register.update');
+Route::get('admin/delete/{id}', [RegisteredUserController::class, 'delete'])->name('register.delete');
+
+
 
 // Route::any('/notes', [NotesController::class, 'index'])->name('notes');
 // Route::any('/notes/store', [NotesController::class, 'store'])->name('notes.store');

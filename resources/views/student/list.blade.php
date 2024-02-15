@@ -1,6 +1,6 @@
 @extends('includes.admin.main')
 @section('title')
-    Admin List
+    Students List
 @endsection
 @section('style')
 @endsection
@@ -26,7 +26,7 @@
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                 <div class="breadcomb-report">
                                     {{-- <button data-toggle="tooltip" data-placement="left" title="Download Report"
-                                        class="btn"><i class="icon nalika-download"></i></button> --}}
+                                    class="btn"><i class="icon nalika-download"></i></button> --}}
                                 </div>
                             </div>
                         </div>
@@ -40,38 +40,43 @@
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="product-status-wrap">
-                        <h4>Admin List</h4>
-                        <div class="add-product">
-                            <a href="{{ Route('add.admin') }}">Add Admin</a>
-                        </div>
+                        <h4>Students List</h4>
                         <table>
                             <tbody>
                                 <tr>
                                     <th>Sr.No</th>
+                                    <th>Profile</th>
                                     <th>Full Name</th>
                                     <th>Email</th>
-                                    <th>Role</th>
+                                    <th>Phone</th>
+                                    <th>Profession</th>
                                     <th>Action</th>
                                 </tr>
-                                @foreach ($admin as $item)
+                                @foreach ($student as $item)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $item->name }}</td>
-                                        <td>{{ $item->email }}</td>
-                                        <td>{{ $item->role }}</td>
+                                        <td>
+                                            @php
+                                                $profileImagePath = public_path('admin/upload/profile/' . $item->profile_image);
+                                            @endphp
+
+                                            @if (file_exists($profileImagePath))
+                                                <img src="{{ asset('admin/upload/profile/' . $item->profile_image) }}"
+                                                    alt="">
+                                            @else
+                                                <img src="{{ asset('admin/img/user.png') }}" alt="">
+                                            @endif
+                                        </td>
+                                        <td>{{ $item->studentDetail->fullname ?: 'N/A' }}</td>
+                                        <td>{{ $item->email ?: 'N/A' }}</td>
+                                        <td>{{ $item->phone ?: 'N/A' }}</td>
+                                        <td>{{ $item->profession ?: 'N/A' }}</td>
                                         <td>
                                             <button class="pd-setting-ed">
-                                                <a href="{{ route('register.edit', ['id' => $item->id]) }}"
+                                                <a href="{{ route('student.view', ['id' => $item->id]) }}"
                                                     class="pd-setting-ed view-details-btn" data-toggle="tooltip"
-                                                    title="Edit Details" data-original-title="Edit Details">
-                                                    <i class="fa fa-edit" aria-hidden="true"></i>
-                                                </a>
-                                            </button>
-                                            <button class="pd-setting-ed">
-                                                <a href="{{ route('register.delete', ['id' => $item->id]) }}"
-                                                    class="pd-setting-ed view-details-btn" data-toggle="tooltip"
-                                                    title="Trash" data-original-title="Trash">
-                                                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                                    title="View All Details" data-original-title="View All Details">
+                                                    <i class="fa fa-eye" aria-hidden="true"></i>
                                                 </a>
                                             </button>
                                         </td>
