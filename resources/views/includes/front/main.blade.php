@@ -24,7 +24,7 @@
             @yield('content')
         </div>
     </div>
-    <div class="container-fluid">
+    <div>
         @include('includes.front.footer')
     </div>
 

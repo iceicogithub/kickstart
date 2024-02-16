@@ -110,4 +110,18 @@ class StudentController extends Controller
         // Pass the student details to the view
         return view('student.view', compact('studentDetail'));
     }
+
+    public function studentProfile($id)
+    {
+        $studentProfile = StudentDetail::where('student_id', $id)->first();
+
+        // Check if the student details exist
+        if (!$studentProfile) {
+            abort(404);
+        }
+
+        return view('student.profile', compact('studentProfile'));
+    }
+
+    
 }

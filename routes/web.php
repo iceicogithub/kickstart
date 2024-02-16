@@ -40,51 +40,39 @@ Route::get('/', function () {
     return view('layouts.index');
 });
 
-// Route::get('/home', function () {
-//     return view('layouts.index');
-// });
+Route::middleware('guest:student')->group(function () {
+    Route::get('student/login', [StudentController::class, 'showLoginForm'])->name('student.login');
+    Route::post('student/login', [StudentController::class, 'login']);
+    Route::get('student/register', [StudentController::class, 'showRegistrationForm'])->name('student.register');
+    Route::post('student/register', [StudentController::class, 'register']);
+});
 
-Route::get('add/admin', function () {
-    return view('admin.create');
-})->name('add.admin');
+Route::middleware('auth:student')->group(function () {
+    Route::get('student/list', [StudentController::class, 'studentList'])->name('student.list');
+    Route::get('student/view/{id}', [StudentController::class, 'studentDetails'])->name('student.view');
+    Route::get('student/profile/{id}', [StudentController::class, 'studentProfile'])->name('student.profile');
+});
 
-
-Route::get('/dashboard', function () {
-    return view('dashboard.dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
+// Admin routes group
 Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard.dashboard');
+    })->middleware('verified')->name('dashboard');
+
+    Route::get('add/admin', [RegisteredUserController::class, 'create'])->name('add.admin');
+    Route::get('admin/list', [RegisteredUserController::class, 'adminList'])->name('admin.list');
+    Route::post('admin/register', [RegisteredUserController::class, 'store'])->name('register.store');
+    Route::get('admin/edit/{id}', [RegisteredUserController::class, 'edit'])->name('register.edit');
+    Route::post('admin/update/{id}', [RegisteredUserController::class, 'update'])->name('register.update');
+    Route::get('admin/delete/{id}', [RegisteredUserController::class, 'delete'])->name('register.delete');
+
+    // student dashboard
+    Route::get('student/list', [StudentController::class, 'studentList'])->name('student.list');
+    Route::get('student/view/{id}', [StudentController::class, 'studentDetails'])->name('student.view');
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-
-
-// student auth
-Route::get('student/login', [StudentController::class, 'showLoginForm'])->name('student.login');
-Route::post('student/login', [StudentController::class, 'login']);
-Route::get('student/register', [StudentController::class, 'showRegistrationForm'])->name('student.register');
-Route::post('student/register', [StudentController::class, 'register']);
-
-// student dashboard
-Route::get('student/list', [StudentController::class, 'studentList'])->name('student.list');
-Route::get('student/view/{id}', [StudentController::class, 'studentDetails'])->name('student.view');
-
-// admin dashboard
-Route::get('admin/list', [RegisteredUserController::class, 'adminList'])->name('admin.list');
-Route::post('admin/register', [RegisteredUserController::class, 'store'])->name('register.store');
-Route::get('admin/edit/{id}', [RegisteredUserController::class, 'edit'])->name('register.edit');
-Route::post('admin/update/{id}', [RegisteredUserController::class, 'update'])->name('register.update');
-Route::get('admin/delete/{id}', [RegisteredUserController::class, 'delete'])->name('register.delete');
-
-
-
-// Route::any('/notes', [NotesController::class, 'index'])->name('notes');
-// Route::any('/notes/store', [NotesController::class, 'store'])->name('notes.store');
-// Route::any('/notes-edit/{id}', [NotesController::class, 'edit'])->name('notes.edit');
-// Route::any('/notes-edit/{id}', [NotesController::class, 'edit'])->name('notes.edit');
-// Route::any('/notes/{id}/update', [NotesController::class, 'update'])->name('notes.update');
-
-
 
 require __DIR__ . '/auth.php';
