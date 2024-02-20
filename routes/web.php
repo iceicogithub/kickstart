@@ -40,6 +40,7 @@ Route::get('/', function () {
     return view('layouts.index');
 });
 
+
 Route::middleware('guest:student')->group(function () {
     Route::get('student/login', [StudentController::class, 'showLoginForm'])->name('student.login');
     Route::post('student/login', [StudentController::class, 'login']);
@@ -59,7 +60,8 @@ Route::middleware('auth')->group(function () {
         return view('dashboard.dashboard');
     })->middleware('verified')->name('dashboard');
 
-    Route::get('add/admin', [RegisteredUserController::class, 'create'])->name('add.admin');
+    Route::get('add/admin', [RegisteredUserController::class,
+     'create'])->name('add.admin');
     Route::get('admin/list', [RegisteredUserController::class, 'adminList'])->name('admin.list');
     Route::post('admin/register', [RegisteredUserController::class, 'store'])->name('register.store');
     Route::get('admin/edit/{id}', [RegisteredUserController::class, 'edit'])->name('register.edit');
