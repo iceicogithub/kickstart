@@ -20,15 +20,14 @@
     <div class="container-fluid main-box bg-light ">
         <div class="container ">
             <a href="#" class="btn btn-outline-primary m-2">Back</a>
-    
-            <div class="row">
+
+            <div class="row ">
                 <div class="col-sm-12 col-md-6 col-lg-4 mt-2">
-    
+
                     {{-- card started --}}
                     <div class="card text-center pt-3 shadow" style="width:auto;">
                         <div>
-                            <img src="{{ 'img/profile.jpg' }}" 
-                                class="card-img-top rounded-circle my-1" alt="...">
+                            <img src="{{ 'img/profile.jpg' }}" class="card-img-top rounded-circle my-1" alt="...">
                         </div>
                         <div class="card-body">
                             <h5 class="card-title">Vibhor Patil</h5>
@@ -41,57 +40,59 @@
                     </div>
                 </div>
                 {{-- card ended --}}
-    
+
                 <div class="col-sm-12 col-md-6 col-lg-8 mt-2">
-    
+
                     {{-- input fields started --}}
-    
-                    <div>
-                        <ol class="list-group shadow ">
-                            <li class="list-group-item d-flex input-li">
-                                <label class="px-4 pt-1 fw-bold">Name</label>
-                                <input type="email" class="form-control text-start mx-2" placeholder="Vibhor Patil"
-                                    id="exampleInputEmail1" aria-describedby="emailHelp">
-                            </li>
-                            <li class="list-group-item d-flex input-li">
-                                <label class="px-4 pt-1 fw-bold">Email</label>
-                                <input type="email" class="form-control text-start mx-2"
+
+                    <ol class="list-group shadow ">
+                        <li class="list-group-item d-flex input-li">
+                            <label class="px-4 pt-1 fw-bold">Name</label>
+                            {{-- <input type="email" class="form-control text-start mx-2" placeholder="Vibhor Patil"
+                                    id="exampleInputEmail1" aria-describedby="emailHelp"> --}}
+                            <label class="px-4 pt-1">ExampleName</label>
+                        </li>
+                        <li class="list-group-item d-flex input-li">
+                            <label class="px-4 pt-1 fw-bold">Email</label>
+                            {{-- <input type="email" class="form-control text-start mx-2"
                                     placeholder="Vibhorpatil@gmail.com" id="exampleInputEmail1"
-                                    aria-describedby="emailHelp">
-                            </li>
-                            <li class="list-group-item d-flex input-li">
-                                <label class="px-4 pt-1 fw-bold">Phone</label>
-                                <input type="email" class="form-control text-start mx-2" placeholder="+91-7454722901"
-                                    id="exampleInputEmail1" aria-describedby="emailHelp">
-                            </li>
-                            <li class="list-group-item d-flex input-li">
-                                <label class="px-4 pt-1 fw-bold">Mobile</label>
-                                <input type="email" class="form-control text-start mx-2" placeholder="+91-7454722901"
-                                    id="exampleInputEmail1" aria-describedby="emailHelp">
-                            </li>
-                            <li class="list-group-item d-flex input-li">
-                                <label class="px-4 pt-1 fw-bold">Address</label>
-                                <input type="email" class="form-control text-start mx-2" placeholder="lorem ipsum"
-                                    id="exampleInputEmail1" aria-describedby="emailHelp">
-                            </li>
-                        </ol>
-                    </div>
-    
+                                    aria-describedby="emailHelp"> --}}
+                            <label class="px-4 pt-1">ExampleName</label>
+                        </li>
+                        <li class="list-group-item d-flex input-li">
+                            <label class="px-4 pt-1 fw-bold">Phone</label>
+                            {{-- <input type="email" class="form-control text-start mx-2" placeholder="+91-7454722901"
+                                    id="exampleInputEmail1" aria-describedby="emailHelp"> --}}
+                            <label class="px-4 pt-1">ExampleName</label>
+                        </li>
+                        <li class="list-group-item d-flex input-li">
+                            <label class="px-4 pt-1 fw-bold">Mobile</label>
+                            {{-- <input type="email" class="form-control text-start mx-2" placeholder="+91-7454722901"
+                                    id="exampleInputEmail1" aria-describedby="emailHelp"> --}}
+                            <label class="px-4 pt-1">ExampleName</label>
+                        </li>
+                        <li class="list-group-item d-flex input-li">
+                            <label class="px-4 pt-1 fw-bold">Address</label>
+                            {{-- <input type="email" class="form-control text-start mx-2" placeholder="lorem ipsum"
+                                    id="exampleInputEmail1" aria-describedby="emailHelp"> --}}
+                            <label class="px-4 pt-1">ExampleName</label>
+                        </li>
+                    </ol>
+
                     {{-- links startd --}}
-    
+
                 </div>
-    
+
             </div>
-    
+
             {{-- first row ended --}}
-    
+
             {{-- sewcond row started --}}
-    
-            <div class="row">
-    
+
+            <div class="row first">
+
                 <div class="col-sm-12 col-md-4 col-lg-4 ">
-    
-                    <div>
+
                         <ol class="list-group mt-2 shadow">
                             <li class="list-group-item d-flex justify-content-between align-items-start links-li">
                                 <div class="">
@@ -131,20 +132,19 @@
                                 </div>
                                 <span class="">www.iceico.in</span>
                             </li>
-    
+
                         </ol>
-                    </div>
                 </div>
-    
+
                 <div class="col-sm-12 col-md-4 col-lg-4 mt-2">
-    
+
                     <ol class="list-group shadow ">
-    
+
                         <li class="list-group-item">
                             <p class="h6 fw-bold py-1"><span class="text-success">Assignment</span>
                                 Project
                                 Status</p>
-    
+
                             <label>Web Design</label>
                             <div class="progress" style="height: 10px;">
                                 <div class="progress-bar" role="progressbar" aria-label="Example 1px high"
@@ -152,7 +152,7 @@
                                 </div>
                             </div>
                         </li>
-    
+
                         <li class="list-group-item">
                             <label>Web Design</label>
                             <div class="progress" style="height: 10px;">
@@ -161,7 +161,7 @@
                                 </div>
                             </div>
                         </li>
-    
+
                         <li class="list-group-item">
                             <label>Web Design</label>
                             <div class="progress" style="height: 10px;">
@@ -170,7 +170,7 @@
                                 </div>
                             </div>
                         </li>
-    
+
                         <li class="list-group-item">
                             <label>Web Design</label>
                             <div class="progress" style="height: 10px;">
@@ -179,7 +179,7 @@
                                 </div>
                             </div>
                         </li>
-    
+
                         <li class="list-group-item">
                             <label>Web Design</label>
                             <div class="progress" style="height: 10px;">
@@ -188,21 +188,21 @@
                                 </div>
                             </div>
                         </li>
-    
-    
+
+
                     </ol>
-    
+
                 </div>
-    
+
                 <div class="col-sm-12 col-md-4 col-lg-4 my-2">
-    
+
                     <ol class="list-group shadow">
-    
+
                         <li class="list-group-item">
                             <p class="h6 fw-bold py-1"><span class="text-success">Assignment</span>
                                 Project
                                 Status</p>
-    
+
                             <label>Web Design</label>
                             <div class="progress" style="height: 10px;">
                                 <div class="progress-bar" role="progressbar" aria-label="Example 1px high"
@@ -210,7 +210,7 @@
                                 </div>
                             </div>
                         </li>
-    
+
                         <li class="list-group-item">
                             <label>Web Design</label>
                             <div class="progress" style="height: 10px;">
@@ -219,7 +219,7 @@
                                 </div>
                             </div>
                         </li>
-    
+
                         <li class="list-group-item">
                             <label>Web Design</label>
                             <div class="progress" style="height: 10px;">
@@ -228,7 +228,7 @@
                                 </div>
                             </div>
                         </li>
-    
+
                         <li class="list-group-item">
                             <label>Web Design</label>
                             <div class="progress" style="height: 10px;">
@@ -237,7 +237,7 @@
                                 </div>
                             </div>
                         </li>
-    
+
                         <li class="list-group-item">
                             <label>Web Design</label>
                             <div class="progress" style="height: 10px;">
@@ -246,12 +246,12 @@
                                 </div>
                             </div>
                         </li>
-    
-    
+
+
                     </ol>
-    
+
                 </div>
-    
+
             </div>
         </div>
     </div>

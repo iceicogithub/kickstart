@@ -234,10 +234,10 @@ ul {
 {
   line-height: 1;
 }
-.main-box
+/* .main-box
 {
   height: 100vh;
-}
+} */
 .follow-btn{
   background-color: #0d6efd;
   color: #fff;
@@ -252,4 +252,9 @@ ul {
 }
 .links-li{
   padding: 0.7rem 0.5rem;
+}
+
+.first
+{
+  min-height: 100%;
 }
