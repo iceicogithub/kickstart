@@ -53,6 +53,12 @@ class StudentController extends Controller
         return redirect()->route('student.login')->with('success', 'Registration successful. Please log in.');
     }
 
+    public function logout()
+    {
+        Auth::guard('student')->logout();
+        return redirect()->route('student.login')->with('success', 'Logged out successfully.');
+    }
+
 
     public function showLoginForm()
     {
@@ -122,6 +128,4 @@ class StudentController extends Controller
 
         return view('student.profile', compact('studentProfile'));
     }
-
-    
 }

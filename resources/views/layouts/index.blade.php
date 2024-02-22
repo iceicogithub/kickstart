@@ -20,7 +20,8 @@
                     <p class="text text-capitalize fw-light">Our goal is to empower the next generation of tech leaders. Our
                         internship program offers hands-on experience in different fields.</p>
                     @if (auth()->guard('student')->check())
-                        <a href="#" class="btn-part text-white btn mt-3 py-2 px-4 text-start">Register</a>
+                        <a href="{{ route('student.registration') }}"
+                            class="btn-part text-white btn mt-3 py-2 px-4 text-start">Register</a>
                     @endif
                 </div>
             </div>
@@ -32,7 +33,6 @@
 
         </div>
     </div>
-
 @endsection
 
 @section('script')

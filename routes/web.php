@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\NormalController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StudentController;
 use Illuminate\Support\Facades\Artisan;
@@ -35,10 +36,7 @@ Route::get('optimize', function () {
     Artisan::call('optimize');
     return 'done';
 });
-
-Route::get('/', function () {
-    return view('layouts.index');
-});
+Route::get('/', [NormalController::class, 'index']);
 
 
 Route::middleware('guest:student')->group(function () {
@@ -52,6 +50,8 @@ Route::middleware('auth:student')->group(function () {
     Route::get('student/list', [StudentController::class, 'studentList'])->name('student.list');
     Route::get('student/view/{id}', [StudentController::class, 'studentDetails'])->name('student.view');
     Route::get('student/profile/{id}', [StudentController::class, 'studentProfile'])->name('student.profile');
+    Route::post('/student/logout', [StudentController::class, 'logout'])->name('student.logout');
+    Route::get('/student/registration', [NormalController::class, 'registrationPage'])->name('student.registration');
 });
 
 // Admin routes group
@@ -60,8 +60,10 @@ Route::middleware('auth')->group(function () {
         return view('dashboard.dashboard');
     })->middleware('verified')->name('dashboard');
 
-    Route::get('add/admin', [RegisteredUserController::class,
-     'create'])->name('add.admin');
+    Route::get('add/admin', [
+        RegisteredUserController::class,
+        'create'
+    ])->name('add.admin');
     Route::get('admin/list', [RegisteredUserController::class, 'adminList'])->name('admin.list');
     Route::post('admin/register', [RegisteredUserController::class, 'store'])->name('register.store');
     Route::get('admin/edit/{id}', [RegisteredUserController::class, 'edit'])->name('register.edit');

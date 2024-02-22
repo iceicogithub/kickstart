@@ -19,33 +19,33 @@
 <body>
     <div class="container-fluid main-box bg-light ">
         <div class="container ">
-            <a href="#" class="btn btn-outline-primary m-2">Back</a>
-    
+            <a href="{{ url('/') }}" class="btn btn-outline-primary m-2">Back</a>
+
             <div class="row">
                 <div class="col-sm-12 col-md-6 col-lg-4 mt-2">
-    
+
                     {{-- card started --}}
                     <div class="card text-center pt-3 shadow" style="width:auto;">
                         <div>
-                            <img src="{{ 'img/profile.jpg' }}" 
-                                class="card-img-top rounded-circle my-1" alt="...">
+                            <img src="{{ asset('front/img/user.png') }}" class="card-img-top rounded-circle my-1"
+                                alt="...">
                         </div>
                         <div class="card-body">
                             <h5 class="card-title">Vibhor Patil</h5>
                             <p class="card-text text pt-2">Full Stack Devloper</p>
                             <p class="card-text text">Bay Area , San Francisco CA</p>
-                            <a href="#" class="btn follow-btn ">Follow</a>
+                            <a href="#" class="btn btn-primary text-white">Follow</a>
                             <a href="#" class="btn btn-outline-primary m-2">Edit</a>
                             <a href="#" class="btn btn-outline-primary ">Message</a>
                         </div>
                     </div>
                 </div>
                 {{-- card ended --}}
-    
+
                 <div class="col-sm-12 col-md-6 col-lg-8 mt-2">
-    
+
                     {{-- input fields started --}}
-    
+
                     <div>
                         <ol class="list-group shadow ">
                             <li class="list-group-item d-flex input-li">
@@ -76,21 +76,18 @@
                             </li>
                         </ol>
                     </div>
-    
+
                     {{-- links startd --}}
-    
+
                 </div>
-    
+
             </div>
-    
-            {{-- first row ended --}}
-    
-            {{-- sewcond row started --}}
-    
+
+
             <div class="row">
-    
+
                 <div class="col-sm-12 col-md-4 col-lg-4 ">
-    
+
                     <div>
                         <ol class="list-group mt-2 shadow">
                             <li class="list-group-item d-flex justify-content-between align-items-start links-li">
@@ -131,20 +128,20 @@
                                 </div>
                                 <span class="">www.iceico.in</span>
                             </li>
-    
+
                         </ol>
                     </div>
                 </div>
-    
+
                 <div class="col-sm-12 col-md-4 col-lg-4 mt-2">
-    
+
                     <ol class="list-group shadow ">
-    
+
                         <li class="list-group-item">
                             <p class="h6 fw-bold py-1"><span class="text-success">Assignment</span>
                                 Project
                                 Status</p>
-    
+
                             <label>Web Design</label>
                             <div class="progress" style="height: 10px;">
                                 <div class="progress-bar" role="progressbar" aria-label="Example 1px high"
@@ -152,7 +149,7 @@
                                 </div>
                             </div>
                         </li>
-    
+
                         <li class="list-group-item">
                             <label>Web Design</label>
                             <div class="progress" style="height: 10px;">
@@ -161,7 +158,7 @@
                                 </div>
                             </div>
                         </li>
-    
+
                         <li class="list-group-item">
                             <label>Web Design</label>
                             <div class="progress" style="height: 10px;">
@@ -170,7 +167,7 @@
                                 </div>
                             </div>
                         </li>
-    
+
                         <li class="list-group-item">
                             <label>Web Design</label>
                             <div class="progress" style="height: 10px;">
@@ -179,7 +176,7 @@
                                 </div>
                             </div>
                         </li>
-    
+
                         <li class="list-group-item">
                             <label>Web Design</label>
                             <div class="progress" style="height: 10px;">
@@ -188,21 +185,21 @@
                                 </div>
                             </div>
                         </li>
-    
-    
+
+
                     </ol>
-    
+
                 </div>
-    
+
                 <div class="col-sm-12 col-md-4 col-lg-4 my-2">
-    
+
                     <ol class="list-group shadow">
-    
+
                         <li class="list-group-item">
                             <p class="h6 fw-bold py-1"><span class="text-success">Assignment</span>
                                 Project
                                 Status</p>
-    
+
                             <label>Web Design</label>
                             <div class="progress" style="height: 10px;">
                                 <div class="progress-bar" role="progressbar" aria-label="Example 1px high"
@@ -210,7 +207,7 @@
                                 </div>
                             </div>
                         </li>
-    
+
                         <li class="list-group-item">
                             <label>Web Design</label>
                             <div class="progress" style="height: 10px;">
@@ -219,7 +216,7 @@
                                 </div>
                             </div>
                         </li>
-    
+
                         <li class="list-group-item">
                             <label>Web Design</label>
                             <div class="progress" style="height: 10px;">
@@ -228,7 +225,7 @@
                                 </div>
                             </div>
                         </li>
-    
+
                         <li class="list-group-item">
                             <label>Web Design</label>
                             <div class="progress" style="height: 10px;">
@@ -237,7 +234,7 @@
                                 </div>
                             </div>
                         </li>
-    
+
                         <li class="list-group-item">
                             <label>Web Design</label>
                             <div class="progress" style="height: 10px;">
@@ -246,13 +243,19 @@
                                 </div>
                             </div>
                         </li>
-    
-    
+
+
                     </ol>
-    
+
                 </div>
-    
+
             </div>
+
+            <form method="POST" action="{{ route('student.logout') }}">
+                @csrf
+                <button type="submit" class="btn btn-outline-primary m-2">Logout</button>
+            </form>
+
         </div>
     </div>
 

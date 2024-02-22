@@ -30,8 +30,8 @@
 
     @yield('script')
     <script src="{{ asset('front/bootstrap/js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('front/bootstrap/js/bootstrap.bundle.js') }}"></script>
-    <script src="{{ asset('front/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    {{-- <script src="{{ asset('front/bootstrap/js/bootstrap.bundle.js') }}"></script>
+    <script src="{{ asset('front/bootstrap/js/bootstrap.bundle.min.js') }}"></script> --}}
 </body>
 
 </html>

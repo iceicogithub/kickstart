@@ -7,7 +7,7 @@ body {
 
 a {
   color: #6084a4 !important;
-  text-decoration: none!important;
+  text-decoration: none !important;
 }
 
 .header {
@@ -221,35 +221,38 @@ ul {
 
 /* ------------------------------profile-section-css-started--------------------------------- */
 
-.card-img-top{
+.card-img-top {
   width: 7rem;
   height: 7rem;
 }
-.form-control
-{
+
+.form-control {
   border: none;
 }
 
-.card-body .text
-{
+.card-body .text {
   line-height: 1;
 }
-.main-box
-{
+
+.main-box {
   height: 100vh;
 }
-.follow-btn{
+
+.follow-btn {
   background-color: #0d6efd;
   color: #fff;
 }
-.follow-btn:hover{
+
+.follow-btn:hover {
   background-color: transparent;
   color: #0d6efd;
   border: 1px solid #0d6efd;
 }
-.input-li{
-  padding:0.8rem 0rem;
+
+.input-li {
+  padding: 0.8rem 0rem;
 }
-.links-li{
+
+.links-li {
   padding: 0.7rem 0.5rem;
 }
