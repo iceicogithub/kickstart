@@ -46,36 +46,39 @@
 
                     {{-- input fields started --}}
 
-                    <div>
-                        <ol class="list-group shadow ">
-                            <li class="list-group-item d-flex input-li">
-                                <label class="px-4 pt-1 fw-bold">Name</label>
-                                <input type="email" class="form-control text-start mx-2" placeholder="Vibhor Patil"
-                                    id="exampleInputEmail1" aria-describedby="emailHelp">
-                            </li>
-                            <li class="list-group-item d-flex input-li">
-                                <label class="px-4 pt-1 fw-bold">Email</label>
-                                <input type="email" class="form-control text-start mx-2"
+                    <ol class="list-group shadow ">
+                        <li class="list-group-item d-flex input-li">
+                            <label class="px-4 pt-1 fw-bold">Name</label>
+                            {{-- <input type="email" class="form-control text-start mx-2" placeholder="Vibhor Patil"
+                                    id="exampleInputEmail1" aria-describedby="emailHelp"> --}}
+                            <label class="px-4 pt-1">ExampleName</label>
+                        </li>
+                        <li class="list-group-item d-flex input-li">
+                            <label class="px-4 pt-1 fw-bold">Email</label>
+                            {{-- <input type="email" class="form-control text-start mx-2"
                                     placeholder="Vibhorpatil@gmail.com" id="exampleInputEmail1"
-                                    aria-describedby="emailHelp">
-                            </li>
-                            <li class="list-group-item d-flex input-li">
-                                <label class="px-4 pt-1 fw-bold">Phone</label>
-                                <input type="email" class="form-control text-start mx-2" placeholder="+91-7454722901"
-                                    id="exampleInputEmail1" aria-describedby="emailHelp">
-                            </li>
-                            <li class="list-group-item d-flex input-li">
-                                <label class="px-4 pt-1 fw-bold">Mobile</label>
-                                <input type="email" class="form-control text-start mx-2" placeholder="+91-7454722901"
-                                    id="exampleInputEmail1" aria-describedby="emailHelp">
-                            </li>
-                            <li class="list-group-item d-flex input-li">
-                                <label class="px-4 pt-1 fw-bold">Address</label>
-                                <input type="email" class="form-control text-start mx-2" placeholder="lorem ipsum"
-                                    id="exampleInputEmail1" aria-describedby="emailHelp">
-                            </li>
-                        </ol>
-                    </div>
+                                    aria-describedby="emailHelp"> --}}
+                            <label class="px-4 pt-1">ExampleName</label>
+                        </li>
+                        <li class="list-group-item d-flex input-li">
+                            <label class="px-4 pt-1 fw-bold">Phone</label>
+                            {{-- <input type="email" class="form-control text-start mx-2" placeholder="+91-7454722901"
+                                    id="exampleInputEmail1" aria-describedby="emailHelp"> --}}
+                            <label class="px-4 pt-1">ExampleName</label>
+                        </li>
+                        <li class="list-group-item d-flex input-li">
+                            <label class="px-4 pt-1 fw-bold">Mobile</label>
+                            {{-- <input type="email" class="form-control text-start mx-2" placeholder="+91-7454722901"
+                                    id="exampleInputEmail1" aria-describedby="emailHelp"> --}}
+                            <label class="px-4 pt-1">ExampleName</label>
+                        </li>
+                        <li class="list-group-item d-flex input-li">
+                            <label class="px-4 pt-1 fw-bold">Address</label>
+                            {{-- <input type="email" class="form-control text-start mx-2" placeholder="lorem ipsum"
+                                    id="exampleInputEmail1" aria-describedby="emailHelp"> --}}
+                            <label class="px-4 pt-1">ExampleName</label>
+                        </li>
+                    </ol>
 
                     {{-- links startd --}}
 
@@ -83,12 +86,14 @@
 
             </div>
 
+            {{-- first row ended --}}
 
-            <div class="row">
+            {{-- sewcond row started --}}
+
+            <div class="row first">
 
                 <div class="col-sm-12 col-md-4 col-lg-4 ">
 
-                    <div>
                         <ol class="list-group mt-2 shadow">
                             <li class="list-group-item d-flex justify-content-between align-items-start links-li">
                                 <div class="">
@@ -130,7 +135,6 @@
                             </li>
 
                         </ol>
-                    </div>
                 </div>
 
                 <div class="col-sm-12 col-md-4 col-lg-4 mt-2">
