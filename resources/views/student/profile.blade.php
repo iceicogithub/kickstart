@@ -14,135 +14,112 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
         integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <style>
+            ol > li {
+                border: 0!important;
+            }
+        </style>
 </head>
 
 <body>
     <div class="container-fluid main-box bg-light ">
         <div class="container ">
-            <a href="{{ url('/') }}" class="btn btn-outline-primary m-2">Back</a>
+            <a href="{{ url('/') }}" class="btn btn-seagreen m-2">Back</a>
 
             <div class="row">
-                <div class="col-sm-12 col-md-6 col-lg-4 mt-2">
-
-                    {{-- card started --}}
-                    <div class="card text-center pt-3 shadow" style="width:auto;">
+                <div class="col-sm-12 col-md-6 col-lg-4 p-1 ">
+                    <div class="card text-center pt-3 shadow border-0" style="width:auto;min-height: 100%;">
                         <div>
-                            <img src="{{ asset('front/img/user.png') }}" class="card-img-top rounded-circle my-1"
+                            <img src="http://127.0.0.1:8000/front/img/user.png" class="card-img-top rounded-circle my-1"
                                 alt="...">
                         </div>
                         <div class="card-body">
                             <h5 class="card-title">Vibhor Patil</h5>
                             <p class="card-text text pt-2">Full Stack Devloper</p>
                             <p class="card-text text">Bay Area , San Francisco CA</p>
-                            <a href="#" class="btn btn-primary text-white">Follow</a>
-                            <a href="#" class="btn btn-outline-primary m-2">Edit</a>
-                            <a href="#" class="btn btn-outline-primary ">Message</a>
                         </div>
                     </div>
                 </div>
-                {{-- card ended --}}
-
-                <div class="col-sm-12 col-md-6 col-lg-8 mt-2">
-
-                    {{-- input fields started --}}
-
-                    <ol class="list-group shadow ">
+                <div class= "col-lg-8 col-md-6 col-sm-12 p-1">
+                    <ol class="list-group shadow " style="min-height: 100%;">
                         <li class="list-group-item d-flex input-li">
                             <label class="px-4 pt-1 fw-bold">Name</label>
-                            {{-- <input type="email" class="form-control text-start mx-2" placeholder="Vibhor Patil"
-                                    id="exampleInputEmail1" aria-describedby="emailHelp"> --}}
+
                             <label class="px-4 pt-1">ExampleName</label>
                         </li>
                         <li class="list-group-item d-flex input-li">
                             <label class="px-4 pt-1 fw-bold">Email</label>
-                            {{-- <input type="email" class="form-control text-start mx-2"
-                                    placeholder="Vibhorpatil@gmail.com" id="exampleInputEmail1"
-                                    aria-describedby="emailHelp"> --}}
+
                             <label class="px-4 pt-1">ExampleName</label>
                         </li>
                         <li class="list-group-item d-flex input-li">
                             <label class="px-4 pt-1 fw-bold">Phone</label>
-                            {{-- <input type="email" class="form-control text-start mx-2" placeholder="+91-7454722901"
-                                    id="exampleInputEmail1" aria-describedby="emailHelp"> --}}
+
                             <label class="px-4 pt-1">ExampleName</label>
                         </li>
                         <li class="list-group-item d-flex input-li">
                             <label class="px-4 pt-1 fw-bold">Mobile</label>
-                            {{-- <input type="email" class="form-control text-start mx-2" placeholder="+91-7454722901"
-                                    id="exampleInputEmail1" aria-describedby="emailHelp"> --}}
+
                             <label class="px-4 pt-1">ExampleName</label>
                         </li>
                         <li class="list-group-item d-flex input-li">
                             <label class="px-4 pt-1 fw-bold">Address</label>
-                            {{-- <input type="email" class="form-control text-start mx-2" placeholder="lorem ipsum"
-                                    id="exampleInputEmail1" aria-describedby="emailHelp"> --}}
+
                             <label class="px-4 pt-1">ExampleName</label>
                         </li>
                     </ol>
-
-                    {{-- links startd --}}
-
                 </div>
-
             </div>
 
-            {{-- first row ended --}}
+            <div class="row first mt-2">
 
-            {{-- sewcond row started --}}
+                <div class="col-sm-12 col-md-4 col-lg-4 p-1">
+                    <ol class="list-group shadow bg-white p-3" style="min-height: 100%;">
+                        <p class="fw-bold h6 m-0 text-dark"><span class="color-seegreen">Social </span>Accounts</p>
+                        <li class="list-group-item d-flex justify-content-between align-items-start links-li">
+                            <div class="">
+                                <i class="fa-solid fa-globe"></i> <label class="h6">Website</label>
+                            </div>
+                            <span class="">www.iceico.in</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-start links-li">
+                            <div class="">
+                                <i class="fa-brands fa-github"></i> <label class="h6">Github</label>
+                            </div>
+                            <span class="">www.iceico.in</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-start links-li">
+                            <div class="">
+                                <i class="fa-brands fa-twitter text-success"></i> <label class="h6">Twitter</label>
+                            </div>
+                            <span class="">www.iceico.in</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-start links-li">
+                            <div class="">
+                                {{-- <div class="fw-bold">Subheading</div> --}}
+                                <i class="fa-brands fa-instagram text-danger"></i> <label
+                                    class="h6">Instagram</label>
+                            </div>
+                            <span class="">www.iceico.in</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-start links-li">
+                            <div class="">
+                                {{-- <div class="fw-bold">Subheading</div> --}}
+                                <i class="fa-brands fa-facebook text-primary"></i> <label
+                                    class="h6">Instagram</label>
+                            </div>
+                            <span class="">www.iceico.in</span>
+                        </li>
 
-            <div class="row first">
-
-                <div class="col-sm-12 col-md-4 col-lg-4 ">
-
-                        <ol class="list-group mt-2 shadow">
-                            <li class="list-group-item d-flex justify-content-between align-items-start links-li">
-                                <div class="">
-                                    {{-- <div class="fw-bold">Subheading</div> --}}
-                                    <i class="fa-solid fa-globe"></i> <label class="h6">Website</label>
-                                </div>
-                                <span class="">www.iceico.in</span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-start links-li">
-                                <div class="">
-                                    {{-- <div class="fw-bold">Subheading</div> --}}
-                                    <i class="fa-brands fa-github"></i> <label class="h6">Github</label>
-                                </div>
-                                <span class="">www.iceico.in</span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-start links-li">
-                                <div class="">
-                                    {{-- <div class="fw-bold">Subheading</div> --}}
-                                    <i class="fa-brands fa-twitter text-success"></i> <label
-                                        class="h6">Twitter</label>
-                                </div>
-                                <span class="">www.iceico.in</span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-start links-li">
-                                <div class="">
-                                    {{-- <div class="fw-bold">Subheading</div> --}}
-                                    <i class="fa-brands fa-instagram text-danger"></i> <label
-                                        class="h6">Instagram</label>
-                                </div>
-                                <span class="">www.iceico.in</span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-start links-li">
-                                <div class="">
-                                    {{-- <div class="fw-bold">Subheading</div> --}}
-                                    <i class="fa-brands fa-facebook text-primary"></i> <label
-                                        class="h6">Instagram</label>
-                                </div>
-                                <span class="">www.iceico.in</span>
-                            </li>
-
-                        </ol>
+                    </ol>
                 </div>
 
-                <div class="col-sm-12 col-md-4 col-lg-4 mt-2">
+                <div class="col-sm-12 col-md-4 col-lg-4 p-1">
 
-                    <ol class="list-group shadow ">
+                    <ol class="list-group shadow " style="min-height: 100%;">
 
                         <li class="list-group-item">
-                            <p class="h6 fw-bold py-1"><span class="text-success">Assignment</span>
+                            <p class="h6 fw-bold py-1"><span class="color-seegreen">Assignment</span>
                                 Project
                                 Status</p>
 
@@ -195,12 +172,12 @@
 
                 </div>
 
-                <div class="col-sm-12 col-md-4 col-lg-4 my-2">
+                <div class="col-sm-12 col-md-4 col-lg-4 p-1">
 
-                    <ol class="list-group shadow">
+                    <ol class="list-group shadow" style="min-height: 100%;">
 
                         <li class="list-group-item">
-                            <p class="h6 fw-bold py-1"><span class="text-success">Assignment</span>
+                            <p class="h6 fw-bold py-1"><span class="color-seegreen">Assignment</span>
                                 Project
                                 Status</p>
 
@@ -257,7 +234,7 @@
 
             <form method="POST" action="{{ route('student.logout') }}">
                 @csrf
-                <button type="submit" class="btn btn-outline-primary m-2">Logout</button>
+                <button type="submit" class="btn btn-seagreen m-2">Logout</button>
             </form>
 
         </div>

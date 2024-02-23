@@ -28,7 +28,7 @@
         }
 
         .main {
-            background-color: rgb(2, 152, 127);
+            background-color: #26C5B5;
             width: 100%;
             height: 100%;
             display: flex;
@@ -49,11 +49,11 @@
         }
 
         .box button {
-            background-color: rgb(2, 152, 127);
+            background-color: #26C5B5;
         }
 
         .box a {
-            color: rgb(2, 152, 127);
+            color: #26C5B5;
         }
 
         @media (min-width: 576px) {

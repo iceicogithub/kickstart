@@ -37,6 +37,7 @@ Route::get('optimize', function () {
     return 'done';
 });
 Route::get('/', [NormalController::class, 'index']);
+Route::get('/dash', [NormalController::class, 'dash']);
 
 
 Route::middleware('guest:student')->group(function () {

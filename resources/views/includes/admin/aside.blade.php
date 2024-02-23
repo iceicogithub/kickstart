@@ -1,6 +1,7 @@
 <nav id="sidebar" class="">
     <div class="sidebar-header">
-        <a href="{{Route('dashboard')}}"><img class="main-logo" src="{{ asset('admin/img/logo/logo.png') }}" alt="" /></a>
+        <a href="{{Route('dashboard')}}"><img class="main-logo" src="{{ asset('img/kickstart.jpeg') }}" alt="" style="height: 115px;width: 200px;
+        "/></a>
         <strong><img src="{{ asset('admin/img/logo/logosn.png') }}" alt="" /></strong>
     </div>
     <div class="left-custom-menu-adp-wrap comment-scrollbar">

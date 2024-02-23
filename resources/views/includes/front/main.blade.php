@@ -16,7 +16,7 @@
 </head>
 
 <body>
-    <div class="container-fluid">
+    <div class="container-fluid px-0">
         <div>
             @include('includes.front.header')
         </div>

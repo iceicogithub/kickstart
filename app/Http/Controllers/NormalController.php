@@ -15,4 +15,8 @@ class NormalController extends Controller
     {
         return view('student.registration');
     }
+
+    public function dash(){
+        return view('dashboard.student-dashboard');
+    }
 }

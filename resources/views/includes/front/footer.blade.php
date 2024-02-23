@@ -3,7 +3,7 @@
         <div class="row mt-5 pt-5 justify-content-center ">
             <div class="col-sm-6 col-md-6 col-lg-3">
                 {{-- <p><b>LOGO</b></p> --}}
-                <img src="{{ asset('img/logoNoBg.png') }}" class="foot-logo mb-2" alt="not-found">
+                <img src="{{ asset('img/kickstart_bg.png') }}" class="foot-logo mb-2" alt="not-found">
                 <p class="p_tag mt-3 ps-3 text-capitalize fw-light" style="color: #6084a4">Our goal is to empower the next
                     generation of tech leaders. Our internship
                     program
@@ -53,19 +53,17 @@
             </div>
             <div class="col-sm-6 col-md-6 col-lg-3">
                 <img src="{{ asset('img/cross.svg') }}" class="cross-img" alt="">
-                <h3 class="footer_h">Address</h3>
+                <h3 class="footer_h fw-bold">Address</h3>
                 <ul class="list ps-0">
                     <li>
                         <a href="" class="link">
-                            <p class="footer_p"><i class="fa-solid fa-location-dot fa-xl me-3"></i>Bhopal, Madhya
-                                Pradesh
-                                India</p>
+                            <p class="footer_p"><i class="fa-solid fa-location-dot fa-xl me-3"></i>India</p>
                         </a>
                     </li>
                     <li>
                         <a href="" class="link">
                             <p class="footer_p"><i class="fa-solid fa-envelope fa-xl me-3"></i>Email:
-                                bharatintern.info@gmail.com</p>
+                                kickstart.info@gmail.com</p>
                         </a>
                     </li>
                 </ul>

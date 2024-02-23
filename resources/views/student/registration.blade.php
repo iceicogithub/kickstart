@@ -323,9 +323,9 @@
                 </div>
 
                 <div class="buttons d-flex align-items-center justify-content-center">
-                    <button type="button" class="btn btn-secondary btn-sm fw-bold me-3 text-light">SUBMIT</button>
+                    <button type="button" class="btn btn-secondary  fw-bold me-3 text-light">SUBMIT</button>
                     <button id="resetButton" type="reset"
-                        class="btn btn-dark btn-sm fw-bold text-light">RESET</button>
+                        class="btn btn-dark  fw-bold text-light">RESET</button>
                 </div>
 
             </form>

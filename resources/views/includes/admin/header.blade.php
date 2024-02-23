@@ -164,18 +164,19 @@
                                         </div>
                                     </li> --}}
                                     <li class="nav-item">
-                                        <a href="#" data-toggle="dropdown" role="button"
-                                            aria-expanded="false" class="nav-link dropdown-toggle">
+                                        <a href="#" data-toggle="dropdown" role="button" aria-expanded="false"
+                                            class="nav-link dropdown-toggle">
                                             <i class="icon nalika-user"></i>
                                             <span class="admin-name">Profile</span>
                                             <i class="icon nalika-down-arrow nalika-angle-dw"></i>
                                         </a>
                                         <ul role="menu"
                                             class="dropdown-header-top author-log dropdown-menu animated zoomIn">
-                                            <li><a href="{{ Route('profile.edit') }}"><span
-                                                        class="icon nalika-user author-log-ic"></span>
-                                                    My
-                                                    Profile</a>
+                                            <li>
+                                                <a href="#">
+                                                    <span class="icon nalika-user author-log-ic"></span>
+                                                    MyProfile
+                                                </a>
                                             </li>
                                             <li>
                                                 <a href="">
@@ -706,31 +707,10 @@
                             <li><a data-toggle="collapse" data-target="#Charts" href="#">Admin <span
                                         class="admin-project-icon nalika-icon nalika-down-arrow"></span></a>
                                 <ul class="collapse dropdown-header-top">
-                                    <li><a href="{{Route('add.admin')}}">Add Admin</a></li>
-                                    <li><a href="{{Route('admin.list')}}">Admin List</a></li>
+                                    <li><a href="{{ Route('add.admin') }}">Add Admin</a></li>
+                                    <li><a href="{{ Route('admin.list') }}">Admin List</a></li>
                                 </ul>
                             </li>
-                            {{-- <li><a data-toggle="collapse" data-target="#Charts" href="#">Mentor <span
-                                        class="admin-project-icon nalika-icon nalika-down-arrow"></span></a>
-                                <ul class="collapse dropdown-header-top">
-                                    <li><a href="{{Route('add-mentor')}}">Add Mentor</a></li>
-                                    <li><a href="{{Route('list-mentor')}}">Mentor List</a></li>
-                                </ul>
-                            </li>
-                            <li><a data-toggle="collapse" data-target="#Charts" href="#">Institute <span
-                                        class="admin-project-icon nalika-icon nalika-down-arrow"></span></a>
-                                <ul class="collapse dropdown-header-top">
-                                    <li><a href="{{Route('add-institute')}}">Add Institute</a></li>
-                                    <li><a href="{{Route('list-institute')}}">Institute List</a></li>
-                                </ul>
-                            </li>
-                            <li><a data-toggle="collapse" data-target="#Charts" href="#">Student <span
-                                        class="admin-project-icon nalika-icon nalika-down-arrow"></span></a>
-                                <ul class="collapse dropdown-header-top">
-                                    <li><a href="{{Route('add-student')}}">Add Student</a></li>
-                                    <li><a href="{{Route('list-student')}}">Student List</a></li>
-                                </ul>
-                            </li> --}}
                         </ul>
                     </nav>
                 </div>
