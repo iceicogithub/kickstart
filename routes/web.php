@@ -51,6 +51,7 @@ Route::middleware('auth:student')->group(function () {
     Route::get('student/list', [StudentController::class, 'studentList'])->name('student.list');
     Route::get('student/view/{id}', [StudentController::class, 'studentDetails'])->name('student.view');
     Route::get('student/profile/{id}', [StudentController::class, 'studentProfile'])->name('student.profile');
+    Route::get('student/dashboard/{id}', [StudentController::class, 'studentDashboard'])->name('student.dashboard');
     Route::post('/student/logout', [StudentController::class, 'logout'])->name('student.logout');
     Route::get('/student/registration', [NormalController::class, 'registrationPage'])->name('student.registration');
 });

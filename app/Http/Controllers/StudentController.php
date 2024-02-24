@@ -128,4 +128,16 @@ class StudentController extends Controller
 
         return view('student.profile', compact('studentProfile'));
     }
+
+    public function studentDashboard($id)
+    {
+        $studentDashboard = StudentDetail::where('student_id', $id)->first();
+
+        // Check if the student details exist
+        if (!$studentDashboard) {
+            abort(404);
+        }
+
+        return view('student.dashboard', compact('studentDashboard'));
+    }
 }
