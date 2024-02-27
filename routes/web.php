@@ -44,6 +44,7 @@ Route::middleware('guest:student')->group(function () {
     Route::post('student/login', [StudentController::class, 'login']);
     Route::get('student/register', [StudentController::class, 'showRegistrationForm'])->name('student.register');
     Route::post('student/register', [StudentController::class, 'register']);
+    Route::get('student/forgot',[StudentController::class,'forgot'])->name('student.forgot');
 });
 
 Route::middleware('auth:student')->group(function () {

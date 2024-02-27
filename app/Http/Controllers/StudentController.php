@@ -65,6 +65,11 @@ class StudentController extends Controller
         return view('layouts.auth.login');
     }
 
+    public function forgot()
+    {
+        return view('layouts.auth.forgot');
+    }
+
     public function login(Request $request)
     {
         // Validate the request
