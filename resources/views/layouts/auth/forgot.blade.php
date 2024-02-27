@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Student Login</title>
+    <title>Forgot Password</title>
 
     <link rel="stylesheet" href="{{ asset('studentdashboard/css/bootstrap1.min.css') }}" />
 
@@ -40,91 +40,34 @@
     <link rel="stylesheet" href="{{ asset('studentdashboard/css/style1.css') }}" />
     <link rel="stylesheet" href="{{ asset('studentdashboard/css/colors/default.css') }}" id="colorSkinCSS" />
 
+</head>
+
+<body>
+
+    
     <style>
         .form_size {
             height: 100vh;
         }
     </style>
 
-</head>
-
-<body>
-    {{-- <div class="main">
-        <div class="box border bg-white rounded-3 p-4">
-            <h1 class="fw-bold py-4 text-center fs-2">Login</h1>
-            <form action="{{ route('student.login') }}" method="post">
-                @csrf
-
-                <input type="text" name="email_or_mobile" placeholder="Enter Your Email or Phone"
-                    class="d-block w-100 p-3 mb-4 rounded-2 border-1">
-                @error('email_or_mobile')
-                    <span class="text-danger">{{ $message }}</span>
-                @enderror
-
-                <input type="password" name="password" placeholder="Enter Your Password"
-                    class="d-block w-100 p-3 mb-4 rounded-2 border-1">
-                @error('password')
-                    <span class="text-danger">{{ $message }}</span>
-                @enderror
-
-                <div class="d-flex justify-content-between">
-                    <a href="{{ url('/') }}" class="d-block py-3  text-decoration-none ">Back</a>
-                    <a href="" class="d-block py-3  text-decoration-none ">Forgot Password ?</a>
-                </div>
-
-                <button class="d-block w-100 p-3 mb-4 border-0 rounded-3 text-white">Login</button>
-
-                @if (session('status'))
-                    <span class="text-danger">{{ session('status') }}</span>
-                @endif
-
-                <div class="text-center"><span class="">Do You have An Account? <a
-                            href="{{ route('student.register') }}" class="text-decoration-none">Signup</a></span></div>
-            </form>
-        </div>
-    </div> --}}
-
-    <div class="row form_size justify-content-center align-items-center">
+    <div class="row justify-content-center align-items-center form_size">
         <div class="col-lg-6">
 
             <div class="modal-content cs_modal">
-                <div class="modal-header justify-content-center theme_bg_1">
-                    <h5 class="modal-title text_white">Log in</h5>
+                <div class="modal-header theme_bg_1">
+                    <h5 class="modal-title text_white">Forget Password</h5>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ route('student.login') }}" method="post">
-                        @csrf
-
-                        <input type="text" name="email_or_mobile" placeholder="Enter Your Email or Phone"
-                            class="d-block w-100 p-3 mb-4 rounded-2 border-1">
-                        @error('email_or_mobile')
-                            <span class="text-danger">{{ $message }}</span>
-                        @enderror
-
-                        <input type="password" name="password" placeholder="Enter Your Password"
-                            class="d-block w-100 p-3 mb-4 rounded-2 border-1">
-                        @error('password')
-                            <span class="text-danger">{{ $message }}</span>
-                        @enderror
-
-                        <div class="d-flex justify-content-between">
-                            <a href="{{ url('/') }}" class="d-block pt-3  text-decoration-none ">Back</a>
-                            <a href="{{Route('student.forgot')}}" class="d-block pt-3  text-decoration-none ">Forgot Password ?</a>
+                    <form>
+                        <div class="">
+                            <input type="text" class="form-control" placeholder="Enter Your Email or Phone">
                         </div>
-
-                        {{-- <button class="d-block w-100 p-3 mb-4 border-0 rounded-3 text-white">Login</button> --}}
-                        <a href="#" class="btn_1 full_width text-center"> Login</a>
-
-                        @if (session('status'))
-                            <span class="text-danger">{{ session('status') }}</span>
-                        @endif
-
-                        <div class="text-center pt-3"><span class="">Do You have An Account? <a
-                                    href="{{ route('student.register') }}"
-                                    class="text-decoration-none">Signup</a></span>
-                        </div>
+                        <a href="{{ url('/') }}" class="d-block ps-1 pt-2 text-decoration-none">Back</a>
+                        <a href="#" class="btn_1 full_width text-center">SEND</a>
                     </form>
                 </div>
+
             </div>
         </div>
     </div>
