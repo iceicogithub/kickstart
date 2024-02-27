@@ -3,6 +3,16 @@
     Create Admin
 @endsection
 @section('style')
+    <style>
+        .footer-copyright-area {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 10px 0;
+            text-align: center;
+        }
+    </style>
 @endsection
 @section('content')
     <div class="breadcome-area">
@@ -48,7 +58,7 @@
                             </ul>
                             <div id="myTabContent" class="tab-content custom-product-edit">
                                 <div class="product-tab-list tab-pane fade active in" id="description">
-                                    <form id="myForm" action="{{Route('register.store')}}" method="post">
+                                    <form id="myForm" action="{{ Route('register.store') }}" method="post">
                                         @csrf
                                         <div class="row">
                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">

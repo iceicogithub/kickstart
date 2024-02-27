@@ -15,12 +15,24 @@
                         <div class="col-lg-6 col-md-7 col-sm-6 col-xs-12">
                             <div class="header-top-menu tabl-d-n hd-search-rp">
                                 <div class="breadcome-heading">
-                                    <form role="search" class="">
-                                        <input type="text" placeholder="Search..." class="form-control">
-                                        <a href=""><i class="fa fa-search"></i></a>
+                                    {{-- <form action="{{ route('search') }}" method="GET">
+                                        @csrf
+                                        <input type="text" name="q" id="search-input" placeholder="Search..."
+                                            class="form-control">
+                                        <a href="" type="submit"><i class="fa fa-search"></i></a>
                                     </form>
+                                    @if ($results->isNotEmpty())
+                                        <ul class="search-results">
+                                            @foreach ($results as $result)
+                                                <li>{{ $result->title }}</li>
+                                            @endforeach
+                                        </ul>
+                                    @else
+                                        <p>No results found for your search.</p>
+                                    @endif --}}
                                 </div>
                             </div>
+
                         </div>
                         <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
                             <div class="header-right-info">
@@ -709,6 +721,12 @@
                                 <ul class="collapse dropdown-header-top">
                                     <li><a href="{{ Route('add.admin') }}">Add Admin</a></li>
                                     <li><a href="{{ Route('admin.list') }}">Admin List</a></li>
+                                </ul>
+                            </li>
+                            <li><a data-toggle="collapse" data-target="#Charts" href="#">Student <span
+                                        class="admin-project-icon nalika-icon nalika-down-arrow"></span></a>
+                                <ul class="collapse dropdown-header-top">
+                                    <li><a href="{{ Route('student.list') }}">Student List</a></li>
                                 </ul>
                             </li>
                         </ul>

@@ -12,7 +12,7 @@
                                 <input type="text" placeholder="Search here..." />
                             </div>
                             <button type="submit">
-                                <img src="{{asset('studentdashboard/img/icon/icon_search.svg')}}" alt />
+                                <img src="{{ asset('studentdashboard/img/icon/icon_search.svg') }}" alt />
                             </button>
                         </form>
                     </div>
@@ -22,7 +22,7 @@
                     <div class="header_notification_warp d-flex align-items-center">
                         <li>
                             <a class="bell_notification_clicker nav-link-notify" href="#">
-                                <img src="{{asset('studentdashboard/img/icon/bell.svg')}}" alt />
+                                <img src="{{ asset('studentdashboard/img/icon/bell.svg') }}" alt />
                             </a>
 
                             <div class="Menu_NOtification_Wrap">
@@ -32,7 +32,8 @@
                                 <div class="Notification_body">
                                     <div class="single_notify d-flex align-items-center">
                                         <div class="notify_thumb">
-                                            <a href="#"><img src="{{asset('studentdashboard/img/staf/2.png')}}" alt /></a>
+                                            <a href="#"><img src="{{ asset('studentdashboard/img/staf/2.png') }}"
+                                                    alt /></a>
                                         </div>
                                         <div class="notify_content">
                                             <a href="#">
@@ -44,7 +45,8 @@
 
                                     <div class="single_notify d-flex align-items-center">
                                         <div class="notify_thumb">
-                                            <a href="#"><img src="{{asset('studentdashboard/img/staf/4.png')}}" alt /></a>
+                                            <a href="#"><img src="{{ asset('studentdashboard/img/staf/4.png') }}"
+                                                    alt /></a>
                                         </div>
                                         <div class="notify_content">
                                             <a href="#">
@@ -56,7 +58,8 @@
 
                                     <div class="single_notify d-flex align-items-center">
                                         <div class="notify_thumb">
-                                            <a href="#"><img src="{{asset('studentdashboard/img/staf/3.png')}}" alt /></a>
+                                            <a href="#"><img src="{{ asset('studentdashboard/img/staf/3.png') }}"
+                                                    alt /></a>
                                         </div>
                                         <div class="notify_content">
                                             <a href="#">
@@ -68,7 +71,8 @@
 
                                     <div class="single_notify d-flex align-items-center">
                                         <div class="notify_thumb">
-                                            <a href="#"><img src="{{asset('studentdashboard/img/staf/2.png')}}" alt /></a>
+                                            <a href="#"><img src="{{ asset('studentdashboard/img/staf/2.png') }}"
+                                                    alt /></a>
                                         </div>
                                         <div class="notify_content">
                                             <a href="#">
@@ -80,7 +84,8 @@
 
                                     <div class="single_notify d-flex align-items-center">
                                         <div class="notify_thumb">
-                                            <a href="#"><img src="{{asset('studentdashboard/img/staf/4.png')}}" alt /></a>
+                                            <a href="#"><img src="{{ asset('studentdashboard/img/staf/4.png') }}"
+                                                    alt /></a>
                                         </div>
                                         <div class="notify_content">
                                             <a href="#">
@@ -92,7 +97,8 @@
 
                                     <div class="single_notify d-flex align-items-center">
                                         <div class="notify_thumb">
-                                            <a href="#"><img src="{{asset('studentdashboard/img/staf/3.png')}}" alt /></a>
+                                            <a href="#"><img src="{{ asset('studentdashboard/img/staf/3.png') }}"
+                                                    alt /></a>
                                         </div>
                                         <div class="notify_content">
                                             <a href="#">
@@ -111,21 +117,29 @@
                         </li>
                         <li>
                             <a class="CHATBOX_open nav-link-notify" href="#">
-                                <img src="{{asset('studentdashboard/img/icon/msg.svg')}}" alt />
+                                <img src="{{ asset('studentdashboard/img/icon/msg.svg') }}" alt />
                             </a>
                         </li>
                     </div>
                     <div class="profile_info">
-                        <img src="{{asset('studentdashboard/img/client_img.png')}}" alt="#" />
+                        <img src="{{ asset('studentdashboard/img/client_img.png') }}" alt="#" />
                         <div class="profile_info_iner">
                             <div class="profile_author_name">
                                 <p>Neurologist</p>
                                 <h5>Dr. Robar Smith</h5>
                             </div>
                             <div class="profile_info_details">
-                                <a href="#">My Profile </a>
+                                <a href="{{ route('student.profile', ['id' => auth()->guard('student')->id()]) }}">My Profile</a>
                                 <a href="#">Settings</a>
-                                <a href="#">Log Out </a>
+                                <a href="#"
+                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Log
+                                    Out</a>
+
+                                <form id="logout-form" action="{{ route('student.logout') }}" method="POST"
+                                    style="display: none;">
+                                    @csrf
+                                </form>
+
                             </div>
                         </div>
                     </div>

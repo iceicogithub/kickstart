@@ -25,7 +25,7 @@
                         </li>
                     </ul>
                 </li>
-                <li>
+                {{-- <li>
                     <a class="has-arrow" href="#">
                         <i class="icon nalika-eye icon-wrap"></i>
                         <span class="mini-click-non">Mentor</span>
@@ -60,7 +60,7 @@
                             </a>
                         </li>
                     </ul>
-                </li>
+                </li> --}}
                 <li>
                     <a class="has-arrow" href="#">
                         <i class="icon nalika-user icon-wrap"></i>

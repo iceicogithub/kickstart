@@ -56,7 +56,7 @@ class StudentController extends Controller
     public function logout()
     {
         Auth::guard('student')->logout();
-        return redirect()->route('student.login')->with('success', 'Logged out successfully.');
+        return redirect()->route('/')->with('success', 'Logged out successfully.');
     }
 
 

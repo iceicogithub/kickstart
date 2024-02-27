@@ -1,3 +1,13 @@
+:root {
+  /* Colors */
+  --saffron: #f8c23c;
+  --glaucous: #5E78AB;
+  --seegreen: #26C5B5;
+  --lightred: #FA6A6A;
+  --white: #ffffff;
+}
+
+
 /* navbar code  started*/
 
 body {
@@ -264,47 +274,56 @@ ul {
 
 /* color combination */
 /* text color */
-.color-saffron{
-  color: #f8c23c!important;
+.color-saffron {
+  color: var(--saffron) !important;
 }
-.color-glaucous{
-  color: #5E78AB!important;
+
+.color-glaucous {
+  color: var(--glaucous) !important;
 }
-.color-seegreen{
-  color: #26C5B5!important;
+
+.color-seegreen {
+  color: var(--seegreen) !important;
 }
-.color-lightred{
-  color: #FA6A6A!important;
+
+.color-lightred {
+  color: var(--lightred) !important;
 }
 
 /* background color */
-.bgcolor-saffron{
-  background-color: #f8c23c!important;
+.bgcolor-saffron {
+  background-color: var(--saffron) !important;
 }
-.bgcolor-glaucous{
-  background-color: #5E78AB!important;
+
+.bgcolor-glaucous {
+  background-color: var(--glaucous) !important;
 }
-.bgcolor-seagreen{
-  background-color: #26C5B5!important;
+
+.bgcolor-seegreen {
+  background-color: var(--seegreen) !important;
 }
-.bgcolor-lightred{
-  background-color: #FA6A6A!important;
+
+.bgcolor-lightred {
+  background-color: var(--lightred) !important;
 }
 
 /* button color */
-.btn-saffron{
-  background-color: #f8c23c!important;
-  color: white!important;
+.btn-saffron {
+  background-color: var(--saffron) !important;
+  color: var(--white) !important;
 }
-.btn-glaucous{
-  background-color: #5E78AB!important;
-  color: white!important;
+
+.btn-glaucous {
+  background-color: var(--glaucous) !important;
+  color: var(--white) !important;
 }
-.btn-seagreen{
-  background-color: #26C5B5!important;
-  color: white!important;
+
+.btn-seegreen {
+  background-color: var(--seegreen) !important;
+  color: var(--white) !important;
 }
-.btn-lightred{
-  background-color: #FA6A6A!important;
-  color: white!important;
+
+.btn-lightred {
+  background-color: var(--lightred) !important;
+  color:var(--white) !important;
 }

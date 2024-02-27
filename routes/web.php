@@ -36,8 +36,7 @@ Route::get('optimize', function () {
     Artisan::call('optimize');
     return 'done';
 });
-Route::get('/', [NormalController::class, 'index']);
-Route::get('/dash', [NormalController::class, 'dash']);
+Route::get('/', [NormalController::class, 'index'])->name('/');
 
 
 Route::middleware('guest:student')->group(function () {
@@ -71,6 +70,9 @@ Route::middleware('auth')->group(function () {
     Route::get('admin/edit/{id}', [RegisteredUserController::class, 'edit'])->name('register.edit');
     Route::post('admin/update/{id}', [RegisteredUserController::class, 'update'])->name('register.update');
     Route::get('admin/delete/{id}', [RegisteredUserController::class, 'delete'])->name('register.delete');
+
+    // search
+    Route::get('/search', [NormalController::class, 'search'])->name('search');
 
     // student dashboard
     Route::get('student/list', [StudentController::class, 'studentList'])->name('student.list');
