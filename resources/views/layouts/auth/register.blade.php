@@ -39,20 +39,19 @@
 
     <link rel="stylesheet" href="{{ asset('studentdashboard/css/style1.css') }}" />
     <link rel="stylesheet" href="{{ asset('studentdashboard/css/colors/default.css') }}" id="colorSkinCSS" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-</head>
-
-<body>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
         .form_size {
             height: 100vh;
         }
     </style>
+</head>
 
+<body>
     <div class="row form_size justify-content-center align-items-center">
         <div class="col-lg-6">
-
             <div class="modal-content cs_modal">
                 <div class="modal-header theme_bg_1 justify-content-center">
                     <h5 class="modal-title text_white">Resister</h5>
@@ -60,18 +59,45 @@
                 <div class="modal-body">
                     <form action="{{ route('student.register') }}" method="post">
                         @csrf
-                        <input type="text" name="email_or_phone" placeholder="Email or Phone"
-                            class="d-block w-100 p-3 mb-4 rounded-3">
-                        @error('email_or_phone')
-                            <div class="text-danger">{{ $message }}</div>
-                        @enderror
-                        <input type="password" name="password" placeholder="Create a Password"
-                            class="d-block w-100 p-3 mb-4 rounded-3">
+                        <div class="row">
+                            <div class="col-md-9 col-sm-12 col-lg-9">
+                                <input type="text" name="email_or_phone" id="email_or_phone"
+                                    placeholder="Email or Phone" class="d-block w-100 p-3 mb-4 rounded-3">
+                                <div class="text-danger" id="email_phone_error" style="display: none;"></div>
+                            </div>
+                            @error('email_or_phone')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                            <div class="col-lg-3 col-md-3 col-sm-12">
+                                <button type="button" id="getotp" title="Get Otp For Verification"
+                                    class="btn btn-danger btn-lg py-2 w-100">Get OTP</button>
+                            </div>
+                        </div>
+                        <div class="row d-flex" id="verify" style="display: none!important;">
+                            <div class="col-md-9 col-sm-12 col-lg-9">
+                                <input type="text" name="verify_otp" id="verify_otp" placeholder="Enter Otp"
+                                    class="d-block w-100 p-3 mb-4 rounded-3">
+                                <div class="text-danger" id="otp_error" style="display: none;"></div>
+                            </div>
+                            @error('verify_otp')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                            <div class="col-lg-3 col-md-3 col-sm-12">
+                                <button type="button" id="verifyotp" title="Confirm Otp"
+                                    class="btn btn-danger btn-lg py-2 w-100">Verify OTP</button>
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-sm-12 col-lg-12">
+                            <input type="password" name="password" placeholder="Create a Password"
+                                class="d-block w-100 p-3 mb-4 rounded-3">
+                        </div>
                         @error('password')
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
-                        <input type="password" name="password_confirmation" placeholder="Confirm a Password"
-                            class="d-block w-100 p-3 mb-4 rounded-3">
+                        <div class="col-md-12 col-sm-12 col-lg-12">
+                            <input type="password" name="password_confirmation" placeholder="Confirm a Password"
+                                class="d-block w-100 p-3 mb-4 rounded-3">
+                        </div>
                         @error('password_confirmation')
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
@@ -82,18 +108,55 @@
                         <div class="text-center my-3">
                             <p class="fw-bold mb-3">OR</p>
                             <button type="submit"
-                                class="d-block bg-primary w-100 p-3 border-0 rounded-3 text-white"><i class="fa-brands fa-google text-white"></i> Continue With
+                                class="d-block bg-primary w-100 p-3 border-0 rounded-3 text-white"><i
+                                    class="fa-brands fa-google text-white"></i> Continue With
                                 Google</button>
                         </div>
 
                         <div class="text-center text-black"><span class="">Already have an account?<a
-                                    href="{{ route('student.login') }}" class="text-decoration-none"> Login </a></span>
+                                    href="{{ route('student.login') }}" class="text-decoration-none"> Login
+                                </a></span>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const getOtpBtn = document.getElementById('getotp');
+            const verifyDiv = document.getElementById('verify');
+
+            getOtpBtn.addEventListener('click', function(event) {
+                event.preventDefault();
+
+                const emailOrPhoneInput = document.getElementById('email_or_phone');
+
+                if (emailOrPhoneInput.value.trim() === '') {
+                    displayError('email_phone_error', 'Please enter your email or phone number.');
+                } else {
+                    hideError('email_phone_error');
+                    showElement(verifyDiv);
+                }
+            });
+
+            function displayError(id, message) {
+                const errorDiv = document.getElementById(id);
+                errorDiv.innerText = message;
+                errorDiv.style.display = 'block';
+            }
+
+            function hideError(id) {
+                const errorDiv = document.getElementById(id);
+                errorDiv.style.display = 'none';
+            }
+
+            function showElement(element) {
+                element.style.display = 'block';
+            }
+        });
+    </script>
 
     <script src="https://apis.google.com/js/platform.js"></script>
 

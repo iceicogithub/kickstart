@@ -15,21 +15,11 @@
                         <div class="col-lg-6 col-md-7 col-sm-6 col-xs-12">
                             <div class="header-top-menu tabl-d-n hd-search-rp">
                                 <div class="breadcome-heading">
-                                    {{-- <form action="{{ route('search') }}" method="GET">
-                                        @csrf
-                                        <input type="text" name="q" id="search-input" placeholder="Search..."
+                                    <form role="search" class="">
+                                        <input type="text" id="search-input" placeholder="Search..."
                                             class="form-control">
-                                        <a href="" type="submit"><i class="fa fa-search"></i></a>
+                                        <a href=""><i class="fa fa-search"></i></a>
                                     </form>
-                                    @if ($results->isNotEmpty())
-                                        <ul class="search-results">
-                                            @foreach ($results as $result)
-                                                <li>{{ $result->title }}</li>
-                                            @endforeach
-                                        </ul>
-                                    @else
-                                        <p>No results found for your search.</p>
-                                    @endif --}}
                                 </div>
                             </div>
 

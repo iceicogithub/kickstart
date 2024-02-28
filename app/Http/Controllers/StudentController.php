@@ -92,7 +92,7 @@ class StudentController extends Controller
         // Check if the user exists and if the password is correct
         if ($user && Auth::guard('student')->attempt(['email' => $user->email, 'password' => $credentials['password']], $request->remember)) {
             // If successful, redirect to intended location
-            return redirect()->intended('/');
+            return redirect()->route('/');
         }
 
         // If unsuccessful, redirect back to the login with error message
