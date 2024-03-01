@@ -112,8 +112,8 @@
                             <a href="{{Route('student.forgot')}}" class="d-block pt-3  text-decoration-none ">Forgot Password ?</a>
                         </div>
 
-                        {{-- <button class="d-block w-100 p-3 mb-4 border-0 rounded-3 text-white">Login</button> --}}
-                        <a href="#" class="btn_1 full_width text-center"> Login</a>
+                        <button type="submit" class="d-block w-100 p-3 mb-4 border-0 rounded-3 text-white">Login</button>
+                        {{-- <a href="#" class="btn_1 full_width text-center"> Login</a> --}}
 
                         @if (session('status'))
                             <span class="text-danger">{{ session('status') }}</span>

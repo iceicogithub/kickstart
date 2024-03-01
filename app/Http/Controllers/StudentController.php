@@ -8,9 +8,66 @@ use Illuminate\Http\Request;
 use App\Models\Student;
 use App\Models\StudentDetail;
 use Illuminate\Support\Facades\Validator;
+use Laravel\Socialite\Facades\Socialite;
+use App\Models\User;
+use Exception;
+use Illuminate\Support\Facades\Log;
+
 
 class StudentController extends Controller
 {
+
+    public function googleLogin(){
+        return Socialite::driver('google')->redirect();
+    }
+
+    public function googleHandle(Request $request)
+    {
+        try {
+            $user = Socialite::driver('google')->user();
+    
+            // Check if a user with the Google ID already exists
+            $existingUser = Student::where('gauth_id', $user->id)->first();
+    
+            if ($existingUser) {
+                // Log in the existing user
+                Auth::login($existingUser);
+                return redirect()->route('/');
+            } else {
+                // Check if a user with the email already exists
+                $userByEmail = Student::where('email', $user->email)->first();
+    
+                if ($userByEmail) {
+                    // Update the existing user with the Google ID
+                    $userByEmail->update(['gauth_id' => $user->id]);
+                    Auth::login($userByEmail);
+                    return redirect()->route('/');
+                } else {
+                    // Create a new user
+                    $newUser = Student::create([
+                        'email' => $user->email,
+                        'gauth_id' => $user->id,
+                        'gauth_type' => 'google',
+                        'password' => bcrypt('password4567'), // Set a default password or handle differently
+                    ]);
+    
+                    $newUser->studentDetail()->create([
+                        'student_id' => $newUser->id,
+                        'fullname' => $user->name,
+                        'email' => $user->email,
+                        'profile' => $user->avatar,                    
+                    ]);
+    
+                    // Log in the new user
+                    Auth::login($newUser);
+                    return redirect()->route('/');
+                }
+            }
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            return redirect()->back()->with('error', 'An error occurred. Please try again later.');
+        }
+    }
     public function showRegistrationForm()
     {
         return view('layouts.auth.register');
@@ -90,15 +147,16 @@ class StudentController extends Controller
             ->first();
 
         // Check if the user exists and if the password is correct
-        if ($user && Auth::guard('student')->attempt(['email' => $user->email, 'password' => $credentials['password']], $request->remember)) {
-            // If successful, redirect to intended location
-            return redirect()->intended('/');
-        }
+        // if ($user && Auth::guard('student')->attempt(['email' => $user->email, 'password' => $credentials['password']], $request->remember)) {
+        //     // If successful, redirect to intended location
+        //     return redirect()->route('/');
+        // }
+        
 
-        // If unsuccessful, redirect back to the login with error message
-        return redirect()->back()->withInput($request->only('email_or_mobile', 'remember'))->withErrors([
-            'email_or_mobile' => 'These credentials do not match our records.',
-        ]);
+        // // If unsuccessful, redirect back to the login with error message
+        // return redirect()->back()->withInput($request->only('email_or_mobile', 'remember'))->withErrors([
+        //     'email_or_mobile' => 'These credentials do not match our records.',
+        // ]);
     }
 
     public function studentList()

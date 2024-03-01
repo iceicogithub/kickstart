@@ -81,11 +81,12 @@
 
                         <div class="text-center my-3">
                             <p class="fw-bold mb-3">OR</p>
-                            <button type="submit"
-                                class="d-block bg-primary w-100 p-3 border-0 rounded-3 text-white"><i class="fa-brands fa-google text-white"></i> Continue With
-                                Google</button>
+                            {{-- <a href="{{ url('/googleLogin') }}" class="d-block bg-primary w-100 p-3 border-0 rounded-3 text-white">
+                                <i class="fab fa-google text-white"></i> Continue With Google
+                            </a> --}}
+                            <a href="{{ url('/googleLogin') }}" class="d-block w-100 p-3 mb-4 border-0 rounded-3 text-white btn btn-primary">
+                                <i class="fab fa-google text-white"></i> Signup with Google</a>               
                         </div>
-
                         <div class="text-center text-black"><span class="">Already have an account?<a
                                     href="{{ route('student.login') }}" class="text-decoration-none"> Login </a></span>
                         </div>

@@ -18,6 +18,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+Route::get('/googleLogin',[StudentController::class, 'googleLogin']);
+Route::get('auth/google/call-back',[StudentController::class, 'googleHandle']);
+
+
 Route::get('cache-clear', function () {
     Artisan::call('cache:clear');
     return 'done';
