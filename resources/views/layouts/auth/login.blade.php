@@ -44,14 +44,28 @@
         .form_size {
             height: 100vh;
         }
-        .text-danger{
-            color: red!important;
+
+        .text-danger {
+            color: red !important;
         }
     </style>
 
 </head>
 
 <body>
+    @if (session('success'))
+        <script>
+            Swal.fire({
+                icon: '{{ session('alertType') }}',
+                title: 'Success!',
+                text: '{{ session('success') }}',
+                onClose: () => {
+                    window.location.href = '{{ route('student.login') }}';
+                }
+            });
+        </script>
+    @endif
+
     <div class="row form_size justify-content-center align-items-center">
         <div class="col-lg-6">
 
@@ -76,7 +90,8 @@
 
                         <div class="d-flex justify-content-between">
                             <a href="{{ url('/') }}" class="d-block pt-3  text-decoration-none ">Back</a>
-                            <a href="{{Route('student.forgot')}}" class="d-block pt-3  text-decoration-none ">Forgot Password ?</a>
+                            <a href="{{ Route('student.forgot') }}" class="d-block pt-3  text-decoration-none ">Forgot
+                                Password ?</a>
                         </div>
 
                         <button type="submit" class="btn_1 full_width text-center">Login</button>
@@ -94,6 +109,10 @@
             </div>
         </div>
     </div>
+
+    <!-- SweetAlert CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script src="{{ asset('studentdashboard/js/jquery1-3.4.1.min.js') }}"></script>
 

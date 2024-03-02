@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\NormalController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StudentController;
@@ -44,7 +45,12 @@ Route::middleware('guest:student')->group(function () {
     Route::post('student/login', [StudentController::class, 'login']);
     Route::get('student/register', [StudentController::class, 'showRegistrationForm'])->name('student.register');
     Route::post('student/register', [StudentController::class, 'register']);
-    Route::get('student/forgot',[StudentController::class,'forgot'])->name('student.forgot');
+    Route::get('student/forgot', [StudentController::class, 'forgot'])->name('student.forgot');
+    Route::post('generate-otp', [StudentController::class, 'generateOtp'])->name('generate-otp');
+    Route::post('verify-otp', [StudentController::class, 'verifyOtp'])->name('verify-otp');
+    Route::post('/check-email-phone', [ForgotPasswordController::class, 'checkEmailOrPhone'])->name('check-email-phone');
+    Route::post('/forgot-send-otp', [ForgotPasswordController::class, 'sendOTP'])->name('send-otp');
+    Route::post('/forgot-verify-otp', [ForgotPasswordController::class, 'verifyOTP'])->name('forgot-verify-otp');
 });
 
 Route::middleware('auth:student')->group(function () {

@@ -2,147 +2,340 @@
 
 namespace App\Http\Controllers;
 
-// StudentController.php
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use App\Models\Student;
 use App\Models\StudentDetail;
+use App\Models\Otp;
+use App\Mail\OtpMail;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
+
 
 class StudentController extends Controller
 {
+    // Show registration form
     public function showRegistrationForm()
     {
-        return view('layouts.auth.register');
+        try {
+            return view('layouts.auth.register');
+        } catch (\Exception $e) {
+            // Log or handle the exception
+            return back()->withErrors(['error' => 'An error occurred while loading the registration form.']);
+        }
     }
 
+
+    // Handle registration form submission
     public function register(Request $request)
     {
-        // Validate the request
-        $request->validate([
-            'email_or_phone' => 'required|string|max:255|email_or_phone|unique:students,email|unique:students,phone',
-            'password' => 'required|string|min:8|confirmed',
-        ], [
-            'email_or_phone' => 'The :attribute must be a valid.',
-        ]);
+        try {
+            // Validate form input
+            $validator = Validator::make($request->all(), [
+                'email_or_phone' => [
+                    'required',
+                    'string',
+                    'max:255',
+                    Rule::when(
+                        function ($input) {
+                            return strpos($input->get('email_or_phone'), '@') !== false;
+                        },
+                        ['email', 'unique:students,email'],
+                        ['string', 'unique:students,phone']
+                    ),
+                ],
+                'password' => 'required|string|min:8|confirmed',
+            ], [
+                'email_or_phone' => 'The :attribute must be a valid email address or phone number.',
+                'password.confirmed' => 'The password confirmation does not match.',
+            ]);
 
-        // Check if the input is an email or a phone number
-        if (filter_var($request->email_or_phone, FILTER_VALIDATE_EMAIL)) {
-            $email = $request->email_or_phone;
-            $phone = null;
-        } else {
-            $email = null;
-            $phone = preg_replace('/[^0-9]/', '', $request->email_or_phone);
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator)->withInput();
+            }
+
+            // Generate OTP
+            $otp = $this->generateRandomOTP();
+
+            // Send OTP
+            if (!$this->sendOTP($request->email_or_phone, $otp)) {
+                // Handle case where sending OTP fails
+                return back()->withErrors(['email_or_phone' => 'Failed to send OTP. Please try again.']);
+            }
+
+            // Extract email and phone from input
+            $email = filter_var($request->email_or_phone, FILTER_VALIDATE_EMAIL) ? $request->email_or_phone : null;
+            $phone = $email ? null : preg_replace('/[^0-9]/', '', $request->email_or_phone);
+
+            // Store the OTP in the session for verification
+            $request->session()->put('otp', $otp);
+
+            // Create a new student record
+            $student = Student::create([
+                'email' => $email,
+                'phone' => $phone,
+                'password' => bcrypt($request->password),
+            ]);
+
+            // Create associated student detail
+            $student->studentDetail()->create([
+                'student_id' => $student->id,
+                'email' => $email,
+                'phone' => $phone,
+            ]);
+
+            // Show success message with SweetAlert
+            return redirect()->route('student.login')->with('success', 'Registration successful!')->with('alertType', 'success');
+        } catch (\Exception $e) {
+            // Log or handle the exception
+            return back()->withErrors(['error' => 'An error occurred while registering.']);
         }
-
-        // Create a new student
-        $student = Student::create([
-            'email' => $email,
-            'phone' => $phone,
-            'password' => bcrypt($request->password),
-        ]);
-
-        // Create associated student detail
-        $student->studentDetail()->create([
-            'student_id' => $student->id,
-            'email' => $email,
-            'phone' => $phone,
-        ]);
-
-        // Redirect the user after registration
-        return redirect()->route('student.login')->with('success', 'Registration successful. Please log in.');
     }
 
+
+
+    // Logout
     public function logout()
     {
-        Auth::guard('student')->logout();
-        return redirect()->route('/')->with('success', 'Logged out successfully.');
+        try {
+            Auth::guard('student')->logout();
+            return redirect('/')->with('success', 'Logged out successfully.');
+        } catch (\Exception $e) {
+            // Log or handle the exception
+            return back()->withErrors(['error' => 'An error occurred while logging out.']);
+        }
     }
 
-
+    // Show login form
     public function showLoginForm()
     {
-        return view('layouts.auth.login');
+        try {
+            return view('layouts.auth.login');
+        } catch (\Exception $e) {
+            // Log or handle the exception
+            return back()->withErrors(['error' => 'An error occurred while loading the login form.']);
+        }
     }
 
+    // Forgot password form
     public function forgot()
     {
-        return view('layouts.auth.forgot');
+        try {
+            return view('layouts.auth.forgot');
+        } catch (\Exception $e) {
+            // Log or handle the exception
+            return back()->withErrors(['error' => 'An error occurred while loading the forgot password form.']);
+        }
     }
 
+    // Handle login form submission
     public function login(Request $request)
     {
-        // Validate the request
-        $request->validate([
-            'email_or_mobile' => 'required|string|max:255',
-            'password' => 'required|string|min:8',
-        ], [
-            'email_or_mobile.required' => 'Please enter your email or mobile number.',
-            'password.required' => 'Please enter your password.',
-        ]);
+        try {
+            // Validate form input
+            $request->validate([
+                'email_or_mobile' => 'required|string|max:255',
+                'password' => 'required|string|min:8',
+            ], [
+                'email_or_mobile.required' => 'Please enter your email or mobile number.',
+                'password.required' => 'Please enter your password.',
+            ]);
 
-        // Attempt to log in the student
-        $credentials = $request->only('email_or_mobile', 'password');
+            // Attempt to log in the student
+            $credentials = $request->only('email_or_mobile', 'password');
+            $field = filter_var($credentials['email_or_mobile'], FILTER_VALIDATE_EMAIL) ? 'email' : 'phone';
 
-        // Attempt to find the user by email or phone
-        $user = Student::where('email', $credentials['email_or_mobile'])
-            ->orWhere('phone', $credentials['email_or_mobile'])
-            ->first();
+            // Check if the user exists and if the password is correct
+            if (($user = Student::where($field, $credentials['email_or_mobile'])->first()) &&
+                Auth::guard('student')->attempt([$field => $user->$field, 'password' => $credentials['password']], $request->remember)
+            ) {
+                // If successful, redirect to intended location
+                return redirect()->route('/');
+            }
 
-        // Check if the user exists and if the password is correct
-        if ($user && Auth::guard('student')->attempt(['email' => $user->email, 'password' => $credentials['password']], $request->remember)) {
-            // If successful, redirect to intended location
-            return redirect()->route('/');
+            // If unsuccessful, redirect back to the login with error message
+            return redirect()->back()->withInput($request->only('email_or_mobile', 'remember'))->withErrors([
+                'email_or_mobile' => 'These credentials do not match our records.',
+            ]);
+        } catch (\Exception $e) {
+            // Log or handle the exception
+            return back()->withErrors(['error' => 'An error occurred while logging in.']);
         }
-
-        // If unsuccessful, redirect back to the login with error message
-        return redirect()->back()->withInput($request->only('email_or_mobile', 'remember'))->withErrors([
-            'email_or_mobile' => 'These credentials do not match our records.',
-        ]);
     }
 
+    // Show list of students (for admin)
     public function studentList()
     {
-        $student = Student::all();
-        $studentDetails = StudentDetail::all();
-        return view('student.list', compact('student', 'studentDetails'));
+        try {
+            $students = Student::all();
+            $studentDetails = StudentDetail::all();
+            return view('student.list', compact('students', 'studentDetails'));
+        } catch (\Exception $e) {
+            // Log or handle the exception
+            return back()->withErrors(['error' => 'An error occurred while fetching student list.']);
+        }
     }
 
+    // View student details
     public function studentDetails($id)
     {
-        // Retrieve the student details based on the provided ID
-        $studentDetail = StudentDetail::where('student_id', $id)->first();
+        try {
+            // Retrieve the student details based on the provided ID
+            $studentDetail = StudentDetail::where('student_id', $id)->first();
 
-        // Check if the student details exist
-        if (!$studentDetail) {
-            abort(404); // Or handle the case where the student details are not found
+            // Check if the student details exist
+            if (!$studentDetail) {
+                abort(404); // Or handle the case where the student details are not found
+            }
+
+            // Pass the student details to the view
+            return view('student.view', compact('studentDetail'));
+        } catch (\Exception $e) {
+            // Log or handle the exception
+            return back()->withErrors(['error' => 'An error occurred while fetching student details.']);
         }
-
-        // Pass the student details to the view
-        return view('student.view', compact('studentDetail'));
     }
 
+    // View student profile
     public function studentProfile($id)
     {
-        $studentProfile = StudentDetail::where('student_id', $id)->first();
+        try {
+            $studentProfile = StudentDetail::where('student_id', $id)->first();
 
-        // Check if the student details exist
-        if (!$studentProfile) {
-            abort(404);
+            // Check if the student details exist
+            if (!$studentProfile) {
+                abort(404);
+            }
+
+            return view('student.profile', compact('studentProfile'));
+        } catch (\Exception $e) {
+            // Log or handle the exception
+            return back()->withErrors(['error' => 'An error occurred while fetching student profile.']);
         }
-
-        return view('student.profile', compact('studentProfile'));
     }
 
+    // Student dashboard
     public function studentDashboard($id)
     {
-        $studentDashboard = StudentDetail::where('student_id', $id)->first();
+        try {
+            $studentDashboard = StudentDetail::where('student_id', $id)->first();
 
-        // Check if the student details exist
-        if (!$studentDashboard) {
-            abort(404);
+            // Check if the student details exist
+            if (!$studentDashboard) {
+                abort(404);
+            }
+
+            return view('student.dashboard', compact('studentDashboard'));
+        } catch (\Exception $e) {
+            // Log or handle the exception
+            return back()->withErrors(['error' => 'An error occurred while fetching student dashboard.']);
         }
+    }
 
-        return view('student.dashboard', compact('studentDashboard'));
+    // Send OTP (via email or SMS)
+    private function sendOTP($recipient, $otp)
+    {
+        try {
+            // Check if the recipient is an email
+            if (filter_var($recipient, FILTER_VALIDATE_EMAIL)) {
+                // Check if the email is already registered
+                $userExists = Student::where('email', $recipient)->exists();
+                if ($userExists) {
+                    return false;
+                }
+
+                // Send OTP via email
+                Mail::raw('Your OTP is: ' . $otp, function ($message) use ($recipient) {
+                    $message->to($recipient)->subject('Your OTP');
+                });
+                // Save the email OTP to the database
+                Otp::create([
+                    'recipient' => $recipient,
+                    'otp' => $otp,
+                ]);
+                return true;
+            } else {
+                // Check if the phone number is already registered
+                $userExists = Student::where('phone', $recipient)->exists();
+                if ($userExists) {
+                    // If user already exists with this phone number, return false
+                    return false;
+                }
+
+                // Generate a dummy OTP for testing purposes (replace this with your actual SMS sending logic)
+                $dummyOtp = '123456'; // Example dummy OTP
+                // Save the dummy OTP to the database
+                Otp::create([
+                    'recipient' => $recipient,
+                    'otp' => $dummyOtp,
+                ]);
+                return true;
+            }
+        } catch (\Exception $e) {
+            // Log the error
+            \Log::error('Error sending OTP: ' . $e->getMessage());
+            return false;
+        }
+    }
+
+
+    // Generate OTP and return JSON response
+    public function generateOtp(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'email_or_phone' => 'required|string|max:255',
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json(['error' => $validator->errors()->first()], 422);
+            }
+
+            $otp = $this->generateRandomOTP();
+
+            if (!$this->sendOTP($request->email_or_phone, $otp)) {
+                return response()->json(['error' => 'Failed to send OTP'], 500);
+            }
+
+            return response()->json(['message' => 'OTP sent successfully'], 200);
+        } catch (\Exception $e) {
+            // Log or handle the exception
+            return response()->json(['error' => 'An error occurred while generating OTP'], 500);
+        }
+    }
+
+    // Verify OTP and return JSON response
+    public function verifyOtp(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'otp' => 'required|string|max:6', // Assuming OTP is a 6-digit string
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json(['error' => $validator->errors()->first()], 422);
+            }
+
+            $otp = $request->otp;
+
+            // Check if OTP exists in the database
+            $otpRecord = Otp::where('otp', $otp)->first();
+
+            if (!$otpRecord) {
+                return response()->json(['error' => 'Invalid OTP'], 422);
+            }
+            // OTP is valid, you can perform additional actions here if needed
+            return response()->json(['message' => 'OTP verified successfully'], 200);
+        } catch (\Exception $e) {
+            // Log or handle the exception
+            return response()->json(['error' => 'An error occurred while verifying OTP'], 500);
+        }
+    }
+
+    // Generate a random OTP
+    private function generateRandomOTP($length = 6)
+    {
+        return str_pad(mt_rand(0, pow(10, $length) - 1), $length, '0', STR_PAD_LEFT);
     }
 }
