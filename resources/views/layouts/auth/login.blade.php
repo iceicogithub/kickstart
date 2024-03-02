@@ -44,46 +44,14 @@
         .form_size {
             height: 100vh;
         }
+        .text-danger{
+            color: red!important;
+        }
     </style>
 
 </head>
 
 <body>
-    {{-- <div class="main">
-        <div class="box border bg-white rounded-3 p-4">
-            <h1 class="fw-bold py-4 text-center fs-2">Login</h1>
-            <form action="{{ route('student.login') }}" method="post">
-                @csrf
-
-                <input type="text" name="email_or_mobile" placeholder="Enter Your Email or Phone"
-                    class="d-block w-100 p-3 mb-4 rounded-2 border-1">
-                @error('email_or_mobile')
-                    <span class="text-danger">{{ $message }}</span>
-                @enderror
-
-                <input type="password" name="password" placeholder="Enter Your Password"
-                    class="d-block w-100 p-3 mb-4 rounded-2 border-1">
-                @error('password')
-                    <span class="text-danger">{{ $message }}</span>
-                @enderror
-
-                <div class="d-flex justify-content-between">
-                    <a href="{{ url('/') }}" class="d-block py-3  text-decoration-none ">Back</a>
-                    <a href="" class="d-block py-3  text-decoration-none ">Forgot Password ?</a>
-                </div>
-
-                <button class="d-block w-100 p-3 mb-4 border-0 rounded-3 text-white">Login</button>
-
-                @if (session('status'))
-                    <span class="text-danger">{{ session('status') }}</span>
-                @endif
-
-                <div class="text-center"><span class="">Do You have An Account? <a
-                            href="{{ route('student.register') }}" class="text-decoration-none">Signup</a></span></div>
-            </form>
-        </div>
-    </div> --}}
-
     <div class="row form_size justify-content-center align-items-center">
         <div class="col-lg-6">
 
@@ -94,7 +62,6 @@
                 <div class="modal-body">
                     <form action="{{ route('student.login') }}" method="post">
                         @csrf
-
                         <input type="text" name="email_or_mobile" placeholder="Enter Your Email or Phone"
                             class="d-block w-100 p-3 mb-4 rounded-2 border-1">
                         @error('email_or_mobile')
@@ -112,8 +79,7 @@
                             <a href="{{Route('student.forgot')}}" class="d-block pt-3  text-decoration-none ">Forgot Password ?</a>
                         </div>
 
-                        <button type="submit" class="d-block w-100 p-3 mb-4 border-0 rounded-3 text-white">Login</button>
-                        {{-- <a href="#" class="btn_1 full_width text-center"> Login</a> --}}
+                        <button type="submit" class="btn_1 full_width text-center">Login</button>
 
                         @if (session('status'))
                             <span class="text-danger">{{ session('status') }}</span>

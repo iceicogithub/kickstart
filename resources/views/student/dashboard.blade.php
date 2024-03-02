@@ -1,4 +1,7 @@
 @extends('includes.student.main')
+@section('title')
+    Dashboard
+@endsection
 @section('content')
 <div class="container-fluid p-0">
     <div class="row">

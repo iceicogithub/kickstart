@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <title>Sales</title>
+    <title>KickStart | @yield('title')</title>
 
     <link rel="stylesheet" href="{{asset('studentdashboard/css/bootstrap1.min.css')}}" />
 

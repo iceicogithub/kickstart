@@ -147,11 +147,10 @@ class StudentController extends Controller
             ->first();
 
         // Check if the user exists and if the password is correct
-        // if ($user && Auth::guard('student')->attempt(['email' => $user->email, 'password' => $credentials['password']], $request->remember)) {
-        //     // If successful, redirect to intended location
-        //     return redirect()->route('/');
-        // }
-
+        if ($user && Auth::guard('student')->attempt(['email' => $user->email, 'password' => $credentials['password']], $request->remember)) {
+            // If successful, redirect to intended location
+            return redirect()->route('/');
+        }
 
         // // If unsuccessful, redirect back to the login with error message
         // return redirect()->back()->withInput($request->only('email_or_mobile', 'remember'))->withErrors([
