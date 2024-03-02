@@ -5,6 +5,7 @@ use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\NormalController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\PaymentController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
@@ -18,6 +19,11 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+
+Route::get('/googleLogin',[StudentController::class, 'googleLogin']);
+Route::get('auth/google/call-back',[StudentController::class, 'googleHandle']);
+
 
 Route::get('cache-clear', function () {
     Artisan::call('cache:clear');
@@ -38,6 +44,8 @@ Route::get('optimize', function () {
     return 'done';
 });
 Route::get('/', [NormalController::class, 'index'])->name('/');
+Route::get('/payment', [PaymentController::class, 'index']);
+Route::get('/store-payment', [PaymentController::class, 'payment'])->name('payment');
 
 
 Route::middleware('guest:student')->group(function () {

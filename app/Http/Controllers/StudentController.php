@@ -10,11 +10,68 @@ use App\Models\StudentDetail;
 use App\Models\Otp;
 use App\Mail\OtpMail;
 use Illuminate\Support\Facades\Validator;
+use Laravel\Socialite\Facades\Socialite;
+use App\Models\User;
+use Exception;
+use Illuminate\Support\Facades\Log;
+
 use Illuminate\Validation\Rule;
 
 
 class StudentController extends Controller
 {
+
+    public function googleLogin(){
+        return Socialite::driver('google')->redirect();
+    }
+
+    public function googleHandle(Request $request)
+    {
+        try {
+            $user = Socialite::driver('google')->user();
+    
+            // Check if a user with the Google ID already exists
+            $existingUser = Student::where('gauth_id', $user->id)->first();
+    
+            if ($existingUser) {
+                // Log in the existing user
+                Auth::login($existingUser);
+                return redirect()->route('/');
+            } else {
+                // Check if a user with the email already exists
+                $userByEmail = Student::where('email', $user->email)->first();
+    
+                if ($userByEmail) {
+                    // Update the existing user with the Google ID
+                    $userByEmail->update(['gauth_id' => $user->id]);
+                    Auth::login($userByEmail);
+                    return redirect()->route('/');
+                } else {
+                    // Create a new user
+                    $newUser = Student::create([
+                        'email' => $user->email,
+                        'gauth_id' => $user->id,
+                        'gauth_type' => 'google',
+                        'password' => bcrypt('password4567'), // Set a default password or handle differently
+                    ]);
+    
+                    $newUser->studentDetail()->create([
+                        'student_id' => $newUser->id,
+                        'fullname' => $user->name,
+                        'email' => $user->email,
+                        'profile' => $user->avatar,                    
+                    ]);
+    
+                    // Log in the new user
+                    Auth::login($newUser);
+                    return redirect()->route('/');
+                }
+            }
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            return redirect()->back()->with('error', 'An error occurred. Please try again later.');
+        }
+    }
     // Show registration form
     public function showRegistrationForm()
     {
