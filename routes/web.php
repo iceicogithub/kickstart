@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\NormalController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\PaymentController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
@@ -42,6 +43,8 @@ Route::get('optimize', function () {
     return 'done';
 });
 Route::get('/', [NormalController::class, 'index'])->name('/');
+Route::get('/payment', [PaymentController::class, 'index']);
+Route::get('/store-payment', [PaymentController::class, 'payment'])->name('payment');
 
 
 Route::middleware('guest:student')->group(function () {

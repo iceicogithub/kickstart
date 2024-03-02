@@ -151,7 +151,7 @@ class StudentController extends Controller
         //     // If successful, redirect to intended location
         //     return redirect()->route('/');
         // }
-        
+
 
         // // If unsuccessful, redirect back to the login with error message
         // return redirect()->back()->withInput($request->only('email_or_mobile', 'remember'))->withErrors([
@@ -200,7 +200,6 @@ class StudentController extends Controller
         if (!$studentDashboard) {
             abort(404);
         }
-
         return view('student.dashboard', compact('studentDashboard'));
     }
 }
