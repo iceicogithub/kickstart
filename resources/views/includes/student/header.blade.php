@@ -1,8 +1,7 @@
 <div class="container-fluid g-0">
     <div class="row">
         <div class="col-lg-12 p-0">
-            <div class="header_iner p-0 py-2 px-5 d-flex justify-content-between align-items-center"
-                style="background-color: #567aed;">
+            <div class="header_iner p-0 py-2 px-5 d-flex justify-content-between align-items-center bg_purple_color">
                 <div class="sidebar_icon d-lg-none">
                     <i class="ti-menu"></i>
                 </div>

@@ -19,28 +19,168 @@
 
 <body>
 
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-        Launch static backdrop modal
-    </button>
+    <style>
+        .form-control {
+            border: 1px solid #dcdcdc;
+        }
+        .sub-div {
+         border: 2px solid green; 
+        color: #000;
+        }
 
-    <!-- Modal -->
-    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-        aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        .form_img {
+            width: 15rem;
+        }
+        .sub-title{
+            color: #808080;
+            font-size: 0.8rem;
+        }
+        .form_img_div {
+            border-bottom: 1px solid #dcdcdc;
+        } 
+      
+        
+    </style>
+
+    <div class="container my-5">
+        {{-- <div class="col-lg-12 bg-dark text-white">
+            <h3 class="text-center">Registration Form</h3>
+        </div> --}}
+        
+        <div class="sub-div px-3">
+            <div class="row py-4 form_img_div">
+
+                <div class="col-lg-4 col-md-4 text-center">
+                    <img src="{{ '/img/forms-cuate.png' }}" class="form_img" alt="">
                 </div>
-                <div class="modal-body">
-                    ...
+
+                <div class="col-lg-8 col-md-8 text-center d-flex justify-content-center align-items-center">
+                    <h2 class="fw-bold text-success">Students Registration Form</h2>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Understood</button>
-                </div>
+
             </div>
+            
+
+            <form method="POST" action="" class="py-3 px-2">
+                {{-- ----------------------------------------------------------------- --}}
+                <div class="row">
+                    <label for="exampleText" class="form-label fw-bold ">Students Form</label>
+                    <div class="col-lg-6 col-md-6 mb-3">
+                        <input type="text" class="form-control" id="exampleInputText" aria-describedby="emailHelp">
+                        <label for="exampleText" class="form-label sub-title ps-1">First Name</label>
+                    </div>
+
+                    <div class="col-lg-6 col-md-6 mb-3">
+                        <input type="text" class="form-control" id="exampleInputText" aria-describedby="emailHelp">
+                        <label for="exampleText" class="form-label sub-title ps-1">Last Name</label>
+                    </div>
+                </div>
+                {{-- ----------------------------------------------------------------- --}}
+                <div class="row mb-3">
+                    <div class="col-lg-6 col-md-6">
+                        <p for="exampleText" class="form-label fw-bold">Gender</p>
+                        <input class="form-check-input " type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                        <label class="form-check-label px-2 " for="flexRadioDefault1">
+                            Male
+                        </label>
+
+                        <input class="form-check-input " type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                        <label class="form-check-label px-2 " for="flexRadioDefault1">
+                            FeMale
+                        </label>
+
+                    </div>
+                </div>
+                {{-- ----------------------------------------------------------------- --}}
+                <div class="row mb-3">
+                    <div class="col-lg-6 col-md-6">
+                        <label for="exampleText" class="form-label fw-bold">Email</label>
+                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                    </div>
+                </div>
+                {{-- ----------------------------------------------------------------- --}}
+                <div class="row mb-3">
+                    <div class="col-lg-6 col-md-6">
+                        <label for="exampleText" class="form-label fw-bold">Phone</label>
+                        <input type="number" class="form-control" id="phone" aria-describedby="emailHelp">
+                    </div>
+                </div>
+                {{-- ----------------------------------------------------------------- --}}
+                <div class="row mb-3">
+                    <label for="exampleText" class="form-label fw-bold">Address</label>
+                    <div class="col-lg-12 col-md-12">
+                        <input type="text" class="form-control" id="exampleInputText" aria-describedby="emailHelp">
+                        <label for="exampleText" class="form-label sub-title ps-1">Street Address</label>
+                    </div>
+                </div>
+                {{-- ----------------------------------------------------------------- --}}
+                <div class="row mb-3">
+                    <div class="col-lg-12 col-md-12">
+                        <input type="text" class="form-control" id="exampleInputText" aria-describedby="emailHelp">
+                        <label for="exampleText" class="form-label sub-title ps-1">Street Address Line 2</label>
+                    </div>
+                </div>
+                {{-- ----------------------------------------------------------------- --}}
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 mb-3">
+                        <input type="text" class="form-control" id="exampleInputText" aria-describedby="emailHelp">
+                        <label for="exampleText" class="form-label sub-title ps-1">City</label>
+                    </div>
+
+                    <div class="col-lg-6 col-md-6 mb-3">
+                        <input type="text" class="form-control" id="exampleInputText" aria-describedby="emailHelp">
+                        <label for="exampleText" class="form-label sub-title ps-1">State</label>
+                    </div>
+                </div>
+                {{-- ----------------------------------------------------------------- --}}
+                <div class="row mb-3">
+                    <div class="col-lg-12 col-md-12">
+                        <input type="text" class="form-control" id="exampleInputText" aria-describedby="emailHelp">
+                        <label for="exampleText" class="form-label sub-title ps-1">Postal/Zip Code</label>
+                    </div>
+                </div>
+                {{-- ----------------------------------------------------------------- --}}
+                <div class="row mb-3">
+                    <div class="col-lg-6 col-md-6">
+                        <label for="exampleText" class="form-label fw-bold">College Name</label>
+                        <input type="text" class="form-control" id="exampleInputText" aria-describedby="emailHelp">
+                    </div>
+                </div>
+                {{-- ----------------------------------------------------------------- --}}
+                <div class="row mb-3">
+                    <div class="col-lg-6 col-md-6">
+                        <label for="exampleText" class="form-label fw-bold">Year</label>
+                        <input type="text" class="form-control" id="exampleInputText" aria-describedby="emailHelp">
+                    </div>
+                </div>
+                {{-- ----------------------------------------------------------------- --}}
+                <div class="row mb-3">
+                    <div class="col-lg-6 col-md-6">
+                        <label for="exampleText" class="form-label fw-bold">Branch</label>
+                        <input type="text" class="form-control" id="exampleInputText" aria-describedby="emailHelp">
+                    </div>
+                </div>
+                {{-- ----------------------------------------------------------------- --}}
+                <div class="row mb-3">
+                    <div class="col-lg-6 col-md-6">
+                        <label for="exampleText" class="form-label fw-bold">Area of Interest</label>
+                        <input type="text" class="form-control" id="exampleInputText" aria-describedby="emailHelp">
+                    </div>
+                </div>
+                {{-- ----------------------------------------------------------------- --}}
+                <div class="row mb-3">
+                    <div class="col-lg-6 col-md-6">
+                        <label for="exampleText" class="form-label fw-bold">CGPA / %</label>
+                        <input type="text" class="form-control" id="exampleInputText" aria-describedby="emailHelp">
+                    </div>
+                </div>
+                {{-- ----------------------------------------------------------------- --}}                
+                <div class="buttons d-flex align-items-center justify-content-center">
+                    <button type="button" class="btn btn-success  fw-bold me-3 text-light">SUBMIT & PAY</button>
+                </div>
+                {{-- ----------------------------------------------------------------- --}}                
+
+            </form>
         </div>
     </div>
 
