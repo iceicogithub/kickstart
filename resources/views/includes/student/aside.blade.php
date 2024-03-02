@@ -25,9 +25,23 @@
         <li class>
             <a class="has-arrow" href="#" aria-expanded="false">
                 <div class="icon_menu">
-                    <img src="{{asset('studentdashboard/img/menu-icon/2.svg')}}" alt />
+                    <img src="{{asset('studentdashboard/img/menu-icon/3.svg')}}" alt />
                 </div>
-                <span>Test</span>
+                <span>General Aptitude</span>
+            </a>
+            <ul>
+                <li><a href="">Arithmetic Aptitude</a></li>
+                <li><a href="">C Programming</a></li>
+                <li><a href="">C++</a></li>
+                <li><a href="">Java</a></li>
+            </ul>
+        </li>
+        <li class>
+            <a class="has-arrow" href="#" aria-expanded="false">
+                <div class="icon_menu">
+                    <img src="{{asset('studentdashboard/img/menu-icon/4.svg')}}" alt />
+                </div>
+                <span>Verbal Reasoning</span>
             </a>
             <ul>
                 <li><a href="">Arithmetic Aptitude</a></li>

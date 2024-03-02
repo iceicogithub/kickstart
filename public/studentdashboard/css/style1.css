@@ -3594,6 +3594,9 @@ body::-webkit-scrollbar {
   background-repeat: no-repeat;
   background-position: bottom;
 }
+ .bg_purple_color{
+  background-color: #5d77a8;
+}
 .blud_card p {
   color: #bcd3ff;
   font-size: 16px;

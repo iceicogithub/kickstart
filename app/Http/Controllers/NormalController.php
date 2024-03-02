@@ -17,4 +17,14 @@ class NormalController extends Controller
         return view('student.registration');
     }
 
+    public function topics()
+    {
+        return view('tests.topics');
+    }
+
+    public function question_answer()
+    {
+        return view('tests.question&answer');
+    }
 }
+
