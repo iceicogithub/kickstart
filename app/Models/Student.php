@@ -13,7 +13,7 @@ class Student extends AuthenticatableUser implements Authenticatable
     protected $table = 'students';
 
     protected $fillable = [
-        'email', 'phone', 'password'
+        'email', 'phone', 'password' , 'gauth_id' , 'gauth_type'
     ];
 
 

@@ -16,6 +16,7 @@
                 <li class="nav-item pt-1 px-lg-2 px-md-0">
                     <a class="nav-link" href="#">Contact</a>
                 </li>
+
                 @if (auth()->guard('student')->check())
                     <a href="{{ route('student.dashboard', ['id' => auth()->guard('student')->id()]) }}" type="button"
                         class="btn-sm btn btn-top btn-light fw-semibold text-muted front-btn">Dashboard</a>
@@ -25,6 +26,16 @@
                     <a href="{{ route('student.login') }}" type="button"
                         class="btn-sm btn btn-top btn-light fw-semibold text-muted front-btn">Login</a>
                 @endif
+
+                {{-- @if (auth()->guard('student')->check())
+                    <a href="{{ route('student.dashboard', ['id' => auth()->guard('student')->id()]) }}" type="button"
+                        class="btn-sm btn btn-top btn-light fw-semibold text-muted front-btn">Dashboard</a>
+                @else
+                    <a href="{{ route('student.register') }}" type="button"
+                        class="btn-sm btn btn-top btn-light fw-semibold text-muted front-btn">Signup</a>
+                    <a href="{{ route('student.login') }}" type="button"
+                        class="btn-sm btn btn-top btn-light fw-semibold text-muted front-btn">Login</a>
+                @endif --}}
 
                 {{-- <li class="nav-item">
                     @if (auth()->guard('student')->check())
