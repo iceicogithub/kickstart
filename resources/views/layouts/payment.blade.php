@@ -128,7 +128,7 @@
       },
       "handler": function (response) {
         alert(response.razorpay_payment_id);
-      },
+      }, 
       "modal": {
         "ondismiss": function () {
           if (confirm("Are you sure, you want to close the form?")) {
