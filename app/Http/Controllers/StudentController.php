@@ -201,4 +201,41 @@ class StudentController extends Controller
         }
         return view('student.dashboard', compact('studentDashboard'));
     }
+
+    public function studentRegister(Request $request){
+        dd($request);
+        die();
+        $validate=Validator::make($request->all(),
+        [
+            'student_id'=> ['required','string','max:255'],
+            'fullname'=> ['required','string','max:255'],
+            'gender'=> ['required','string','max:255'],
+            'email'=> ['required','string','max:255'],
+            'phone'=> ['required','string','max:255'],
+            'profession'=>['required','string','max:255'],
+            'address'=> ['required','string','max:255'],
+            'college_name'=> ['required','string','max:255'],
+            'year'=> ['required','string','max:255'],
+            'branch'=> ['required','string','max:255'],
+            'area_of_interest'=> ['required','string','max:255'],
+            'cgpa'=>['required','string','max:255'],
+        ]);
+
+        // If validation fails, redirect back with errors
+        if ($validate->fails()) {
+            return redirect()->back()->withErrors($validate)->withInput();
+        }
+
+        $Studetail = StudentDetail::create(
+            [
+                'gender'=>$request->gender,
+                'address'=>$request->address,
+                'college_name'=>$request->college_name,
+                'year'=>$request->year,
+                'branch'=>$request->branch,
+                'area_of_interest'=>$request->area_of_interest,
+                'cgpa'=>$request->cgpa
+            ]);
+    }
+
 }
