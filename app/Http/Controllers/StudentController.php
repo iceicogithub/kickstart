@@ -241,8 +241,7 @@ class StudentController extends Controller
 
     public function processPayment(Request $request)
     {
-        dd($request);
-        die();
+        
         // Initialize Razorpay API with your key and secret
         $api = new Api('rzp_test_ci8sxj5IUpXRv1', 'LWdNlyPjctgEHhDrUDnVy7cD');
         
@@ -266,8 +265,7 @@ class StudentController extends Controller
 
     public function store_student(Request $request)
 {
-    dd($request);
-    die();
+    
     // Get the authenticated user
     $user = Auth::user();
 
