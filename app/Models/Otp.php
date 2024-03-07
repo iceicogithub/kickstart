@@ -11,6 +11,6 @@ class Otp extends Model
     protected $table = 'otps';
 
     protected $fillable = [
-        'recipient', 'otp',
+        'recipient', 'otp','expire'
     ];
 }

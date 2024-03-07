@@ -21,9 +21,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::get('/googleLogin',[StudentController::class, 'googleLogin']);
-Route::get('auth/google/call-back',[StudentController::class, 'googleHandle']);
-
+Route::get('/googleLogin', [StudentController::class, 'googleLogin']);
+Route::get('auth/google/call-back', [StudentController::class, 'googleHandle']);
 
 Route::get('cache-clear', function () {
     Artisan::call('cache:clear');
@@ -56,9 +55,13 @@ Route::middleware('guest:student')->group(function () {
     Route::get('student/forgot', [StudentController::class, 'forgot'])->name('student.forgot');
     Route::post('generate-otp', [StudentController::class, 'generateOtp'])->name('generate-otp');
     Route::post('verify-otp', [StudentController::class, 'verifyOtp'])->name('verify-otp');
-    Route::post('/check-email-phone', [ForgotPasswordController::class, 'checkEmailOrPhone'])->name('check-email-phone');
-    Route::post('/forgot-send-otp', [ForgotPasswordController::class, 'sendOTP'])->name('send-otp');
-    Route::post('/forgot-verify-otp', [ForgotPasswordController::class, 'verifyOTP'])->name('forgot-verify-otp');
+    Route::post('/update-expire-column', [StudentController::class, 'updateExpireColumn'])->name('update-expire-column');
+    Route::post('/check-user-existence', [ForgotPasswordController::class, 'checkUserExistence'])->name('checkUserExistence');
+    Route::post('/send-forgot-password-email',[ForgotPasswordController::class, 'sendForgotPasswordEmail'])->name('sendForgotPasswordEmail');
+    Route::get('/reset-password/{token}',[ForgotPasswordController::class, 'showResetPasswordForm'])->name('showResetPasswordForm');
+
+
+
 });
 
 Route::middleware('auth:student')->group(function () {
@@ -67,10 +70,9 @@ Route::middleware('auth:student')->group(function () {
     Route::get('student/profile/{id}', [StudentController::class, 'studentProfile'])->name('student.profile');
     Route::get('student/dashboard/{id}', [StudentController::class, 'studentDashboard'])->name('student.dashboard');
     Route::post('/student/logout', [StudentController::class, 'logout'])->name('student.logout');
-    Route::get('/tests/topics',[NormalController::class,'topics'])->name('tests.topics');
-    Route::get('/tests/question&answer',[NormalController::class,'question_answer'])->name('tests.question&answer');
+    Route::get('/tests/topics', [NormalController::class, 'topics'])->name('tests.topics');
+    Route::get('/tests/question&answer', [NormalController::class, 'question_answer'])->name('tests.question&answer');
     Route::get('/student/registration', [NormalController::class, 'registrationPage'])->name('student.registration');
-
 });
 
 // Admin routes group

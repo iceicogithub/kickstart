@@ -125,8 +125,9 @@
                             {{-- <a href="{{ url('/googleLogin') }}" class="d-block bg-primary w-100 p-3 border-0 rounded-3 text-white">
                                 <i class="fab fa-google text-white"></i> Continue With Google
                             </a> --}}
-                            <a href="{{ url('/googleLogin') }}" class="d-block w-100 p-3 mb-4 border-0 rounded-3 text-white btn btn-primary">
-                                <i class="fab fa-google text-white"></i> Signup with Google</a>               
+                            <a href="{{ url('/googleLogin') }}"
+                                class="d-block w-100 p-3 mb-4 border-0 rounded-3 text-white btn btn-primary">
+                                <i class="fab fa-google text-white"></i> Signup with Google</a>
                         </div>
                         <div class="text-center text-black"><span class="">Already have an account?<a
                                     href="{{ route('student.login') }}" class="text-decoration-none"> Login
@@ -232,11 +233,37 @@
                         $('#getotp').text('Resend OTP');
                         $('#getotp').prop('disabled', false);
                         countdown = 25;
+                        updateExpireColumn();
                     } else {
                         $('#getotp').text(formatTime(countdown));
                         countdown--;
                     }
                 }, 1000);
+            }
+
+            // Function to update expire column to 1
+            function updateExpireColumn() {
+                const emailOrPhone = document.getElementById('email_or_phone').value;
+                fetch('{{ route('update-expire-column') }}', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        body: JSON.stringify({
+                            email_or_phone: emailOrPhone
+                        })
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            // console.log('Expire column updated successfully');
+                        } else {
+                            console.error('Failed to update expire column');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
             }
 
             function stopCountdown() {
@@ -254,47 +281,6 @@
         document.addEventListener("DOMContentLoaded", function() {
             const getOtpButton = document.getElementById('getotp');
             const verifyOtpButton = document.getElementById('verifyotp');
-
-            // Event listener for Get OTP button
-            getOtpButton.addEventListener('click', function() {
-                fetch('{{ route('generate-otp') }}', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                        },
-                        body: JSON.stringify({
-                            email_or_phone: document.getElementById('email_or_phone').value
-                        })
-                    })
-                    .then(response => {
-                        if (response.ok) {
-                            // Show success message if OTP is sent
-                            // Swal.fire({
-                            //     icon: 'success',
-                            //     title: 'Success!',
-                            //     text: 'OTP sent successfully',
-                            // });
-
-                            // Display verification block and start countdown only if OTP sending is successful
-                            showElement(verifyDiv);
-                            startCountdown();
-                        } else {
-                            // Handle error if failed to send OTP
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Oops...',
-                                text: 'Failed to send OTP or User Already Exists. Please try again.',
-                            });
-                            hideElement(verifyDiv);
-                            stopCountdown();
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                    });
-            });
-
 
             verifyOtpButton.addEventListener('click', function() {
                 const otp = document.getElementById('verify_otp').value;
@@ -334,11 +320,22 @@
                             clearInterval(interval);
                             countdown = 0;
                         } else {
-                            // Show error message if OTP verification fails
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Oops...',
-                                text: 'Invalid OTP',
+                            response.json().then(data => {
+                                if (data.error.includes('expired')) {
+                                    // Display error message if OTP has expired
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Oops...',
+                                        text: data.error,
+                                    });
+                                } else {
+                                    // Show error message if OTP verification fails for other reasons
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Oops...',
+                                        text: 'Invalid OTP',
+                                    });
+                                }
                             });
                         }
                     })

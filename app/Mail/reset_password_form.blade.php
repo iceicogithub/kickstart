@@ -54,58 +54,28 @@
 
             <div class="modal-content cs_modal">
                 <div class="modal-header theme_bg_1">
-                    <h5 class="modal-title text_white">Forget Password</h5>
+                    <h5 class="modal-title text_white">Reset Password</h5>
                 </div>
                 <div class="modal-body">
-                    <form id="forgotPasswordForm" method="POST">
+                    <form method="POST" action="{{ route('resetPassword') }}">
                         @csrf
+                        <input type="hidden" name="token" value="{{ $token }}">
                         <div class="form-group">
-                            <input type="text" class="form-control" id="email_or_phone" name="email_or_phone"
-                                placeholder="Enter Your Email or Phone" required>
-                            <div id="email_phone_error" class="text-danger" style="display: none;"></div>
+                            <label for="password">New Password</label>
+                            <input type="password" class="form-control" id="password" name="password" required>
                         </div>
-                        <a href="{{ url('/') }}" class="d-block ps-1 pt-2 text-decoration-none">Back</a>
-                        <button type="button" id="forgot" class="btn_1 full_width text-center">Forgot
-                            Password</button>
+                        <div class="form-group">
+                            <label for="password_confirmation">Confirm Password</label>
+                            <input type="password" class="form-control" id="password_confirmation"
+                                name="password_confirmation" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Reset Password</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Include SweetAlert CDN and jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-    <script>
-        $(document).ready(function() {
-            $('#forgot').click(function() {
-                var emailOrPhone = $('#email_or_phone').val();
-                $.ajax({
-                    type: 'POST',
-                    url: '{{ route('checkUserExistence') }}',
-                    data: {
-                        "_token": "{{ csrf_token() }}",
-                        email_or_phone: emailOrPhone
-                    },
-                    success: function(response) {
-                        if (response.status == 'success') {
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'User Found',
-                                text: response.message
-                            });
-                        } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'User Not Found',
-                                text: response.message
-                            });
-                        }
-                    }
-                });
-            });
-        });
-    </script>
 
     <script src="{{ asset('studentdashboard/js/jquery1-3.4.1.min.js') }}"></script>
 

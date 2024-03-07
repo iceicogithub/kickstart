@@ -21,7 +21,8 @@ use Illuminate\Validation\Rule;
 class StudentController extends Controller
 {
 
-    public function googleLogin(){
+    public function googleLogin()
+    {
         return Socialite::driver('google')->redirect();
     }
 
@@ -29,10 +30,10 @@ class StudentController extends Controller
     {
         try {
             $user = Socialite::driver('google')->user();
-    
+
             // Check if a user with the Google ID already exists
             $existingUser = Student::where('gauth_id', $user->id)->first();
-    
+
             if ($existingUser) {
                 // Log in the existing user
                 Auth::login($existingUser);
@@ -40,7 +41,7 @@ class StudentController extends Controller
             } else {
                 // Check if a user with the email already exists
                 $userByEmail = Student::where('email', $user->email)->first();
-    
+
                 if ($userByEmail) {
                     // Update the existing user with the Google ID
                     $userByEmail->update(['gauth_id' => $user->id]);
@@ -54,14 +55,14 @@ class StudentController extends Controller
                         'gauth_type' => 'google',
                         'password' => bcrypt('password4567'), // Set a default password or handle differently
                     ]);
-    
+
                     $newUser->studentDetail()->create([
                         'student_id' => $newUser->id,
                         'fullname' => $user->name,
                         'email' => $user->email,
-                        'profile' => $user->avatar,                    
+                        'profile' => $user->avatar,
                     ]);
-    
+
                     // Log in the new user
                     Auth::login($newUser);
                     return redirect()->route('/');
@@ -306,6 +307,7 @@ class StudentController extends Controller
                 Mail::raw('Your OTP is: ' . $otp, function ($message) use ($recipient) {
                     $message->to($recipient)->subject('Your OTP');
                 });
+                $expire = 0;
                 // Save the email OTP to the database
                 Otp::create([
                     'recipient' => $recipient,
@@ -376,12 +378,25 @@ class StudentController extends Controller
 
             $otp = $request->otp;
 
-            // Check if OTP exists in the database
-            $otpRecord = Otp::where('otp', $otp)->first();
+            // Check if the latest OTP exists in the database where expire = 0
+            $otpRecord = Otp::where('otp', $otp)
+                ->where('expire', 0)
+                ->latest() // Get the latest record first
+                ->first();
 
             if (!$otpRecord) {
-                return response()->json(['error' => 'Invalid OTP'], 422);
+                // Check if the OTP exists but has expired
+                $expiredOtp = Otp::where('otp', $otp)
+                    ->where('expire', 1)
+                    ->first();
+
+                if ($expiredOtp) {
+                    return response()->json(['error' => 'OTP has expired. Please resend OTP.'], 422);
+                } else {
+                    return response()->json(['error' => 'Invalid OTP'], 422);
+                }
             }
+
             // OTP is valid, you can perform additional actions here if needed
             return response()->json(['message' => 'OTP verified successfully'], 200);
         } catch (\Exception $e) {
@@ -390,9 +405,32 @@ class StudentController extends Controller
         }
     }
 
+
     // Generate a random OTP
     private function generateRandomOTP($length = 6)
     {
         return str_pad(mt_rand(0, pow(10, $length) - 1), $length, '0', STR_PAD_LEFT);
+    }
+
+    public function updateExpireColumn(Request $request)
+    {
+        $emailOrPhone = $request->input('email_or_phone');
+
+        // Find the OTP record by email or phone number where expire = 0
+        $otp = Otp::where('recipient', $emailOrPhone)
+            ->where('expire', 0)
+            ->first();
+
+        if ($otp) {
+            // Update the 'expire' column to 1
+            $otp->update(['expire' => 1]);
+            return response()->json(['message' => 'Expire column updated successfully'], 200);
+        } else {
+            // If OTP with provided recipient and expire = 0 is not found, update all records with the same recipient and expire = 0 to 1
+            Otp::where('recipient', $emailOrPhone)
+                ->where('expire', 0)
+                ->update(['expire' => 1]);
+            return response()->json(['message' => 'Expire column updated successfully for all related records'], 200);
+        }
     }
 }
