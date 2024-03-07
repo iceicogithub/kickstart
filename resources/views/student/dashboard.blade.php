@@ -28,7 +28,7 @@
         .nav-link:hover {
             margin-left: 5px;
             transition: all 0.5s ease-in-out;
-            color: #26c5b5;
+            color: #dc3545;
             text-decoration: underline;
         }
     </style>

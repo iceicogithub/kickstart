@@ -20,169 +20,275 @@
 <body>
 
     <style>
+        * {
+            padding: 0;
+            margin: 0;
+
+        }
+
         .form-control {
+            border-radius: 0;
             border: 1px solid #dcdcdc;
         }
-        .sub-div {
-         border: 2px solid green; 
-        color: #000;
+
+        .form-control:focus {
+            box-shadow: none;
+            border-color: rgba(0, 0, 0, .125);
         }
 
-        .form_img {
-            width: 15rem;
+        .input-group-text {
+            background-color: transparent;
+            color: #000;
+            border-radius: 0px;
         }
-        .sub-title{
-            color: #808080;
-            font-size: 0.8rem;
+
+        .main_box {
+            width: 100%;
+            height: 100%;
+            background-image: url('/img/green.jpeg');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            background-attachment: fixed;
+            /* background-color:lightgray; */
         }
-        .form_img_div {
-            border-bottom: 1px solid #dcdcdc;
-        } 
-      
-        
+
+        .logo_img {
+            width: 10rem;
+        }
+
+        .form_card {
+            /* background: transparent; */
+            background-color: #fff;
+            /* backdrop-filter: blur(40px); */
+            color: #000;
+            /* background-color: #000; */
+        }
+
+        .form-control {
+            /* background-color:transparent; */
+            background-color: #ffffff;
+            /* box-shadow: 0 0 10px rgba(0, 0, 0, .2) */
+        }
     </style>
 
-    <div class="container my-5">
-        {{-- <div class="col-lg-12 bg-dark text-white">
-            <h3 class="text-center">Registration Form</h3>
+    <div class="container-fluid main_box d-flex align-items-center justify-content-center py-5">
+
+        {{-- <div class="text-start sub_box col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12">
+            <p class="side_content text-white fw-bold display-5 text-start">KickStart Your Career With Us</p>
         </div> --}}
-        
-        <div class="sub-div px-3">
-            <div class="row py-4 form_img_div">
+        <div class="card form_card col-xxl-7 col-xl-7 col-lg-77 col-md-7 col-sm-12 col-12 shadow px-2">
+            <div class="py-1 bg-warning"></div>
 
-                <div class="col-lg-4 col-md-4 text-center">
-                    <img src="{{ '/img/forms-cuate.png' }}" class="form_img" alt="">
-                </div>
-
-                <div class="col-lg-8 col-md-8 text-center d-flex justify-content-center align-items-center">
-                    <h2 class="fw-bold text-success">Students Registration Form</h2>
-                </div>
-
+            <div class="text-center my-3">
+                <img src="{{ asset('img/kickstart.jpeg') }}" class="logo_img">
             </div>
+
+            <p class="fw-bold h5 text-start ps-2 py-3">Personal Details:</p>
+
+            <form method="post" action="{{ route('store.student') }}">
+                @csrf
+                <div class="d-lg-flex d-md-flex d-sm-flex">
+                    <div class="input-group mb-4 px-2">
+                        <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-user"></i></span>
+                        <input type="text" class="form-control" placeholder="First Name" aria-label="Username"
+                            aria-describedby="basic-addon1" name="firstname">
+                    </div>
+
+                    <div class="input-group mb-4 px-2">
+                        <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-user"></i></span>
+                        <input type="text" class="form-control" placeholder="Last Name" aria-label="Username"
+                            aria-describedby="basic-addon1" name="lastname">
+                    </div>
+                </div>
+
+                <div class="d-lg-flex d-md-flex d-sm-flex">
+                    <div class="input-group mb-4 px-2">
+                        <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-envelope"></i></span>
+                        <input type="email" class="form-control" placeholder="Email" aria-label="Username"
+                            aria-describedby="basic-addon1" name="email">
+                    </div>
+
+                    <div class="input-group mb-4 px-2">
+                        <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-mobile"></i></span>
+                        <input type="number" class="form-control" placeholder="Mobile" aria-label="Username"
+                            aria-describedby="basic-addon1" name="phone">
+                    </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6 mb-4 ms-2">
+                    <p for="exampleText" class="form-label fw-bold">Gender</p>
+                    <input class="form-check-input " type="radio" name="gender" id="flexRadioDefault1"
+                        value="male">
+                    <label class="form-check-label px-2 " for="flexRadioDefault1">
+                        Male
+                    </label>
+
+                    <input class="form-check-input " type="radio" name="gender" id="flexRadioDefault2"
+                        value="female">
+                    <label class="form-check-label px-2 " for="flexRadioDefault1">
+                        Female
+                    </label>
+
+                    <input class="form-check-input " type="radio" name="gender" id="flexRadioDefault3"
+                        value="other">
+                    <label class="form-check-label px-2 " for="flexRadioDefault1">
+                        Other
+                    </label>
+
+                </div>
+                <!-- </div> -->
+
+                {{-- <div class="d-flex">
+                    <div class="input-group mb-4 px-2">
+                        <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-envelope"></i></span>
+                        <input type="email" class="form-control" placeholder="Email" aria-label="Username"
+                            aria-describedby="basic-addon1">
+                    </div>
+
+                    <div class="input-group mb-4 px-2">
+                        <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-mobile"></i></span>
+                        <input type="number" class="form-control" placeholder="Mobile" aria-label="Username"
+                            aria-describedby="basic-addon1">
+                    </div>
+                </div> --}}
+
+                <div class="input-group mb-4 px-2">
+                    <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-location-dot"></i></span>
+                    <input type="text" class="form-control" placeholder="Address" aria-label="Username"
+                        aria-describedby="basic-addon1" name="address">
+                </div>
+
+                <div class="d-lg-flex d-md-flex d-sm-flex">
+                    <div class="input-group mb-4 px-2">
+                        <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-map-pin"></i></span>
+                        <input type="text" class="form-control" placeholder="State" aria-label="Username"
+                            aria-describedby="basic-addon1" name="state">
+                    </div>
+
+                    <div class="input-group mb-4 px-2">
+                        <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-city"></i></span>
+                        <input type="text" class="form-control" placeholder="City" aria-label="Username"
+                            aria-describedby="basic-addon1" name="city">
+                    </div>
+                </div>
+
+                {{-- clg-details --}}
+
+                <p class="fw-bold h5 text-start ps-2 py-3">College Details:</p>
+
+                <div class="input-group mb-4 px-2">
+                    <span class="input-group-text" id="basic-addon1"><i
+                            class="fa-solid fa-building-columns"></i></span>
+                    <input type="text" class="form-control" placeholder="College name" aria-label="Username"
+                        aria-describedby="basic-addon1" name="college_name">
+                </div>
+
+                <div class="d-lg-flex d-md-flex d-sm-flex">
+                    <div class="input-group mb-4 px-2">
+                        <span class="input-group-text" id="basic-addon1"><i
+                                class="fa-solid fa-calendar-days"></i></span>
+                        <input type="text" class="form-control" placeholder="Year" aria-label="Username"
+                            aria-describedby="basic-addon1" name="year">
+                    </div>
+
+                    <div class="input-group mb-4 px-2">
+                        <span class="input-group-text" id="basic-addon1"><i
+                                class="fa-solid fa-code-branch"></i></span>
+                        <input type="text" class="form-control" placeholder="Branch" aria-label="Username"
+                            aria-describedby="basic-addon1" name="branch">
+                    </div>
+                </div>
+
+                <div class="d-lg-flex d-md-flex d-sm-flex">
+                    <div class="input-group mb-4 px-2">
+                        <span class="input-group-text" id="basic-addon1"><i
+                                class="fa-solid fa-magnifying-glass"></i></span>
+                        <input type="text" class="form-control" placeholder="Area of Interest"
+                            aria-label="Username" aria-describedby="basic-addon1" name="area_of_interest">
+                    </div>
+
+                    <div class="input-group mb-4 px-2">
+                        <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-percent"></i></span>
+                        <input type="text" class="form-control" placeholder="CGPA/%" aria-label="Username"
+                            aria-describedby="basic-addon1" name="cgpa">
+                    </div>
+                </div>
+
+                {{-- <div class="my-4 text-center">
+                    <button type="submit" class="btn btn-warning col-5 shadow">SUBMIT</button>
+                </div> --}}
+                <div class="my-4 text-center">
+                    <button type="button" onclick="showPaymentPopup()" class="btn btn-warning col-5 shadow">Pay Registration Fee</button>
+                </div>
             
-
-            <form method="POST" action="" class="py-3 px-2">
-                {{-- ----------------------------------------------------------------- --}}
-                <div class="row">
-                    <label for="exampleText" class="form-label fw-bold ">Students Form</label>
-                    <div class="col-lg-6 col-md-6 mb-3">
-                        <input type="text" class="form-control" id="exampleInputText" aria-describedby="emailHelp">
-                        <label for="exampleText" class="form-label sub-title ps-1">First Name</label>
-                    </div>
-
-                    <div class="col-lg-6 col-md-6 mb-3">
-                        <input type="text" class="form-control" id="exampleInputText" aria-describedby="emailHelp">
-                        <label for="exampleText" class="form-label sub-title ps-1">Last Name</label>
-                    </div>
+                <!-- Payment popup -->
+                <div id="paymentPopup" style="display: none;">
+                    <h2>Payment Form</h2>
+                    <!-- Razorpay Payment Form -->
+                    <form id="paymentForm" action="{{ route('process.payment') }}" method="POST">
+                        @csrf
+                        <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+                        <button type="button" onclick="confirmPayment()" class="btn btn-success">Confirm Payment</button> <!-- New Confirm Payment button -->
+                        <input type="hidden" custom="Hidden Element" name="hidden">
+                    </form>
+                    <!-- End of Razorpay Payment Form -->
+            
+                    <!-- Close button for the popup -->
+                    <button type="button" onclick="closePaymentPopup()">Close</button>
                 </div>
-                {{-- ----------------------------------------------------------------- --}}
-                <div class="row mb-3">
-                    <div class="col-lg-6 col-md-6">
-                        <p for="exampleText" class="form-label fw-bold">Gender</p>
-                        <input class="form-check-input " type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                        <label class="form-check-label px-2 " for="flexRadioDefault1">
-                            Male
-                        </label>
-
-                        <input class="form-check-input " type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                        <label class="form-check-label px-2 " for="flexRadioDefault1">
-                            FeMale
-                        </label>
-
-                    </div>
+            
+                <!-- Success Modal -->
+                <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+                    <!-- Your success modal content -->
                 </div>
-                {{-- ----------------------------------------------------------------- --}}
-                <div class="row mb-3">
-                    <div class="col-lg-6 col-md-6">
-                        <label for="exampleText" class="form-label fw-bold">Email</label>
-                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                    </div>
-                </div>
-                {{-- ----------------------------------------------------------------- --}}
-                <div class="row mb-3">
-                    <div class="col-lg-6 col-md-6">
-                        <label for="exampleText" class="form-label fw-bold">Phone</label>
-                        <input type="number" class="form-control" id="phone" aria-describedby="emailHelp">
-                    </div>
-                </div>
-                {{-- ----------------------------------------------------------------- --}}
-                <div class="row mb-3">
-                    <label for="exampleText" class="form-label fw-bold">Address</label>
-                    <div class="col-lg-12 col-md-12">
-                        <input type="text" class="form-control" id="exampleInputText" aria-describedby="emailHelp">
-                        <label for="exampleText" class="form-label sub-title ps-1">Street Address</label>
-                    </div>
-                </div>
-                {{-- ----------------------------------------------------------------- --}}
-                <div class="row mb-3">
-                    <div class="col-lg-12 col-md-12">
-                        <input type="text" class="form-control" id="exampleInputText" aria-describedby="emailHelp">
-                        <label for="exampleText" class="form-label sub-title ps-1">Street Address Line 2</label>
-                    </div>
-                </div>
-                {{-- ----------------------------------------------------------------- --}}
-                <div class="row">
-                    <div class="col-lg-6 col-md-6 mb-3">
-                        <input type="text" class="form-control" id="exampleInputText" aria-describedby="emailHelp">
-                        <label for="exampleText" class="form-label sub-title ps-1">City</label>
-                    </div>
-
-                    <div class="col-lg-6 col-md-6 mb-3">
-                        <input type="text" class="form-control" id="exampleInputText" aria-describedby="emailHelp">
-                        <label for="exampleText" class="form-label sub-title ps-1">State</label>
-                    </div>
-                </div>
-                {{-- ----------------------------------------------------------------- --}}
-                <div class="row mb-3">
-                    <div class="col-lg-12 col-md-12">
-                        <input type="text" class="form-control" id="exampleInputText" aria-describedby="emailHelp">
-                        <label for="exampleText" class="form-label sub-title ps-1">Postal/Zip Code</label>
-                    </div>
-                </div>
-                {{-- ----------------------------------------------------------------- --}}
-                <div class="row mb-3">
-                    <div class="col-lg-6 col-md-6">
-                        <label for="exampleText" class="form-label fw-bold">College Name</label>
-                        <input type="text" class="form-control" id="exampleInputText" aria-describedby="emailHelp">
-                    </div>
-                </div>
-                {{-- ----------------------------------------------------------------- --}}
-                <div class="row mb-3">
-                    <div class="col-lg-6 col-md-6">
-                        <label for="exampleText" class="form-label fw-bold">Year</label>
-                        <input type="text" class="form-control" id="exampleInputText" aria-describedby="emailHelp">
-                    </div>
-                </div>
-                {{-- ----------------------------------------------------------------- --}}
-                <div class="row mb-3">
-                    <div class="col-lg-6 col-md-6">
-                        <label for="exampleText" class="form-label fw-bold">Branch</label>
-                        <input type="text" class="form-control" id="exampleInputText" aria-describedby="emailHelp">
-                    </div>
-                </div>
-                {{-- ----------------------------------------------------------------- --}}
-                <div class="row mb-3">
-                    <div class="col-lg-6 col-md-6">
-                        <label for="exampleText" class="form-label fw-bold">Area of Interest</label>
-                        <input type="text" class="form-control" id="exampleInputText" aria-describedby="emailHelp">
-                    </div>
-                </div>
-                {{-- ----------------------------------------------------------------- --}}
-                <div class="row mb-3">
-                    <div class="col-lg-6 col-md-6">
-                        <label for="exampleText" class="form-label fw-bold">CGPA / %</label>
-                        <input type="text" class="form-control" id="exampleInputText" aria-describedby="emailHelp">
-                    </div>
-                </div>
-                {{-- ----------------------------------------------------------------- --}}                
-                <div class="buttons d-flex align-items-center justify-content-center">
-                    <button type="button" class="btn btn-success  fw-bold me-3 text-light">SUBMIT & PAY</button>
-                </div>
-                {{-- ----------------------------------------------------------------- --}}                
-
+            
+                <!-- JavaScript to show/hide payment popup -->
+                <script>
+                    function showSuccessModal() {
+                        $('#successModal').modal('show');
+                    }
+            
+                    function showPaymentPopup() {
+                        var popup = document.getElementById('paymentPopup');
+                        popup.style.display = 'block';
+                    }
+            
+                    function closePaymentPopup() {
+                        var popup = document.getElementById('paymentPopup');
+                        popup.style.display = 'none';
+                    }
+                    function confirmPayment() {
+        // You can perform any validation here before proceeding with payment
+        // For now, let's directly open the Razorpay popup
+        var options = {
+            "key": "rzp_test_ci8sxj5IUpXRv1",
+            "amount": "30000",
+            "currency": "INR",
+            "description": "Acme Corp",
+            "prefill": {
+                "email": "myemail@example.com",
+                "contact": "+919900000000"
+            },
+            "handler": function(response) {
+                // Handle successful payment response here
+                alert('Payment successful!');
+                // You may want to submit the form after successful payment
+                document.getElementById('paymentForm').submit();
+            },
+            "modal": {
+                "ondismiss": function() {
+                    console.log("Checkout form closed by the user");
+                }
+            }
+        };
+        var rzp = new Razorpay(options);
+        rzp.open();
+    }
+                </script>
             </form>
-        </div>
     </div>
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous">

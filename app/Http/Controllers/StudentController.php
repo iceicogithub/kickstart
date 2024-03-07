@@ -16,7 +16,7 @@ use Exception;
 use Illuminate\Support\Facades\Log;
 
 use Illuminate\Validation\Rule;
-
+use Razorpay\Api\Api;
 
 class StudentController extends Controller
 {
@@ -276,161 +276,67 @@ class StudentController extends Controller
     // Student dashboard
     public function studentDashboard($id)
     {
-        try {
-            $studentDashboard = StudentDetail::where('student_id', $id)->first();
+        $studentDashboard = StudentDetail::where('student_id', $id)->first();
 
-            // Check if the student details exist
-            if (!$studentDashboard) {
-                abort(404);
-            }
-
-            return view('student.dashboard', compact('studentDashboard'));
-        } catch (\Exception $e) {
-            // Log or handle the exception
-            return back()->withErrors(['error' => 'An error occurred while fetching student dashboard.']);
+        // Check if the student details exist
+        if (!$studentDashboard) {
+            abort(404);
         }
-    }
-
-    // Send OTP (via email or SMS)
-    private function sendOTP($recipient, $otp)
-    {
-        try {
-            // Check if the recipient is an email
-            if (filter_var($recipient, FILTER_VALIDATE_EMAIL)) {
-                // Check if the email is already registered
-                $userExists = Student::where('email', $recipient)->exists();
-                if ($userExists) {
-                    return false;
-                }
-
-                // Send OTP via email
-                Mail::raw('Your OTP is: ' . $otp, function ($message) use ($recipient) {
-                    $message->to($recipient)->subject('Your OTP');
-                });
-                $expire = 0;
-                // Save the email OTP to the database
-                Otp::create([
-                    'recipient' => $recipient,
-                    'otp' => $otp,
-                ]);
-                return true;
-            } else {
-                // Check if the phone number is already registered
-                $userExists = Student::where('phone', $recipient)->exists();
-                if ($userExists) {
-                    // If user already exists with this phone number, return false
-                    return false;
-                }
-
-                // Generate a dummy OTP for testing purposes (replace this with your actual SMS sending logic)
-                $dummyOtp = '123456'; // Example dummy OTP
-                // Save the dummy OTP to the database
-                Otp::create([
-                    'recipient' => $recipient,
-                    'otp' => $dummyOtp,
-                ]);
-                return true;
-            }
-        } catch (\Exception $e) {
-            // Log the error
-            \Log::error('Error sending OTP: ' . $e->getMessage());
-            return false;
-        }
+        return view('student.dashboard', compact('studentDashboard'));
     }
 
 
-    // Generate OTP and return JSON response
-    public function generateOtp(Request $request)
+
+    public function processPayment(Request $request)
     {
-        try {
-            $validator = Validator::make($request->all(), [
-                'email_or_phone' => 'required|string|max:255',
-            ]);
 
-            if ($validator->fails()) {
-                return response()->json(['error' => $validator->errors()->first()], 422);
-            }
+        // Initialize Razorpay API with your key and secret
+        $api = new Api('rzp_test_ci8sxj5IUpXRv1', 'LWdNlyPjctgEHhDrUDnVy7cD');
 
-            $otp = $this->generateRandomOTP();
+        // Fetch payment details from Razorpay
+        $payment_id = $request->razorpay_payment_id;
+        $payment = $api->payment->fetch($payment_id);
 
-            if (!$this->sendOTP($request->email_or_phone, $otp)) {
-                return response()->json(['error' => 'Failed to send OTP'], 500);
-            }
+        // Verify the payment
+        if ($payment->status == 'authorized' || $payment->status == 'captured') {
+            // Payment successful, store student details in the database
+            $this->store_student($request);
 
-            return response()->json(['message' => 'OTP sent successfully'], 200);
-        } catch (\Exception $e) {
-            // Log or handle the exception
-            return response()->json(['error' => 'An error occurred while generating OTP'], 500);
-        }
-    }
-
-    // Verify OTP and return JSON response
-    public function verifyOtp(Request $request)
-    {
-        try {
-            $validator = Validator::make($request->all(), [
-                'otp' => 'required|string|max:6', // Assuming OTP is a 6-digit string
-            ]);
-
-            if ($validator->fails()) {
-                return response()->json(['error' => $validator->errors()->first()], 422);
-            }
-
-            $otp = $request->otp;
-
-            // Check if the latest OTP exists in the database where expire = 0
-            $otpRecord = Otp::where('otp', $otp)
-                ->where('expire', 0)
-                ->latest() // Get the latest record first
-                ->first();
-
-            if (!$otpRecord) {
-                // Check if the OTP exists but has expired
-                $expiredOtp = Otp::where('otp', $otp)
-                    ->where('expire', 1)
-                    ->first();
-
-                if ($expiredOtp) {
-                    return response()->json(['error' => 'OTP has expired. Please resend OTP.'], 422);
-                } else {
-                    return response()->json(['error' => 'Invalid OTP'], 422);
-                }
-            }
-
-            // OTP is valid, you can perform additional actions here if needed
-            return response()->json(['message' => 'OTP verified successfully'], 200);
-        } catch (\Exception $e) {
-            // Log or handle the exception
-            return response()->json(['error' => 'An error occurred while verifying OTP'], 500);
-        }
-    }
-
-
-    // Generate a random OTP
-    private function generateRandomOTP($length = 6)
-    {
-        return str_pad(mt_rand(0, pow(10, $length) - 1), $length, '0', STR_PAD_LEFT);
-    }
-
-    public function updateExpireColumn(Request $request)
-    {
-        $emailOrPhone = $request->input('email_or_phone');
-
-        // Find the OTP record by email or phone number where expire = 0
-        $otp = Otp::where('recipient', $emailOrPhone)
-            ->where('expire', 0)
-            ->first();
-
-        if ($otp) {
-            // Update the 'expire' column to 1
-            $otp->update(['expire' => 1]);
-            return response()->json(['message' => 'Expire column updated successfully'], 200);
+            // Return success response
+            return response()->json(['message' => 'Payment successful. Student details saved.']);
         } else {
-            // If OTP with provided recipient and expire = 0 is not found, update all records with the same recipient and expire = 0 to 1
-            Otp::where('recipient', $emailOrPhone)
-                ->where('expire', 0)
-                ->update(['expire' => 1]);
-            return response()->json(['message' => 'Expire column updated successfully for all related records'], 200);
+            // Payment failed, return error response
+            return response()->json(['message' => 'Payment failed. Please try again.'], 400);
         }
+    }
+
+
+    public function store_student(Request $request)
+    {
+
+        // Get the authenticated user
+        $user = Auth::user();
+
+        // Concatenate first name and last name
+        $fullname = $request->firstname . ' ' . $request->lastname;
+
+        // Update the associated student detail
+        $user->studentDetail->update([
+            'fullname' => $fullname,
+            'gender' => $request->gender,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'address' => $request->address,
+            'state' => $request->state,
+            'city' => $request->city,
+            'college_name' => $request->college_name,
+            'year' => $request->year,
+            'branch' => $request->branch,
+            'area_of_interest' => $request->area_of_interest,
+            'cgpa' => $request->cgpa,
+        ]);
+
+        // Optionally, you can redirect the user after successful submission
+        return redirect()->route('/')->with('success', 'Student details updated successfully.');
     }
 }
