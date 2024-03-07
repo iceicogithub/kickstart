@@ -12,7 +12,7 @@ use Laravel\Socialite\Facades\Socialite;
 use App\Models\User;
 use Exception;
 use Illuminate\Support\Facades\Log;
-
+use Razorpay\Api\Api;
 
 class StudentController extends Controller
 {
@@ -202,40 +202,96 @@ class StudentController extends Controller
         return view('student.dashboard', compact('studentDashboard'));
     }
 
-    public function studentRegister(Request $request){
+    // public function studentRegister(Request $request){
+    //     // dd($request);
+    //     // die();
+    //     $validate=Validator::make($request->all(),
+    //     [
+    //         'student_id'=> ['required','string','max:255'],
+    //         'fullname'=> ['required','string','max:255'],
+    //         'gender'=> ['required','string','max:255'],
+    //         'email'=> ['required','string','max:255'],
+    //         'phone'=> ['required','string','max:255'],
+    //         'profession'=>['required','string','max:255'],
+    //         'address'=> ['required','string','max:255'],
+    //         'college_name'=> ['required','string','max:255'],
+    //         'year'=> ['required','string','max:255'],
+    //         'branch'=> ['required','string','max:255'],
+    //         'area_of_interest'=> ['required','string','max:255'],
+    //         'cgpa'=>['required','string','max:255'],
+    //     ]);
+
+    //     // If validation fails, redirect back with errors
+    //     if ($validate->fails()) {
+    //         return redirect()->back()->withErrors($validate)->withInput();
+    //     }
+
+    //     $Studetail = StudentDetail::create(
+    //         [
+    //             'gender'=>$request->gender,
+    //             'address'=>$request->address,
+    //             'college_name'=>$request->college_name,
+    //             'year'=>$request->year,
+    //             'branch'=>$request->branch,
+    //             'area_of_interest'=>$request->area_of_interest,
+    //             'cgpa'=>$request->cgpa
+    //         ]);
+    // }
+    
+
+    public function processPayment(Request $request)
+    {
         dd($request);
         die();
-        $validate=Validator::make($request->all(),
-        [
-            'student_id'=> ['required','string','max:255'],
-            'fullname'=> ['required','string','max:255'],
-            'gender'=> ['required','string','max:255'],
-            'email'=> ['required','string','max:255'],
-            'phone'=> ['required','string','max:255'],
-            'profession'=>['required','string','max:255'],
-            'address'=> ['required','string','max:255'],
-            'college_name'=> ['required','string','max:255'],
-            'year'=> ['required','string','max:255'],
-            'branch'=> ['required','string','max:255'],
-            'area_of_interest'=> ['required','string','max:255'],
-            'cgpa'=>['required','string','max:255'],
-        ]);
+        // Initialize Razorpay API with your key and secret
+        $api = new Api('rzp_test_ci8sxj5IUpXRv1', 'LWdNlyPjctgEHhDrUDnVy7cD');
+        
+        // Fetch payment details from Razorpay
+        $payment_id = $request->razorpay_payment_id;
+        $payment = $api->payment->fetch($payment_id);
 
-        // If validation fails, redirect back with errors
-        if ($validate->fails()) {
-            return redirect()->back()->withErrors($validate)->withInput();
+        // Verify the payment
+        if ($payment->status == 'authorized' || $payment->status == 'captured') {
+            // Payment successful, store student details in the database
+            $this->store_student($request);
+
+            // Return success response
+            return response()->json(['message' => 'Payment successful. Student details saved.']);
+        } else {
+            // Payment failed, return error response
+            return response()->json(['message' => 'Payment failed. Please try again.'], 400);
         }
-
-        $Studetail = StudentDetail::create(
-            [
-                'gender'=>$request->gender,
-                'address'=>$request->address,
-                'college_name'=>$request->college_name,
-                'year'=>$request->year,
-                'branch'=>$request->branch,
-                'area_of_interest'=>$request->area_of_interest,
-                'cgpa'=>$request->cgpa
-            ]);
     }
+    
+
+    public function store_student(Request $request)
+{
+    dd($request);
+    die();
+    // Get the authenticated user
+    $user = Auth::user();
+
+    // Concatenate first name and last name
+    $fullname = $request->firstname . ' ' . $request->lastname;
+
+    // Update the associated student detail
+    $user->studentDetail->update([
+        'fullname' => $fullname,
+        'gender' => $request->gender,
+        'email' => $request->email,
+        'phone' => $request->phone,
+        'address' => $request->address,
+        'state' => $request->state,
+        'city' => $request->city,
+        'college_name' => $request->college_name,
+        'year' => $request->year,
+        'branch' => $request->branch,
+        'area_of_interest' => $request->area_of_interest,
+        'cgpa' => $request->cgpa,
+    ]);
+
+    // Optionally, you can redirect the user after successful submission
+    return redirect()->route('/')->with('success', 'Student details updated successfully.');
+}
 
 }

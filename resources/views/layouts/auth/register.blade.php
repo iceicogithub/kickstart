@@ -54,7 +54,7 @@
         <div class="col-lg-6">
             <div class="modal-content cs_modal">
                 <div class="modal-header theme_bg_1 justify-content-center">
-                    <h5 class="modal-title text_white">Resister</h5>
+                    <h5 class="modal-title text_white">Register</h5>
                 </div>
                 <div class="modal-body">
                     <form action="{{ route('student.register') }}" method="post">

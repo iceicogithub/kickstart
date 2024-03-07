@@ -11,7 +11,7 @@ class StudentDetail extends Model
     protected $table = 'student_details';
 
     protected $fillable = [
-        'student_id', 'fullname','gender','email', 'phone','address','college_name','year','branch','area_of_interest','cgpa','profession','website', 'github', 'twitter', 'facebook', 'profile',
+        'student_id', 'fullname','gender','email', 'phone','address', 'state', 'city' ,'college_name','year','branch','area_of_interest','cgpa','profession','website', 'github', 'twitter', 'facebook', 'profile',
     ];
 
     public function student()
