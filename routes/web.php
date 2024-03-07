@@ -57,11 +57,8 @@ Route::middleware('guest:student')->group(function () {
     Route::post('verify-otp', [StudentController::class, 'verifyOtp'])->name('verify-otp');
     Route::post('/update-expire-column', [StudentController::class, 'updateExpireColumn'])->name('update-expire-column');
     Route::post('/check-user-existence', [ForgotPasswordController::class, 'checkUserExistence'])->name('checkUserExistence');
-    Route::post('/send-forgot-password-email',[ForgotPasswordController::class, 'sendForgotPasswordEmail'])->name('sendForgotPasswordEmail');
-    Route::get('/reset-password/{token}',[ForgotPasswordController::class, 'showResetPasswordForm'])->name('showResetPasswordForm');
-
-
-
+    Route::post('/send-forgot-password-email', [ForgotPasswordController::class, 'sendForgotPasswordEmail'])->name('sendForgotPasswordEmail');
+    Route::get('/reset-password/{token}', [ForgotPasswordController::class, 'showResetPasswordForm'])->name('resetPassword');
 });
 
 Route::middleware('auth:student')->group(function () {

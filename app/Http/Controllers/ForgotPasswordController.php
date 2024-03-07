@@ -11,9 +11,24 @@ use App\Models\Otp;
 use Illuminate\Support\Str;
 
 
-class ForgotPasswordController extends Controller
+class ForgotPasswordController  extends Controller
 {
     public function checkUserExistence(Request $request)
+    {
+        $emailOrPhone = $request->email_or_phone;
+        $user = Student::where('email', $emailOrPhone)
+            ->orWhere('phone', $emailOrPhone)
+            ->first();
+        if ($user) {
+            // User exists, send email or phone verification
+            // Your email or SMS sending logic here
+            return response()->json(['status' => 'success', 'message' => 'Please check your email or phone for password reset instructions.']);
+        } else {
+            // User doesn't exist
+            return response()->json(['status' => 'error', 'message' => 'User does not exist.']);
+        }
+    }
+    public function sendForgotPasswordEmail(Request $request)
     {
         try {
             $emailOrPhone = $request->email_or_phone;
@@ -22,12 +37,17 @@ class ForgotPasswordController extends Controller
                 ->first();
 
             if ($user) {
-                // Simulate sending email by returning reset password link
+                // Generate a unique token for the reset password link
                 $token = Str::random(60);
+
+                // Store the token in the user's record in the database
                 $user->reset_password_token = $token;
                 $user->save();
 
-                return response()->json(['status' => 'success', 'message' => 'Reset password link generated.', 'reset_link' => url('/reset-password/' . $token)]);
+                // Send email with reset password link
+                Mail::to($user->email)->send(new ForgotPasswordMail($user));
+
+                return response()->json(['status' => 'success', 'message' => 'Password reset instructions sent to your email.']);
             } else {
                 return response()->json(['status' => 'error', 'message' => 'User does not exist.']);
             }
@@ -45,7 +65,7 @@ class ForgotPasswordController extends Controller
                 abort(404); // Or redirect to a different page with an error message
             }
 
-            return view('reset_password_form')->with('token', $token);
+            return view('otp.reset_password_form', ['token' => $token]); // Pass $token to the view as an array
         } catch (\Exception $e) {
             // Log or handle the exception as needed
             return response()->json(['status' => 'error', 'message' => $e->getMessage()]);

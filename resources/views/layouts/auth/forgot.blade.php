@@ -94,6 +94,37 @@
                                 title: 'User Found',
                                 text: response.message
                             });
+                            // Call the route to send forgot password email
+                            $.ajax({
+                                type: 'POST',
+                                url: '{{ route('sendForgotPasswordEmail') }}',
+                                data: {
+                                    "_token": "{{ csrf_token() }}",
+                                    email_or_phone: emailOrPhone
+                                },
+                                success: function(response) {
+                                    if (response.status == 'success') {
+                                        // Swal.fire({
+                                        //     icon: 'success',
+                                        //     title: 'Email Sent',
+                                        //     text: response.message
+                                        // });
+                                    } else {
+                                        Swal.fire({
+                                            icon: 'error',
+                                            title: 'Failed to Send Email',
+                                            text: response.message
+                                        });
+                                    }
+                                },
+                                error: function(xhr, status, error) {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Error',
+                                        text: error
+                                    });
+                                }
+                            });
                         } else {
                             Swal.fire({
                                 icon: 'error',

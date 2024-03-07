@@ -7,9 +7,17 @@
     </div>
     <ul id="sidebar_menu">
         <li class="mm-active">
-            <a class="" href="#" aria-expanded="false">
+            <a class="" href="{{Route('/')}}" aria-expanded="false">
                 <div class="icon_menu">
                     <img src="{{asset('studentdashboard/img/menu-icon/dashboard.svg')}}" alt />
+                </div>
+                <span>Home</span>
+            </a>
+        </li>
+        <li class="mm-active">
+            <a class="" href="{{ route('student.dashboard', ['id' => auth()->guard('student')->id()]) }}" aria-expanded="false">
+                <div class="icon_menu">
+                    <img src="{{asset('studentdashboard/img/menu-icon/13.svg')}}" alt />
                 </div>
                 <span>Dashboard</span>
             </a>

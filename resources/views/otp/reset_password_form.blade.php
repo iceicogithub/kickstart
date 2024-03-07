@@ -57,9 +57,9 @@
                     <h5 class="modal-title text_white">Reset Password</h5>
                 </div>
                 <div class="modal-body">
-                    <form method="POST" action="{{ route('resetPassword') }}">
+                    <form method="POST" action="">
                         @csrf
-                        <input type="hidden" name="token" value="{{ $token }}">
+                        <input type="hidden" name="token" value="">
                         <div class="form-group">
                             <label for="password">New Password</label>
                             <input type="password" class="form-control" id="password" name="password" required>
