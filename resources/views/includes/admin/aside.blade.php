@@ -81,17 +81,17 @@
                     </a>
                     <ul class="submenu-angle" aria-expanded="true">
                         <li>
-                            <a title="Category" href="">
+                            <a title="Category" href="{{route('category.index')}}">
                                 <span class="mini-sub-pro">Category</span>
                             </a>
                         </li>
                         <li>
-                            <a title="Chapter" href="">
+                            <a title="Chapter" href="{{route('chapter.index')}}">
                                 <span class="mini-sub-pro">Chapter</span>
                             </a>
                         </li>
                         <li>
-                            <a title="Topic" href="">
+                            <a title="Topic" href="{{route('topic.index')}}">
                                 <span class="mini-sub-pro">Topic</span>
                             </a>
                         </li>

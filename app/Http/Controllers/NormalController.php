@@ -7,21 +7,16 @@ use Illuminate\Support\Facades\Artisan;
 
 class NormalController extends Controller
 {
-    public function index()
-    {
-        return view('layouts.index');
-    }
+    // public function index()
+    // {
+    //     return view('layouts.index');
+    // }
 
     public function registrationPage()
     {
         return view('student.registration');
     }
-
-    public function topics()
-    {
-        return view('tests.topics');
-    }
-
+    
     public function question_answer()
     {
         return view('tests.question&answer');

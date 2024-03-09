@@ -119,6 +119,7 @@
 
     <script src="{{ asset('studentdashboard/js/dashboard_init.js') }}"></script>
     <script src="{{ asset('studentdashboard/js/custom.js') }}"></script>
+    @yield('script')
 </body>
 
 </html>
