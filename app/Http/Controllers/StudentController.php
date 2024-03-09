@@ -245,6 +245,9 @@ class StudentController extends Controller
         // Initialize Razorpay API with your key and secret
         $api = new Api('rzp_test_ci8sxj5IUpXRv1', 'LWdNlyPjctgEHhDrUDnVy7cD');
         
+        dd($request);
+        die();
+
         // Fetch payment details from Razorpay
         $payment_id = $request->razorpay_payment_id;
         $payment = $api->payment->fetch($payment_id);
