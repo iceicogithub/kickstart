@@ -46,6 +46,18 @@
         .form_size {
             height: 100vh;
         }
+
+        /* Chrome, Safari, Edge, Opera */
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* Firefox */
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
     </style>
 </head>
 
@@ -62,7 +74,8 @@
                         <div class="row">
                             <div class="col-md-9 col-sm-12 col-lg-9">
                                 <input type="text" name="email_or_phone" id="email_or_phone"
-                                    placeholder="Email or Phone" class="d-block w-100 p-3 mb-4 rounded-3">
+                                    placeholder="Email or Phone" class="d-block w-100 p-3 mb-4 rounded-3"
+                                    pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}|[0-9]{10}" required>
                                 <div class="text-danger" id="email_phone_error" style="display: none;"></div>
                             </div>
                             @error('email_or_phone')
@@ -71,11 +84,13 @@
                             <div class="col-lg-3 col-md-3 col-sm-12">
                                 <button type="button" id="getotp" title="Get Otp For Verification"
                                     class="btn btn-danger btn-lg py-2 w-100">Get OTP</button>
+                                <button type="button" id="verify_done" title="Verified Successfully"
+                                    class="btn btn-success btn-lg py-2 w-100 d-none" disabled>Verified</button>
                             </div>
                         </div>
                         <div class="row d-flex" id="verify" style="display: none!important;">
                             <div class="col-md-9 col-sm-12 col-lg-9">
-                                <input type="text" name="verify_otp" id="verify_otp" placeholder="Enter Otp"
+                                <input type="number" name="verify_otp" id="verify_otp" placeholder="Enter Otp"
                                     class="d-block w-100 p-3 mb-4 rounded-3">
                                 <div class="text-danger" id="otp_error" style="display: none;"></div>
                             </div>
@@ -89,14 +104,14 @@
                         </div>
                         <div class="col-md-12 col-sm-12 col-lg-12">
                             <input type="password" name="password" placeholder="Create a Password"
-                                class="d-block w-100 p-3 mb-4 rounded-3">
+                                class="d-block w-100 p-3 mb-4 rounded-3" required>
                         </div>
                         @error('password')
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
                         <div class="col-md-12 col-sm-12 col-lg-12">
                             <input type="password" name="password_confirmation" placeholder="Confirm a Password"
-                                class="d-block w-100 p-3 mb-4 rounded-3">
+                                class="d-block w-100 p-3 mb-4 rounded-3" required>
                         </div>
                         @error('password_confirmation')
                             <div class="text-danger">{{ $message }}</div>
@@ -110,8 +125,9 @@
                             {{-- <a href="{{ url('/googleLogin') }}" class="d-block bg-primary w-100 p-3 border-0 rounded-3 text-white">
                                 <i class="fab fa-google text-white"></i> Continue With Google
                             </a> --}}
-                            <a href="{{ url('/googleLogin') }}" class="d-block w-100 p-3 mb-4 border-0 rounded-3 text-white btn btn-primary">
-                                <i class="fab fa-google text-white"></i> Signup with Google</a>               
+                            <a href="{{ url('/googleLogin') }}"
+                                class="d-block w-100 p-3 mb-4 border-0 rounded-3 text-white btn btn-primary">
+                                <i class="fab fa-google text-white"></i> Signup with Google</a>
                         </div>
                         <div class="text-center text-black"><span class="">Already have an account?<a
                                     href="{{ route('student.login') }}" class="text-decoration-none"> Login
@@ -123,10 +139,31 @@
         </div>
     </div>
 
+    <!-- SweetAlert CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <script>
+        $(document).ready(function() {
+            $('#email_or_phone').on('input', function() {
+                var value = $(this).val();
+                var isValid = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(value) ||
+                    /^[0-9]{10}$/.test(value);
+                if (!isValid) {
+                    $('#email_phone_error').text('Please enter a valid email or 10-digit phone number.');
+                    $('#email_phone_error').show();
+                    $('#getotp').prop('disabled', true);
+                } else {
+                    $('#email_phone_error').hide();
+                    $('#getotp').prop('disabled', false);
+                }
+            });
+        });
+
         document.addEventListener('DOMContentLoaded', function() {
             const getOtpBtn = document.getElementById('getotp');
             const verifyDiv = document.getElementById('verify');
+            let countdown = 25;
 
             getOtpBtn.addEventListener('click', function(event) {
                 event.preventDefault();
@@ -137,7 +174,33 @@
                     displayError('email_phone_error', 'Please enter your email or phone number.');
                 } else {
                     hideError('email_phone_error');
-                    showElement(verifyDiv);
+                    fetch('{{ route('generate-otp') }}', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                            },
+                            body: JSON.stringify({
+                                email_or_phone: emailOrPhoneInput.value
+                            })
+                        })
+                        .then(response => {
+                            if (response.ok) {
+                                showElement(verifyDiv);
+                                startCountdown();
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Oops...',
+                                    text: 'Failed to send OTP or User Already Exists. Please try again.',
+                                });
+                                hideElement(verifyDiv);
+                                stopCountdown();
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                        });
                 }
             });
 
@@ -154,6 +217,183 @@
 
             function showElement(element) {
                 element.style.display = 'block';
+            }
+
+            function hideElement(element) {
+                // element.style.display = 'none';
+                document.getElementById('verify').classList.add('d-none');
+
+            }
+
+            function startCountdown() {
+                $('#getotp').prop('disabled', true);
+                let interval = setInterval(function() {
+                    if (countdown <= 0) {
+                        clearInterval(interval);
+                        $('#getotp').text('Resend OTP');
+                        $('#getotp').prop('disabled', false);
+                        countdown = 25;
+                        updateExpireColumn();
+                    } else {
+                        $('#getotp').text(formatTime(countdown));
+                        countdown--;
+                    }
+                }, 1000);
+            }
+
+            // Function to update expire column to 1
+            function updateExpireColumn() {
+                const emailOrPhone = document.getElementById('email_or_phone').value;
+                fetch('{{ route('update-expire-column') }}', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        body: JSON.stringify({
+                            email_or_phone: emailOrPhone
+                        })
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            // console.log('Expire column updated successfully');
+                        } else {
+                            console.error('Failed to update expire column');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            }
+
+            function stopCountdown() {
+                clearInterval(interval);
+            }
+
+            function formatTime(seconds) {
+                let minutes = Math.floor(seconds / 60);
+                let remainingSeconds = seconds % 60;
+                return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+            }
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const getOtpButton = document.getElementById('getotp');
+            const verifyOtpButton = document.getElementById('verifyotp');
+
+            verifyOtpButton.addEventListener('click', function() {
+                const otp = document.getElementById('verify_otp').value;
+
+                fetch('{{ route('verify-otp') }}', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        body: JSON.stringify({
+                            otp: otp
+                        })
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            // Hide the verification block
+                            document.getElementById('verify').classList.add('d-none');
+                            document.getElementById('verify').classList.remove('d-flex');
+
+                            // Show the "Verified" button and hide the "Get OTP" button
+                            document.getElementById('getotp').classList.add('d-none');
+                            document.getElementById('verify_done').classList.remove('d-none');
+
+                            // Show success message if OTP is verified
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success!',
+                                text: 'OTP verified successfully',
+                                onClose: () => {
+                                    // Clear the OTP input field after successful verification
+                                    document.getElementById('verify_otp').value = '';
+                                }
+                            });
+
+                            // Clear the interval to stop the countdown
+                            clearInterval(interval);
+                            countdown = 0;
+                        } else {
+                            response.json().then(data => {
+                                if (data.error.includes('expired')) {
+                                    // Display error message if OTP has expired
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Oops...',
+                                        text: data.error,
+                                    });
+                                } else {
+                                    // Show error message if OTP verification fails for other reasons
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Oops...',
+                                        text: 'Invalid OTP',
+                                    });
+                                }
+                            });
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            });
+
+            // Function to start countdown timer
+            function startCountdown() {
+                $('#getotp').prop('disabled', true);
+                interval = setInterval(function() {
+                    if (countdown <= 0) {
+                        clearInterval(interval);
+                        $('#getotp').text('Resend OTP');
+                        $('#getotp').prop('disabled', false);
+                        countdown = 25;
+                    } else {
+                        $('#getotp').text(formatTime(countdown));
+                        countdown--;
+                    }
+                }, 1000);
+            }
+
+        });
+    </script>
+    <script>
+        const signupButton = document.querySelector('button[type="submit"]');
+
+        signupButton.addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent form submission
+
+            // Check if the OTP is verified
+            if (document.getElementById('getotp').classList.contains('d-none')) {
+                // OTP is verified, proceed with form submission
+
+                // Check if the password fields are empty
+                const passwordInput = document.querySelector('input[name="password"]');
+                const confirmPasswordInput = document.querySelector('input[name="password_confirmation"]');
+
+                if (passwordInput.value.trim() === '' || confirmPasswordInput.value.trim() === '') {
+                    // Password fields are empty, prompt the user to enter a password
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Oops...',
+                        text: 'Please enter a password to complete the signup process',
+                    });
+                } else {
+                    // Passwords are entered, submit the form
+                    document.querySelector('form').submit();
+                }
+            } else {
+                // OTP is not verified, show error message
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Please verify your OTP first',
+                });
             }
         });
     </script>

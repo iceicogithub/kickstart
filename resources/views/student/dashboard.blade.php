@@ -59,213 +59,30 @@
     {{-- section starts --}}
 
     <div class="row row-cols-1 row-cols-md-3 g-4">
-
-        <div class="col">
-            <div class="white_card card_height_100 mb_20 shadow">
-                <div class="card-body">
-                    <h5 class="main-title fw-bold">General Aptitude</h5>
-                    <div class="card-content card-style-list d-flex justify-content-between">
-                        <div class="card-icon mdi-chart-donut-variant">
-                            <ul id="list">
-                                <li><a href="{{route('tests.topics')}}" class="nav-link">Arithmetic Aptitude</a></li>
-                                <li><a href="" class="nav-link">Data Interpretation</a></li>
-                                <li><a href="" class="nav-link">Online Aptitude Test</a></li>
-                                <li><a href="" class="nav-link">Data Interpretation Test</a></li>
-                            </ul>
-                        </div>
-                        <div class="">
-                            <img src="{{ '/img/aptitude.png' }}" class="dashboard_icons">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="col">
-            <div class="card white_card card_height_100 mb_20 shadow">
-                <div class="card-body">
-                    <h5 class="main-title fw-bold">Verbal and Reasoning
-                    </h5>
-                    <div class="card-content card-style-list">
-                        <div class="card-icon mdi-chart-donut-variant ">
-                            <ul>
-                                <li><a href="" class="nav-link">Verbal Ability</a></li>
-                                <li><a href="" class="nav-link">Logical Reasoning</a></li>
-                                <li><a href="" class="nav-link">Verbal Reasoning</a></li>
-                                <li><a href="" class="nav-link">Non Verbal Reasoning</a></li>
-                            </ul>
-                        </div>
-                        <div class="">
-                            <img src="{{ '/img/settings.png' }}" class="dashboard_icons">
+        @foreach ($category as $cat)
+            <div class="col">
+                <div class="white_card card_height_100 mb_20 shadow">
+                    <div class="card-body">
+                        <h5 class="main-title fw-bold">{{ $cat->category }}</h5>
+                        <div class="card-content card-style-list d-flex justify-content-between">
+                            <div class="card-icon mdi-chart-donut-variant">
+                                <ul id="list">
+                                    @foreach ($chapter->where('category_id', $cat->id)->take(4) as $chap)
+                                        <li>
+                                            <a href="{{ route('chapter.topics', ['id' => $chap->id, 'chapter' => $chap->chapter]) }}"
+                                                class="nav-link">{{ $chap->chapter }}</a>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                            <div class="">
+                                <img src="{{ '/flaticons/' . $loop->iteration . '.png' }}" class="dashboard_icons">
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-
-        <div class="col">
-            <div class="card white_card card_height_100 mb_20 shadow">
-                <div class="card-body">
-                    <h5 class="main-title fw-bold">Current Affairs & GK
-                    </h5>
-                    <div class="card-content card-style-list">
-                        <div class="card-icon mdi-chart-donut-variant ">
-                            <ul>
-                                <li><a href="" class="nav-link">Current Affairs</a></li>
-                                <li><a href="" class="nav-link">Basic General Knowledge</a></li>
-                                <li><a href="" class="nav-link">General Science</a></li>
-                                <li><a href="" class="nav-link">Read more...</a></li>
-                            </ul>
-                        </div>
-                        <div class="">
-                            <img src="{{ '/img/book.png' }}" class="dashboard_icons">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-    <div class="row row-cols-1 row-cols-md-3 g-4">
-
-        <div class="col">
-            <div class="white_card card_height_100 mb_20 shadow">
-                <div class="card-body">
-                    <h5 class="main-title fw-bold">Interview
-                    </h5>
-                    <div class="card-content card-style-list">
-                        <div class="card-icon mdi-chart-donut-variant ">
-                            <ul>
-                                <li><a href="" class="nav-link">Placement Papers</a></li>
-                                <li><a href="" class="nav-link">Group Discussion</a></li>
-                                <li><a href="" class="nav-link">HR Interview</a></li>
-                                <li><a href="" class="nav-link">Read more...</a></li>
-                            </ul>
-                        </div>
-                        <div class="">
-                            <img src="{{ '/img/interview.png' }}" class="dashboard_icons">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="col">
-            <div class="card white_card card_height_100 mb_20 shadow">
-                <div class="card-body">
-                    <h5 class="main-title fw-bold">Engineering
-                    </h5>
-                    <div class="card-content card-style-list">
-                        <div class="card-icon mdi-chart-donut-variant ">
-                            <ul>
-                                <li><a href="" class="nav-link">Mechanical Engineering</a></li>
-                                <li><a href="" class="nav-link">Civil Engineering</a></li>
-                                <li><a href="" class="nav-link">ECE , EEE , CSE</a></li>
-                                <li><a href="" class="nav-link">Chemical Engineering</a></li>
-                            </ul>
-                        </div>
-                        <div class="">
-                            <img src="{{ '/img/worker.png' }}" class="dashboard_icons">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col">
-            <div class="card white_card card_height_100 mb_20 shadow">
-                <div class="card-body">
-                    <h5 class="main-title fw-bold">Programming</h5>
-                    <div class="card-content card-style-list">
-                        <div class="card-icon mdi-chart-donut-variant ">
-                            <ul>
-                                <li><a href="" class="nav-link">C programming</a></li>
-                                <li><a href="" class="nav-link">C++ programming</a></li>
-                                <li><a href="" class="nav-link">C# programming</a></li>
-                                <li><a href="" class="nav-link">Java programming</a></li>
-                            </ul>
-                        </div>
-                        <div class="">
-                            <img src="{{ '/img/data.png' }}" class="dashboard_icons">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-    <div class="row row-cols-1 row-cols-md-3 g-4">
-
-        <div class="col">
-            <div class="white_card card_height_100 mb_20 shadow">
-                <div class="card-body">
-                    <h5 class="main-title fw-bold">Online Tests
-                    </h5>
-                    <div class="card-content card-style-list">
-                        <div class="card-icon mdi-chart-donut-variant ">
-                            <ul>
-                                <li><a href="" class="nav-link">Arithmetic Aptitude</a></li>
-                                <li><a href="" class="nav-link">Data Interpretation</a></li>
-                                <li><a href="" class="nav-link">Online Aptitude Test</a></li>
-                                <li><a href="" class="nav-link">Data Interpretation Test</a></li>
-                            </ul>
-                        </div>
-                        <div class="">
-                            <img src="{{ '/img/online-education.png' }}" class="dashboard_icons">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="col">
-            <div class="card white_card card_height_100 mb_20 shadow">
-                <div class="card-body">
-                    <h5 class="main-title fw-bold">Technical MCQs
-                    </h5>
-                    <div class="card-content card-style-list">
-                        <div class="card-icon mdi-chart-donut-variant ">
-                            <ul>
-                                <li><a href="" class="nav-link">Arithmetic Aptitude</a></li>
-                                <li><a href="" class="nav-link">Data Interpretation</a></li>
-                                <li><a href="" class="nav-link">Online Aptitude Test</a></li>
-                                <li><a href="" class="nav-link">Data Interpretation Test</a></li>
-                            </ul>
-                        </div>
-                        <div class="">
-                            <img src="{{ '/img/exam.png' }}" class="dashboard_icons">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col">
-            <div class="card white_card card_height_100 mb_20 shadow">
-                <div class="card-body">
-                    <h5 class="main-title fw-bold">Technical Short Answers
-                    </h5>
-                    <div class="card-content card-style-list">
-                        <div class="card-icon mdi-chart-donut-variant ">
-                            <ul>
-                                <li><a href="" class="nav-link">Arithmetic Aptitude</a></li>
-                                <li><a href="" class="nav-link">Data Interpretation</a></li>
-                                <li><a href="" class="nav-link">Online Aptitude Test</a></li>
-                                <li><a href="" class="nav-link">Data Interpretation Test</a></li>
-                            </ul>
-                        </div>
-                        <div class="">
-                            <img src="{{ '/img/result.png' }}" class="dashboard_icons">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        @endforeach
 
     </div>
 @endsection

@@ -74,6 +74,40 @@
                         </li>
                     </ul>
                 </li>
+                <li>
+                    <a class="has-arrow" href="#">
+                        <i class="icon nalika-folder icon-wrap"></i>
+                        <span class="mini-click-non">Elements</span>
+                    </a>
+                    <ul class="submenu-angle" aria-expanded="true">
+                        <li>
+                            <a title="Category" href="{{route('category.index')}}">
+                                <span class="mini-sub-pro">Category</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a title="Chapter" href="{{route('chapter.index')}}">
+                                <span class="mini-sub-pro">Chapter</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a title="Topic" href="{{route('topic.index')}}">
+                                <span class="mini-sub-pro">Topic</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a title="Question Paper" href="">
+                                <span class="mini-sub-pro">Question Paper</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="icon nalika-settings icon-wrap"></i>
+                        <span class="mini-click-non">Setting</span>
+                    </a>
+                </li>
             </ul>
         </nav>
     </div>

@@ -32,8 +32,6 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request);
-        // die();
         // Validate the request
         $validator = Validator::make($request->all(), [
             'name' => ['required', 'string', 'max:255'],
