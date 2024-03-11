@@ -14,7 +14,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
         integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-
 </head>
 
 <body>
@@ -88,6 +87,7 @@
 
             <form method="post" action="{{ route('store.student') }}">
                 @csrf
+                @foreach($formData as $data)
                 <div class="d-lg-flex d-md-flex d-sm-flex">
                     <div class="input-group mb-4 px-2">
                         <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-user"></i></span>
@@ -106,13 +106,13 @@
                     <div class="input-group mb-4 px-2">
                         <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-envelope"></i></span>
                         <input type="email" class="form-control" placeholder="Email" aria-label="Username"
-                            aria-describedby="basic-addon1" name="email">
+                            aria-describedby="basic-addon1" name="email" value="{{ $data->email ?? '' }}">
                     </div>
 
                     <div class="input-group mb-4 px-2">
                         <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-mobile"></i></span>
                         <input type="number" class="form-control" placeholder="Mobile" aria-label="Username"
-                            aria-describedby="basic-addon1" name="phone">
+                            aria-describedby="basic-addon1" name="phone" value="{{ $data->phone ?? '' }}">
                     </div>
                 </div>
 
@@ -156,20 +156,20 @@
                 <div class="input-group mb-4 px-2">
                     <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-location-dot"></i></span>
                     <input type="text" class="form-control" placeholder="Address" aria-label="Username"
-                        aria-describedby="basic-addon1" name="address">
+                        aria-describedby="basic-addon1" name="address" value="{{ $data->address ?? '' }}">
                 </div>
 
                 <div class="d-lg-flex d-md-flex d-sm-flex">
                     <div class="input-group mb-4 px-2">
                         <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-map-pin"></i></span>
                         <input type="text" class="form-control" placeholder="State" aria-label="Username"
-                            aria-describedby="basic-addon1" name="state">
+                            aria-describedby="basic-addon1" name="state" value="{{ $data->state ?? '' }}">
                     </div>
 
                     <div class="input-group mb-4 px-2">
                         <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-city"></i></span>
                         <input type="text" class="form-control" placeholder="City" aria-label="Username"
-                            aria-describedby="basic-addon1" name="city">
+                            aria-describedby="basic-addon1" name="city" value="{{ $data->city ?? '' }}">
                     </div>
                 </div>
 
@@ -181,7 +181,7 @@
                     <span class="input-group-text" id="basic-addon1"><i
                             class="fa-solid fa-building-columns"></i></span>
                     <input type="text" class="form-control" placeholder="College name" aria-label="Username"
-                        aria-describedby="basic-addon1" name="college_name">
+                        aria-describedby="basic-addon1" name="college_name" value="{{ $data->college_name ?? '' }}">
                 </div>
 
                 <div class="d-lg-flex d-md-flex d-sm-flex">
@@ -189,14 +189,14 @@
                         <span class="input-group-text" id="basic-addon1"><i
                                 class="fa-solid fa-calendar-days"></i></span>
                         <input type="text" class="form-control" placeholder="Year" aria-label="Username"
-                            aria-describedby="basic-addon1" name="year">
+                            aria-describedby="basic-addon1" name="year" value="{{ $data->year ?? '' }}">
                     </div>
 
                     <div class="input-group mb-4 px-2">
                         <span class="input-group-text" id="basic-addon1"><i
                                 class="fa-solid fa-code-branch"></i></span>
                         <input type="text" class="form-control" placeholder="Branch" aria-label="Username"
-                            aria-describedby="basic-addon1" name="branch">
+                            aria-describedby="basic-addon1" name="branch" value="{{ $data->branch ?? '' }}">
                     </div>
                 </div>
 
@@ -205,25 +205,27 @@
                         <span class="input-group-text" id="basic-addon1"><i
                                 class="fa-solid fa-magnifying-glass"></i></span>
                         <input type="text" class="form-control" placeholder="Area of Interest"
-                            aria-label="Username" aria-describedby="basic-addon1" name="area_of_interest">
+                            aria-label="Username" aria-describedby="basic-addon1" name="area_of_interest"
+                            value="{{ $data->area_of_interest ?? ''}}">
                     </div>
 
                     <div class="input-group mb-4 px-2">
                         <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-percent"></i></span>
                         <input type="text" class="form-control" placeholder="CGPA/%" aria-label="Username"
-                            aria-describedby="basic-addon1" name="cgpa">
+                            aria-describedby="basic-addon1" name="cgpa" value="{{ $data->cgpa ?? ''}}">
                     </div>
+                    @endforeach
                 </div>
 
-                {{-- <div class="my-4 text-center">
-                    <button type="submit" class="btn btn-warning col-5 shadow">SUBMIT</button>
-                </div> --}}
                 <div class="my-4 text-center">
-                    <button type="button" onclick="showPaymentPopup()" class="btn btn-warning col-5 shadow">Pay Registration Fee</button>
+                    <button type="submit" class="btn btn-warning col-5 shadow">SUBMIT</button>
                 </div>
-            
+                {{-- <div class="my-4 text-center">
+                    <button type="button" onclick="showPaymentPopup()" class="btn btn-warning col-5 shadow">Pay Registration Fee</button>
+                </div> --}}
+
                 <!-- Payment popup -->
-                <div id="paymentPopup" style="display: none;">
+                {{-- <div id="paymentPopup" style="display: none;">
                     <h2>Payment Form</h2>
                     <!-- Razorpay Payment Form -->
                     <form id="paymentForm" action="{{ route('process.payment') }}" method="POST">
@@ -285,14 +287,14 @@
         var rzp = new Razorpay(options);
         rzp.open();
     }
-                </script>
+                </script> --}}
             </form>
-    </div>
+        </div>
 
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous">
-    </script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous">
+        </script>
 </body>
 
 </html>
