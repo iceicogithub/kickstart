@@ -24,7 +24,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
 Route::get('/googleLogin', [StudentController::class, 'googleLogin']);
 Route::get('auth/google/call-back', [StudentController::class, 'googleHandle']);
 
@@ -70,7 +69,8 @@ Route::middleware('auth:student')->group(function () {
     Route::get('/tests/question&answer', [NormalController::class, 'question_answer'])->name('tests.question&answer');
     Route::get('/student/registration', [NormalController::class, 'registrationPage'])->name('student.registration');
     Route::post('/store-student', [StudentController::class, 'store_student'])->name('store.student');
-    Route::post('/process-payment', [StudentController::class, 'processPayment'])->name('process.payment');
+    Route::get('/payment/callback', [StudentController::class, 'handlePaymentCallback'])->name('payment.callback');
+    // Route::post('/process-payment', [StudentController::class, 'processPayment'])->name('process.payment');
 
     // chapter
     Route::get('chapter/{id}',[ChapterController::class, 'show'])->name('chapter.topics');

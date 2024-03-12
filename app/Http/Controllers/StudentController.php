@@ -22,10 +22,10 @@ use Razorpay\Api\Api;
 
 class StudentController extends Controller
 {
-    public function fetchData(){
-        $formData = StudentDetail::all();
-        return view('student.registration',compact('formData'));
-    }
+    // public function fetchData(){
+    //     $formData = StudentDetail::all();
+    //     return view('student.registration',compact('formData'));
+    // }
 
     public function googleLogin()
     {

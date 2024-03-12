@@ -87,210 +87,132 @@
 
             <form method="post" action="{{ route('store.student') }}">
                 @csrf
-                @foreach($formData as $data)
-                <div class="d-lg-flex d-md-flex d-sm-flex">
-                    <div class="input-group mb-4 px-2">
-                        <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-user"></i></span>
-                        <input type="text" class="form-control" placeholder="First Name" aria-label="Username"
-                            aria-describedby="basic-addon1" name="firstname">
+                {{-- @foreach ($formData as $data) --}}
+                    <div class="d-lg-flex d-md-flex d-sm-flex">
+                        <div class="input-group mb-4 px-2">
+                            <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-user"></i></span>
+                            <input type="text" class="form-control" placeholder="First Name" aria-label="Username"
+                                aria-describedby="basic-addon1" name="firstname" value="{{ old('first_name', $firstName) }}">
+                        </div>
+
+                        <div class="input-group mb-4 px-2">
+                            <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-user"></i></span>
+                            <input type="text" class="form-control" placeholder="Last Name" aria-label="Username"
+                                aria-describedby="basic-addon1" name="lastname" value="{{ old('last_name', $lastName) }}">
+                        </div>
                     </div>
 
-                    <div class="input-group mb-4 px-2">
-                        <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-user"></i></span>
-                        <input type="text" class="form-control" placeholder="Last Name" aria-label="Username"
-                            aria-describedby="basic-addon1" name="lastname">
-                    </div>
-                </div>
+                    <div class="d-lg-flex d-md-flex d-sm-flex">
+                        <div class="input-group mb-4 px-2">
+                            <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-envelope"></i></span>
+                            <input type="email" class="form-control" placeholder="Email" aria-label="Username"
+                                aria-describedby="basic-addon1" name="email" value="{{ old('email', $formData->email ?? '') }}">
+                        </div>
 
-                <div class="d-lg-flex d-md-flex d-sm-flex">
-                    <div class="input-group mb-4 px-2">
-                        <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-envelope"></i></span>
-                        <input type="email" class="form-control" placeholder="Email" aria-label="Username"
-                            aria-describedby="basic-addon1" name="email" value="{{ $data->email ?? '' }}">
-                    </div>
-
-                    <div class="input-group mb-4 px-2">
-                        <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-mobile"></i></span>
-                        <input type="number" class="form-control" placeholder="Mobile" aria-label="Username"
-                            aria-describedby="basic-addon1" name="phone" value="{{ $data->phone ?? '' }}">
-                    </div>
-                </div>
-
-                <div class="col-lg-6 col-md-6 mb-4 ms-2">
-                    <p for="exampleText" class="form-label fw-bold">Gender</p>
-                    <input class="form-check-input " type="radio" name="gender" id="flexRadioDefault1"
-                        value="male">
-                    <label class="form-check-label px-2 " for="flexRadioDefault1">
-                        Male
-                    </label>
-
-                    <input class="form-check-input " type="radio" name="gender" id="flexRadioDefault2"
-                        value="female">
-                    <label class="form-check-label px-2 " for="flexRadioDefault1">
-                        Female
-                    </label>
-
-                    <input class="form-check-input " type="radio" name="gender" id="flexRadioDefault3"
-                        value="other">
-                    <label class="form-check-label px-2 " for="flexRadioDefault1">
-                        Other
-                    </label>
-
-                </div>
-                <!-- </div> -->
-
-                {{-- <div class="d-flex">
-                    <div class="input-group mb-4 px-2">
-                        <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-envelope"></i></span>
-                        <input type="email" class="form-control" placeholder="Email" aria-label="Username"
-                            aria-describedby="basic-addon1">
+                        <div class="input-group mb-4 px-2">
+                            <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-mobile"></i></span>
+                            <input type="number" class="form-control" placeholder="Mobile" aria-label="Username"
+                                aria-describedby="basic-addon1" name="phone" value="{{ old('phone', $formData->phone ?? '') }}">
+                        </div>
                     </div>
 
-                    <div class="input-group mb-4 px-2">
-                        <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-mobile"></i></span>
-                        <input type="number" class="form-control" placeholder="Mobile" aria-label="Username"
-                            aria-describedby="basic-addon1">
+                    <div class="col-lg-6 col-md-6 mb-4 ms-2">
+                        <p for="exampleText" class="form-label fw-bold">Gender</p>
+                        <input class="form-check-input " type="radio" name="gender" id="flexRadioDefault1"
+                            value="male">
+                        <label class="form-check-label px-2 " for="flexRadioDefault1">
+                            Male
+                        </label>
+
+                        <input class="form-check-input " type="radio" name="gender" id="flexRadioDefault2"
+                            value="female">
+                        <label class="form-check-label px-2 " for="flexRadioDefault1">
+                            Female
+                        </label>
+
+                        <input class="form-check-input " type="radio" name="gender" id="flexRadioDefault3"
+                            value="other">
+                        <label class="form-check-label px-2 " for="flexRadioDefault1">
+                            Other
+                        </label>
+
                     </div>
-                </div> --}}
+                    <!-- </div> -->
 
-                <div class="input-group mb-4 px-2">
-                    <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-location-dot"></i></span>
-                    <input type="text" class="form-control" placeholder="Address" aria-label="Username"
-                        aria-describedby="basic-addon1" name="address" value="{{ $data->address ?? '' }}">
-                </div>
-
-                <div class="d-lg-flex d-md-flex d-sm-flex">
-                    <div class="input-group mb-4 px-2">
-                        <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-map-pin"></i></span>
-                        <input type="text" class="form-control" placeholder="State" aria-label="Username"
-                            aria-describedby="basic-addon1" name="state" value="{{ $data->state ?? '' }}">
-                    </div>
-
-                    <div class="input-group mb-4 px-2">
-                        <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-city"></i></span>
-                        <input type="text" class="form-control" placeholder="City" aria-label="Username"
-                            aria-describedby="basic-addon1" name="city" value="{{ $data->city ?? '' }}">
-                    </div>
-                </div>
-
-                {{-- clg-details --}}
-
-                <p class="fw-bold h5 text-start ps-2 py-3">College Details:</p>
-
-                <div class="input-group mb-4 px-2">
-                    <span class="input-group-text" id="basic-addon1"><i
-                            class="fa-solid fa-building-columns"></i></span>
-                    <input type="text" class="form-control" placeholder="College name" aria-label="Username"
-                        aria-describedby="basic-addon1" name="college_name" value="{{ $data->college_name ?? '' }}">
-                </div>
-
-                <div class="d-lg-flex d-md-flex d-sm-flex">
-                    <div class="input-group mb-4 px-2">
-                        <span class="input-group-text" id="basic-addon1"><i
-                                class="fa-solid fa-calendar-days"></i></span>
-                        <input type="text" class="form-control" placeholder="Year" aria-label="Username"
-                            aria-describedby="basic-addon1" name="year" value="{{ $data->year ?? '' }}">
-                    </div>
 
                     <div class="input-group mb-4 px-2">
                         <span class="input-group-text" id="basic-addon1"><i
-                                class="fa-solid fa-code-branch"></i></span>
-                        <input type="text" class="form-control" placeholder="Branch" aria-label="Username"
-                            aria-describedby="basic-addon1" name="branch" value="{{ $data->branch ?? '' }}">
+                                class="fa-solid fa-location-dot"></i></span>
+                        <input type="text" class="form-control" placeholder="Address" aria-label="Username"
+                            aria-describedby="basic-addon1" name="address" value="{{ old('address', $formData->address ?? '') }}">
                     </div>
-                </div>
 
-                <div class="d-lg-flex d-md-flex d-sm-flex">
+                    <div class="d-lg-flex d-md-flex d-sm-flex">
+                        <div class="input-group mb-4 px-2">
+                            <span class="input-group-text" id="basic-addon1"><i
+                                    class="fa-solid fa-map-pin"></i></span>
+                            <input type="text" class="form-control" placeholder="State" aria-label="Username"
+                                aria-describedby="basic-addon1" name="state" value="{{ old('state', $formData->state ?? '') }}">
+                        </div>
+
+                        <div class="input-group mb-4 px-2">
+                            <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-city"></i></span>
+                            <input type="text" class="form-control" placeholder="City" aria-label="Username"
+                                aria-describedby="basic-addon1" name="city" value="{{ old('city', $formData->city ?? '') }}">
+                        </div>
+                    </div>
+
+                    {{-- clg-details --}}
+
+                    <p class="fw-bold h5 text-start ps-2 py-3">College Details:</p>
+
                     <div class="input-group mb-4 px-2">
                         <span class="input-group-text" id="basic-addon1"><i
-                                class="fa-solid fa-magnifying-glass"></i></span>
-                        <input type="text" class="form-control" placeholder="Area of Interest"
-                            aria-label="Username" aria-describedby="basic-addon1" name="area_of_interest"
-                            value="{{ $data->area_of_interest ?? ''}}">
+                                class="fa-solid fa-building-columns"></i></span>
+                        <input type="text" class="form-control" placeholder="College name" aria-label="Username"
+                            aria-describedby="basic-addon1" name="college_name"
+                            value="{{ old('college_name', $formData->college_name ?? '') }}">
                     </div>
 
-                    <div class="input-group mb-4 px-2">
-                        <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-percent"></i></span>
-                        <input type="text" class="form-control" placeholder="CGPA/%" aria-label="Username"
-                            aria-describedby="basic-addon1" name="cgpa" value="{{ $data->cgpa ?? ''}}">
+                    <div class="d-lg-flex d-md-flex d-sm-flex">
+                        <div class="input-group mb-4 px-2">
+                            <span class="input-group-text" id="basic-addon1"><i
+                                    class="fa-solid fa-calendar-days"></i></span>
+                            <input type="text" class="form-control" placeholder="Year" aria-label="Username"
+                                aria-describedby="basic-addon1" name="year" value="{{ old('year', $formData->year ?? '') }}">
+                        </div>
+
+                        <div class="input-group mb-4 px-2">
+                            <span class="input-group-text" id="basic-addon1"><i
+                                    class="fa-solid fa-code-branch"></i></span>
+                            <input type="text" class="form-control" placeholder="Branch" aria-label="Username"
+                                aria-describedby="basic-addon1" name="branch" value="">
+                        </div>
                     </div>
-                    @endforeach
-                </div>
 
-                <div class="my-4 text-center">
-                    <button type="submit" class="btn btn-warning col-5 shadow">SUBMIT</button>
-                </div>
-                {{-- <div class="my-4 text-center">
-                    <button type="button" onclick="showPaymentPopup()" class="btn btn-warning col-5 shadow">Pay Registration Fee</button>
-                </div> --}}
+                    <div class="d-lg-flex d-md-flex d-sm-flex">
+                        <div class="input-group mb-4 px-2">
+                            <span class="input-group-text" id="basic-addon1"><i
+                                    class="fa-solid fa-magnifying-glass"></i></span>
+                            <input type="text" class="form-control" placeholder="Area of Interest"
+                                aria-label="Username" aria-describedby="basic-addon1" name="area_of_interest"
+                                value="{{ old('area_of_interest', $formData->area_of_interest ?? '') }}">
+                        </div>
 
-                <!-- Payment popup -->
-                {{-- <div id="paymentPopup" style="display: none;">
-                    <h2>Payment Form</h2>
-                    <!-- Razorpay Payment Form -->
-                    <form id="paymentForm" action="{{ route('process.payment') }}" method="POST">
-                        @csrf
-                        <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-                        <button type="button" onclick="confirmPayment()" class="btn btn-success">Confirm Payment</button> <!-- New Confirm Payment button -->
-                        <input type="hidden" custom="Hidden Element" name="hidden">
-                    </form>
-                    <!-- End of Razorpay Payment Form -->
-            
-                    <!-- Close button for the popup -->
-                    <button type="button" onclick="closePaymentPopup()">Close</button>
-                </div>
-            
-                <!-- Success Modal -->
-                <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
-                    <!-- Your success modal content -->
-                </div>
-            
-                <!-- JavaScript to show/hide payment popup -->
-                <script>
-                    function showSuccessModal() {
-                        $('#successModal').modal('show');
-                    }
-            
-                    function showPaymentPopup() {
-                        var popup = document.getElementById('paymentPopup');
-                        popup.style.display = 'block';
-                    }
-            
-                    function closePaymentPopup() {
-                        var popup = document.getElementById('paymentPopup');
-                        popup.style.display = 'none';
-                    }
-                    function confirmPayment() {
-        // You can perform any validation here before proceeding with payment
-        // For now, let's directly open the Razorpay popup
-        var options = {
-            "key": "rzp_test_ci8sxj5IUpXRv1",
-            "amount": "30000",
-            "currency": "INR",
-            "description": "Acme Corp",
-            "prefill": {
-                "email": "myemail@example.com",
-                "contact": "+919900000000"
-            },
-            "handler": function(response) {
-                // Handle successful payment response here
-                alert('Payment successful!');
-                // You may want to submit the form after successful payment
-                document.getElementById('paymentForm').submit();
-            },
-            "modal": {
-                "ondismiss": function() {
-                    console.log("Checkout form closed by the user");
-                }
-            }
-        };
-        var rzp = new Razorpay(options);
-        rzp.open();
-    }
-                </script> --}}
+                        <div class="input-group mb-4 px-2">
+                            <span class="input-group-text" id="basic-addon1"><i
+                                    class="fa-solid fa-percent"></i></span>
+                            <input type="text" class="form-control" placeholder="CGPA/%" aria-label="Username"
+                                aria-describedby="basic-addon1" name="cgpa" value="{{ old('cgpa', $formData->cgpa ?? '') }}">
+                        </div>
+                    </div>
+
+                    <div class="my-4 text-center">
+                        <button type="submit" class="btn btn-warning col-5 shadow">SUBMIT</button>
+                    </div>
+                {{-- @endforeach --}}
             </form>
         </div>
-
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous">
