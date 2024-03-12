@@ -50,7 +50,7 @@
                 <div class="row">
 
                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                        <a href="{{ Route('settings.common.changelogo') }}">
+                        <a href="{{ Route('select.logo') }}">
                             <div class="admin-content analysis-progrebar-ctn text-center res-mg-t-15">
                                 <i class="fa-solid fa-pen fa-3x"></i>
                                 <h4 class="text-uppercase "><b>Change Logo</b></h4>

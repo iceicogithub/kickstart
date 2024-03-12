@@ -202,41 +202,29 @@ class StudentController extends Controller
         return view('student.dashboard', compact('studentDashboard'));
     }
 
-    // public function studentRegister(Request $request){
-    //     // dd($request);
-    //     // die();
-    //     $validate=Validator::make($request->all(),
-    //     [
-    //         'student_id'=> ['required','string','max:255'],
-    //         'fullname'=> ['required','string','max:255'],
-    //         'gender'=> ['required','string','max:255'],
-    //         'email'=> ['required','string','max:255'],
-    //         'phone'=> ['required','string','max:255'],
-    //         'profession'=>['required','string','max:255'],
-    //         'address'=> ['required','string','max:255'],
-    //         'college_name'=> ['required','string','max:255'],
-    //         'year'=> ['required','string','max:255'],
-    //         'branch'=> ['required','string','max:255'],
-    //         'area_of_interest'=> ['required','string','max:255'],
-    //         'cgpa'=>['required','string','max:255'],
-    //     ]);
+    
+    public function studentRegister(Request $request){
 
-    //     // If validation fails, redirect back with errors
-    //     if ($validate->fails()) {
-    //         return redirect()->back()->withErrors($validate)->withInput();
-    //     }
+        $request->validate([
+            'firstname' => 'required|string|max:255',
+            'lastname' => 'required|string|max:255',
+            'email' => 'required|email|max:255|unique:registered_user,email',
+            'phone' => 'required|string|min:10',
+            'gender' => 'required|in:Male,Female,Other',
+            'country' => 'required|string|max:255',
+            'state' => 'required|string|max:255',
+            'city' => 'required|string|max:255',
+            'pincode' => 'required|string',
+            'address' => 'required|string|max:255',
+            'college_name' => 'required|string|max:255',
+            'year' => 'required|string|max:255',
+            'branch' => 'required|string|max:255',
+            'area_of_interest' => 'required|string|max:255',
+            'cgpa' => 'required|numeric'
+        ]);
 
-    //     $Studetail = StudentDetail::create(
-    //         [
-    //             'gender'=>$request->gender,
-    //             'address'=>$request->address,
-    //             'college_name'=>$request->college_name,
-    //             'year'=>$request->year,
-    //             'branch'=>$request->branch,
-    //             'area_of_interest'=>$request->area_of_interest,
-    //             'cgpa'=>$request->cgpa
-    //         ]);
-    // }
+         return $request->all();
+    }
     
 
     public function processPayment(Request $request)

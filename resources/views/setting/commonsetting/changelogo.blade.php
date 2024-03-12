@@ -56,7 +56,7 @@
                     </ul>
                     <div id="myTabContent" class="tab-content custom-product-edit">
                         <div class="product-tab-list tab-pane fade active in" id="description">
-                            <form id="myForm" action="{{url('')}}" method="post" enctype="multipart/form-data">
+                            <form id="myForm" action="{{url('/change/logo')}}" method="post" enctype="multipart/form-data">
                                 @csrf
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
