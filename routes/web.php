@@ -5,6 +5,7 @@ use App\Http\Controllers\NormalController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\SettingController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
@@ -89,6 +90,14 @@ Route::middleware('auth')->group(function () {
     // student dashboard
     Route::get('student/list', [StudentController::class, 'studentList'])->name('student.list');
     Route::get('student/view/{id}', [StudentController::class, 'studentDetails'])->name('student.view');
+
+    // setting routes
+    Route::get('/settings',[SettingController::class,'index'])->name('settings');
+    Route::get('/settings/common',[SettingController::class,'common'])->name('settings.common');
+    Route::get('/settings/admin',[SettingController::class,'admin'])->name('settings.admin');
+    Route::get('/settings/student',[SettingController::class,'student'])->name('settings.student');
+    Route::get('/select/logo',[SettingController::class,'select'])->name('select.logo');
+    Route::post('/change/logo',[SettingController::class,'change'])->name('change.logo');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

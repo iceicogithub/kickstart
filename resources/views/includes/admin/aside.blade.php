@@ -1,7 +1,8 @@
 <nav id="sidebar" class="">
     <div class="sidebar-header">
-        <a href="{{Route('dashboard')}}"><img class="main-logo" src="{{ asset('img/kickstart.jpeg') }}" alt="" style="height: 115px;width: 200px;
-        "/></a>
+        <a href="{{ Route('dashboard') }}"><img class="main-logo" src="{{ asset('img/kickstart.jpeg') }}" alt=""
+                style="height: 115px;width: 200px;
+        " /></a>
         <strong><img src="{{ asset('admin/img/logo/logosn.png') }}" alt="" /></strong>
     </div>
     <div class="left-custom-menu-adp-wrap comment-scrollbar">
@@ -14,12 +15,12 @@
                     </a>
                     <ul class="submenu-angle" aria-expanded="true">
                         <li>
-                            <a title="Add Admin" href="{{Route('add.admin')}}">
+                            <a title="Add Admin" href="{{ Route('add.admin') }}">
                                 <span class="mini-sub-pro">Add Admin</span>
                             </a>
                         </li>
                         <li>
-                            <a title="Admin List" href="{{Route('admin.list')}}">
+                            <a title="Admin List" href="{{ Route('admin.list') }}">
                                 <span class="mini-sub-pro">Admin List</span>
                             </a>
                         </li>
@@ -68,12 +69,37 @@
                     </a>
                     <ul class="submenu-angle" aria-expanded="true">
                         <li>
-                            <a title="Student List" href="{{Route('student.list')}}">
+                            <a title="Student List" href="{{ Route('student.list') }}">
                                 <span class="mini-sub-pro">Student List</span>
                             </a>
                         </li>
                     </ul>
                 </li>
+
+                <li>
+                    <a class="has-arrow" title="Settings" href="{{ Route('settings') }}">
+                        <i class="icon nalika-settings icon-wrap"></i>
+                        <span class="mini-click-non">Settings</span>
+                    </a>
+                    <ul class="submenu-angle" aria-expanded="true">
+                        <li>
+                            <a title="Settings List" href="{{ Route('settings.common') }}">
+                                <span class="mini-sub-pro">Comman Settings</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a title="Settings List" href="{{ Route('settings.admin') }}">
+                                <span class="mini-sub-pro">Admin Settings</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a title="Settings List" href="{{ Route('settings.student') }}">
+                                <span class="mini-sub-pro">Student Settings</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
             </ul>
         </nav>
     </div>
