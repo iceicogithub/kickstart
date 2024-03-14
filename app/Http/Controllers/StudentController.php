@@ -470,6 +470,8 @@ class StudentController extends Controller
 
     public function store_student(Request $request)
     {
+        // dd($request);
+        // die();
         // Get the authenticated user
         $user = Auth::user();
 
@@ -483,8 +485,10 @@ class StudentController extends Controller
             'email' => $request->email,
             'phone' => $request->phone,
             'address' => $request->address,
+            'country' => $request->country,
             'state' => $request->state,
             'city' => $request->city,
+            'pincode' => $request->pincode,
             'college_name' => $request->college_name,
             'year' => $request->year,
             'branch' => $request->branch,
@@ -496,3 +500,6 @@ class StudentController extends Controller
         return redirect()->route('/')->with('success', 'Student details updated successfully.');
     }
 }
+
+
+
