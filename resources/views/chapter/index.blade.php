@@ -25,8 +25,6 @@
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                 <div class="breadcomb-report">
-                                    {{-- <button data-toggle="tooltip" data-placement="left" title="Download Report"
-                                        class="btn"><i class="icon nalika-download"></i></button> --}}
                                 </div>
                             </div>
                         </div>
@@ -63,7 +61,6 @@
     @endif
 
     <div class="single-product-tab-area mg-b-30">
-        <!-- Single pro tab review Start-->
         <div class="single-pro-review-area">
             <div class="container-fluid">
                 <div class="row">

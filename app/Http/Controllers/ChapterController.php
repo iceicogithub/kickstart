@@ -61,7 +61,7 @@ class ChapterController extends Controller
         // You might fetch topics related to this chapter and pass them to the view
         $topics = $chapter->topics()->where('status_id', 1)->paginate(10); // Example pagination, adjust as needed
 
-        return view('chapter.show', compact('chapter', 'topics','status','category'));
+        return view('chapter.show', compact('chapter', 'topics', 'status', 'category'));
     }
 
     /**
