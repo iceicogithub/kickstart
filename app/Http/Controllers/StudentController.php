@@ -22,6 +22,10 @@ use Razorpay\Api\Api;
 
 class StudentController extends Controller
 {
+    // public function fetchData(){
+    //     $formData = StudentDetail::all();
+    //     return view('student.registration',compact('formData'));
+    // }
 
     public function googleLogin()
     {
@@ -439,33 +443,35 @@ class StudentController extends Controller
     }
 
 
-    public function processPayment(Request $request)
-    {
-        // Initialize Razorpay API with your key and secret
-        $api = new Api('rzp_test_ci8sxj5IUpXRv1', 'LWdNlyPjctgEHhDrUDnVy7cD');
+    // public function processPayment(Request $request)
+    // {
+    //     // Initialize Razorpay API with your key and secret
+    //     $api = new Api('rzp_test_ci8sxj5IUpXRv1', 'LWdNlyPjctgEHhDrUDnVy7cD');
 
-        // Fetch payment details from Razorpay
-        $payment_id = $request->razorpay_payment_id;
-        // dd($payment_id);
-        // die();
-        $payment = $api->payment->fetch($payment_id);
+    //     // Fetch payment details from Razorpay
+    //     $payment_id = $request->razorpay_payment_id;
+    //     // dd($payment_id);
+    //     // die();
+    //     $payment = $api->payment->fetch($payment_id);
 
-        // Verify the payment
-        if ($payment->status == 'authorized' || $payment->status == 'captured') {
-            // Payment successful, store student details in the database
-            $this->store_student($request);
+    //     // Verify the payment
+    //     if ($payment->status == 'authorized' || $payment->status == 'captured') {
+    //         // Payment successful, store student details in the database
+    //         $this->store_student($request);
 
-            // Return success response
-            return response()->json(['message' => 'Payment successful. Student details saved.']);
-        } else {
-            // Payment failed, return error response
-            return response()->json(['message' => 'Payment failed. Please try again.'], 400);
-        }
-    }
+    //         // Return success response
+    //         return response()->json(['message' => 'Payment successful. Student details saved.']);
+    //     } else {
+    //         // Payment failed, return error response
+    //         return response()->json(['message' => 'Payment failed. Please try again.'], 400);
+    //     }
+    // }
 
 
     public function store_student(Request $request)
     {
+        // dd($request);
+        // die();
         // Get the authenticated user
         $user = Auth::user();
 
@@ -479,8 +485,10 @@ class StudentController extends Controller
             'email' => $request->email,
             'phone' => $request->phone,
             'address' => $request->address,
+            'country' => $request->country,
             'state' => $request->state,
             'city' => $request->city,
+            'pincode' => $request->pincode,
             'college_name' => $request->college_name,
             'year' => $request->year,
             'branch' => $request->branch,
@@ -492,3 +500,6 @@ class StudentController extends Controller
         return redirect()->route('/')->with('success', 'Student details updated successfully.');
     }
 }
+
+
+

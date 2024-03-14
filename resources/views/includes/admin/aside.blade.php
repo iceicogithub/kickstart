@@ -81,10 +81,11 @@
                         </li>
                     </ul>
                 </li>
+
                 <li>
-                    <a class="has-arrow" href="#">
-                        <i class="icon nalika-folder icon-wrap"></i>
-                        <span class="mini-click-non">Elements</span>
+                    <a class="has-arrow" title="Settings" href="{{ Route('settings') }}">
+                        <i class="icon nalika-settings icon-wrap"></i>
+                        <span class="mini-click-non">Settings</span>
                     </a>
                     <ul class="submenu-angle" aria-expanded="true">
                         <li>
@@ -105,16 +106,23 @@
                         <li>
                             <a title="Question Paper" href="">
                                 <span class="mini-sub-pro">Question Paper</span>
+                            <a title="Settings List" href="{{ Route('settings.common') }}">
+                                <span class="mini-sub-pro">Comman Settings</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a title="Settings List" href="{{ Route('settings.admin') }}">
+                                <span class="mini-sub-pro">Admin Settings</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a title="Settings List" href="{{ Route('settings.student') }}">
+                                <span class="mini-sub-pro">Student Settings</span>
                             </a>
                         </li>
                     </ul>
                 </li>
-                <li>
-                    <a href="#">
-                        <i class="icon nalika-settings icon-wrap"></i>
-                        <span class="mini-click-non">Setting</span>
-                    </a>
-                </li>
+
             </ul>
         </nav>
     </div>

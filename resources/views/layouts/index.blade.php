@@ -408,7 +408,7 @@
                         </g>
                         <g id="elua2sd3mapdc">
                             <polyline points="62.77 335.88 66.11 342.56 75.93 331.75"
-                                style="fill: none; stroke: rgb(0, 0, 0); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2px; opacity: 0.3; transform-origin: 69.35px 337.155px;"
+                                style="fill: nonere; stroke: rgb(0, 0, 0); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2px; opacity: 0.3; transform-origin: 69.35px 337.155px;"
                                 class="animable" id="eliz29jn6ejss"></polyline>
                         </g>
                         <g id="elhmcl7cdct8">
