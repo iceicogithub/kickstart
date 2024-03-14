@@ -4,6 +4,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <title>Forgot Password</title>
 
     <link rel="stylesheet" href="{{ asset('studentdashboard/css/bootstrap1.min.css') }}" />
@@ -39,18 +41,14 @@
 
     <link rel="stylesheet" href="{{ asset('studentdashboard/css/style1.css') }}" />
     <link rel="stylesheet" href="{{ asset('studentdashboard/css/colors/default.css') }}" id="colorSkinCSS" />
-
-</head>
-
-<body>
-
-    
     <style>
         .form_size {
             height: 100vh;
         }
     </style>
+</head>
 
+<body>
     <div class="row justify-content-center align-items-center form_size">
         <div class="col-lg-6">
 
@@ -59,18 +57,86 @@
                     <h5 class="modal-title text_white">Forget Password</h5>
                 </div>
                 <div class="modal-body">
-                    <form>
-                        <div class="">
-                            <input type="text" class="form-control" placeholder="Enter Your Email or Phone">
+                    <form id="forgotPasswordForm" method="POST">
+                        @csrf
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="email_or_phone" name="email_or_phone"
+                                placeholder="Enter Your Email or Phone" required>
+                            <div id="email_phone_error" class="text-danger" style="display: none;"></div>
                         </div>
                         <a href="{{ url('/') }}" class="d-block ps-1 pt-2 text-decoration-none">Back</a>
-                        <a href="#" class="btn_1 full_width text-center">SEND</a>
+                        <button type="button" id="forgot" class="btn_1 full_width text-center">Forgot
+                            Password</button>
                     </form>
                 </div>
-
             </div>
         </div>
     </div>
+
+    <!-- Include SweetAlert CDN and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script>
+        $(document).ready(function() {
+            $('#forgot').click(function() {
+                var emailOrPhone = $('#email_or_phone').val();
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ route('checkUserExistence') }}',
+                    data: {
+                        "_token": "{{ csrf_token() }}",
+                        email_or_phone: emailOrPhone
+                    },
+                    success: function(response) {
+                        if (response.status == 'success') {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'User Found',
+                                text: response.message
+                            });
+                            // Call the route to send forgot password email
+                            $.ajax({
+                                type: 'POST',
+                                url: '{{ route('sendForgotPasswordEmail') }}',
+                                data: {
+                                    "_token": "{{ csrf_token() }}",
+                                    email_or_phone: emailOrPhone
+                                },
+                                success: function(response) {
+                                    if (response.status == 'success') {
+                                        // Swal.fire({
+                                        //     icon: 'success',
+                                        //     title: 'Email Sent',
+                                        //     text: response.message
+                                        // });
+                                    } else {
+                                        Swal.fire({
+                                            icon: 'error',
+                                            title: 'Failed to Send Email',
+                                            text: response.message
+                                        });
+                                    }
+                                },
+                                error: function(xhr, status, error) {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Error',
+                                        text: error
+                                    });
+                                }
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'User Not Found',
+                                text: response.message
+                            });
+                        }
+                    }
+                });
+            });
+        });
+    </script>
 
     <script src="{{ asset('studentdashboard/js/jquery1-3.4.1.min.js') }}"></script>
 

@@ -7,12 +7,12 @@
     <title>Dashboard | @yield('title')</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- font-awesome
+    <!-- font-awesome
   ============================================ -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
         integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <!-- favicon
+    <!-- favicon
   ============================================ -->
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('admin/img/favicon.ico') }}">
     <!-- Google Fonts
@@ -88,24 +88,8 @@
     </div>
 
     @yield('script')
-    <script>
-        document.getElementById('resetButton').addEventListener('click', function() {
-            // Select all input fields, select dropdowns, and textarea inside the form
-            var formElements = document.querySelectorAll('#myForm input, #myForm select, #myForm textarea');
-
-            // Loop through each form element and reset its value
-            formElements.forEach(function(element) {
-                if (element.type === 'checkbox' || element.type === 'radio') {
-                    // For checkboxes and radio buttons, uncheck them
-                    element.checked = false;
-                } else {
-                    // For other input fields, select dropdowns, and textarea, reset their value to empty
-                    element.value = '';
-                }
-            });
-        });
-    </script>
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <!-- jquery
   ============================================ -->
     <script src="{{ asset('admin/js/vendor/jquery-1.12.4.min.js') }}"></script>
@@ -159,6 +143,37 @@
     <!-- main JS
   ============================================ -->
     <script src="{{ asset('admin/js/main.js') }}"></script>
+
+    <script>
+        // Automatically close success alert after 5 seconds
+        $(document).ready(function() {
+            setTimeout(function() {
+                $('#successAlert').fadeOut('slow');
+            }, 5000);
+
+            setTimeout(function() {
+                $('#errorAlert').fadeOut('slow');
+            }, 5000);
+        });
+
+
+        document.getElementById('resetButton').addEventListener('click', function() {
+            // Select all input fields, select dropdowns, and textarea inside the form
+            var formElements = document.querySelectorAll('#myForm input, #myForm select, #myForm textarea');
+
+            // Loop through each form element and reset its value
+            formElements.forEach(function(element) {
+                if (element.type === 'checkbox' || element.type === 'radio') {
+                    // For checkboxes and radio buttons, uncheck them
+                    element.checked = false;
+                } else {
+                    // For other input fields, select dropdowns, and textarea, reset their value to empty
+                    element.value = '';
+                }
+            });
+        });
+    </script>
+
 </body>
 
 </html>

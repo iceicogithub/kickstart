@@ -4,7 +4,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Student Login</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <title>Forgot Password</title>
 
     <link rel="stylesheet" href="{{ asset('studentdashboard/css/bootstrap1.min.css') }}" />
 
@@ -39,80 +41,41 @@
 
     <link rel="stylesheet" href="{{ asset('studentdashboard/css/style1.css') }}" />
     <link rel="stylesheet" href="{{ asset('studentdashboard/css/colors/default.css') }}" id="colorSkinCSS" />
-
     <style>
         .form_size {
             height: 100vh;
         }
-
-        .text-danger {
-            color: red !important;
-        }
     </style>
-
 </head>
 
 <body>
-    @if (session('success'))
-        <script>
-            Swal.fire({
-                icon: '{{ session('alertType') }}',
-                title: 'Success!',
-                text: '{{ session('success') }}',
-                onClose: () => {
-                    window.location.href = '{{ route('student.login') }}';
-                }
-            });
-        </script>
-    @endif
-
-    <div class="row form_size justify-content-center align-items-center">
+    <div class="row justify-content-center align-items-center form_size">
         <div class="col-lg-6">
 
             <div class="modal-content cs_modal">
-                <div class="modal-header justify-content-center theme_bg_1">
-                    <h5 class="modal-title text_white">Log in</h5>
+                <div class="modal-header theme_bg_1">
+                    <h5 class="modal-title text_white">Reset Password</h5>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ route('student.login') }}" method="post">
+                    <form method="POST" action="">
                         @csrf
-                        <input type="text" name="email_or_mobile" placeholder="Enter Your Email or Phone"
-                            class="d-block w-100 p-3 mb-4 rounded-2 border-1">
-                        @error('email_or_mobile')
-                            <span class="text-danger">{{ $message }}</span>
-                        @enderror
-
-                        <input type="password" name="password" placeholder="Enter Your Password"
-                            class="d-block w-100 p-3 mb-4 rounded-2 border-1">
-                        @error('password')
-                            <span class="text-danger">{{ $message }}</span>
-                        @enderror
-
-                        <div class="d-flex justify-content-between">
-                            <a href="{{ url('/') }}" class="d-block pt-3  text-decoration-none ">Back</a>
-                            <a href="{{ Route('student.forgot') }}" class="d-block pt-3  text-decoration-none ">Forgot
-                                Password ?</a>
+                        <input type="hidden" name="token" value="">
+                        <div class="form-group">
+                            <label for="password">New Password</label>
+                            <input type="password" class="form-control" id="password" name="password" required>
                         </div>
-
-                        <button type="submit" class="btn_1 full_width text-center">Login</button>
-
-                        @if (session('status'))
-                            <span class="text-danger">{{ session('status') }}</span>
-                        @endif
-
-                        <div class="text-center pt-3"><span class="">Do You have An Account? <a
-                                    href="{{ route('student.register') }}"
-                                    class="text-decoration-none">Signup</a></span>
+                        <div class="form-group">
+                            <label for="password_confirmation">Confirm Password</label>
+                            <input type="password" class="form-control" id="password_confirmation"
+                                name="password_confirmation" required>
                         </div>
+                        <button type="submit" class="btn btn-primary">Reset Password</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- SweetAlert CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script src="{{ asset('studentdashboard/js/jquery1-3.4.1.min.js') }}"></script>
 

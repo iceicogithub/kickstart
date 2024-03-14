@@ -14,7 +14,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
         integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-
 </head>
 
 <body>
@@ -149,12 +148,13 @@
 
                 <form method="post" action="{{ route('student.form') }}">
                     @csrf
-                    <div class="row">
+                {{-- @foreach ($formData as $data) --}}
+                        <div class="row">
                         <div class="col-lg-6 col-md-6 col-sm-6 mb-4">
-                            <div class="input-group mb-1 px-2">
-                                <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-user"></i></span>
-                                <input type="text" class="form-control" placeholder="First Name"
-                                    aria-label="Username" aria-describedby="basic-addon1" name="firstname"
+                                <div class="input-group mb-1 px-2">
+                                    <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-user"></i></span>
+                                    <input type="text" class="form-control" placeholder="First Name"
+                                        aria-label="Username" aria-describedby="basic-addon1" name="firstname" value="{{ old('first_name', $firstName) }}"
                                     value="{{ old('firstname') }}">
                             </div>
 
@@ -162,13 +162,13 @@
                                 <span class="text-danger ps-3">{{ $errors->first('firstname') }}</span>
                             @endif
 
-                        </div>
+                            </div>
 
-                        <div class="col-lg-6 col-md-6 col-sm-6 mb-4">
+                            <div class="col-lg-6 col-md-6 col-sm-6 mb-4">
                             <div class="input-group mb-1 px-2">
-                                <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-user"></i></span>
-                                <input type="text" class="form-control" placeholder="Last Name" aria-label="Username"
-                                    aria-describedby="basic-addon1" name="lastname" value="{{ old('lastname') }}">
+                                    <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-user"></i></span>
+                                    <input type="text" class="form-control" placeholder="Last Name" aria-label="Username"
+                                        aria-describedby="basic-addon1" name="lastname" value="{{ old('last_name', $lastName) }}" value="{{ old('lastname') }}">
                             </div>
 
                             @if ($errors->has('lastname'))
@@ -176,8 +176,8 @@
                             @endif
 
                         </div>
-                    </div>
-
+                        </div>
+    
                     <div class="row">
                         <div class="col-lg-6 col-md-6 col-sm-6 mb-1">
                             <div class="input-group mb-1 px-2">
@@ -331,7 +331,9 @@
                     </div>
 
                     {{-- clg-details --}}
+                    {{-- clg-details --}}
 
+                    <p class="fw-bold h5 text-start ps-2 py-3">College Details:</p>
                     <p class="fw-bold h5 text-start ps-2 py-3">College Details:</p>
 
                     <div class="mb-4">
