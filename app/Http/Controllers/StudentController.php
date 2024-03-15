@@ -94,6 +94,8 @@ class StudentController extends Controller
     // Handle registration form submission
     public function register(Request $request)
     {
+        // dd($request);
+        // die();
         try {
             // Validate form input
             $validator = Validator::make($request->all(), [
