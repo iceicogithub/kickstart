@@ -90,6 +90,8 @@ class StudentController extends Controller
     // Handle registration form submission
     public function register(Request $request)
     {
+        // dd($request);
+        // die();
         try {
             // Validate form input
             $validator = Validator::make($request->all(), [
@@ -441,6 +443,8 @@ class StudentController extends Controller
   
     public function store_student(Request $request)
     {
+        // dd($request);
+        // die();
         // Get the authenticated user
         $user = Auth::user();
 
@@ -454,8 +458,10 @@ class StudentController extends Controller
             'email' => $request->email,
             'phone' => $request->phone,
             'address' => $request->address,
+            'country' => $request->country,
             'state' => $request->state,
             'city' => $request->city,
+            'pincode' => $request->pincode,
             'college_name' => $request->college_name,
             'year' => $request->year,
             'branch' => $request->branch,

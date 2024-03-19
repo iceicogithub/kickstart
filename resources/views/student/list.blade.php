@@ -52,12 +52,14 @@
                                     <th>Profession</th>
                                     <th>Action</th>
                                 </tr>
-                                @foreach ($student as $item)
+                                @foreach ($students as $item)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>
                                             @php
-                                                $profileImagePath = public_path('admin/upload/profile/' . $item->profile_image);
+                                                $profileImagePath = public_path(
+                                                    'admin/upload/profile/' . $item->profile_image,
+                                                );
                                             @endphp
 
                                             @if (file_exists($profileImagePath))
@@ -67,10 +69,10 @@
                                                 <img src="{{ asset('admin/img/user.png') }}" alt="">
                                             @endif
                                         </td>
-                                        <td>{{ $item->studentDetail->fullname ?: 'N/A' }}</td>
-                                        <td>{{ $item->email ?: 'N/A' }}</td>
-                                        <td>{{ $item->phone ?: 'N/A' }}</td>
-                                        <td>{{ $item->profession ?: 'N/A' }}</td>
+                                        <td>{{ $item->studentDetail->fullname ?? 'N/A' }}</td>
+                                        <td>{{ $item->email ?? 'N/A' }}</td>
+                                        <td>{{ $item->phone ?? 'N/A' }}</td>
+                                        <td>{{ $item->profession ?? 'N/A' }}</td>
                                         <td>
                                             <button class="pd-setting-ed">
                                                 <a href="{{ route('student.view', ['id' => $item->id]) }}"

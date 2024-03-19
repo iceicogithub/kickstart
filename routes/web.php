@@ -10,6 +10,7 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\TopicController;
 use App\Models\Topic;
+use App\Http\Controllers\SettingsController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
@@ -43,6 +44,7 @@ Route::get('/', function () {
     return view('layouts.index');
 })->name('/');
 
+
 Route::middleware('guest:student')->group(function () {
     Route::get('student/login', [StudentController::class, 'showLoginForm'])->name('student.login');
     Route::post('student/login', [StudentController::class, 'login']);
@@ -62,12 +64,13 @@ Route::middleware('auth:student')->group(function () {
     Route::get('student/view/{id}', [StudentController::class, 'studentDetails'])->name('student.view');
     Route::get('student/profile/{id}', [StudentController::class, 'studentProfile'])->name('student.profile');
     Route::get('student/dashboard/{id}', [StudentController::class, 'studentDashboard'])->name('student.dashboard');
-    Route::post('/student/form', [StudentController::class, 'studentRegister'])->name('student.form');
+    // Route::post('/student/form', [StudentController::class, 'studentRegister'])->name('student.form');
     Route::post('/student/logout', [StudentController::class, 'logout'])->name('student.logout');
     Route::get('/tests/question&answer', [NormalController::class, 'question_answer'])->name('tests.question&answer');
     Route::get('/tests/topics', [NormalController::class, 'topics'])->name('tests.topics');
     Route::get('/tests/question&answer', [NormalController::class, 'question_answer'])->name('tests.question&answer');
     Route::get('/student/registration', [NormalController::class, 'registrationPage'])->name('student.registration');
+    Route::post('/student/form', [StudentController::class, 'studentRegister'])->name('student.form');
     Route::post('/store-student', [StudentController::class, 'store_student'])->name('store.student');
     Route::post('/razorpay', [StudentController::class, 'payment'])->name('razorpay.payment');
 
@@ -84,9 +87,7 @@ Route::middleware('auth:student')->group(function () {
 
 // Admin routes group
 Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard.dashboard');
-    })->middleware('verified')->name('dashboard');
+    Route::get('/dashboard', function () { return view('dashboard.dashboard'); })->middleware('verified')->name('dashboard');
     Route::get('add/admin', [RegisteredUserController::class, 'create'])->name('add.admin');
     Route::get('admin/list', [RegisteredUserController::class, 'adminList'])->name('admin.list');
     Route::post('admin/register', [RegisteredUserController::class, 'store'])->name('register.store');
@@ -106,7 +107,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/category/destroy/{id}', [CategoryController::class, 'destroy'])->name('category.destroy');
 
     // chapter
-    Route::get('chapter/index', [ChapterController::class, 'index'])->name('chapter.index');
+    Route::get('chapter',[ChapterController::class, 'index'])->name('chapter');
     Route::post('chapter/store', [ChapterController::class, 'store'])->name('chapter.store');
     Route::get('/chapter/{id}/edit', [ChapterController::class, 'edit'])->name('chapter.edit');
     Route::post('/chapter/{id}', [ChapterController::class, 'update'])->name('chapter.update');
@@ -124,6 +125,16 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    
+    // setting routes
+    Route::get('/settings',[SettingsController::class,'index'])->name('settings');
+    Route::get('/settings/common',[SettingsController::class,'common'])->name('settings.common');
+    Route::get('/settings/admin',[SettingsController::class,'admin'])->name('settings.admin');
+    Route::get('/settings/student',[SettingsController::class,'student'])->name('settings.student');
+    Route::get('/select/logo',[SettingsController::class,'select'])->name('select.logo');
+    Route::post('/change/logo',[SettingsController::class,'change'])->name('change.logo');
+
 });
 
 require __DIR__ . '/auth.php';
