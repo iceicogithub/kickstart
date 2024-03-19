@@ -11,6 +11,7 @@ use App\Models\Otp;
 use App\Mail\OtpMail;
 use App\Models\Category;
 use App\Models\Chapter;
+use App\Models\Payment;
 use App\Models\Status;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Socialite\Facades\Socialite;
@@ -22,11 +23,6 @@ use Razorpay\Api\Api;
 
 class StudentController extends Controller
 {
-    // public function fetchData(){
-    //     $formData = StudentDetail::all();
-    //     return view('student.registration',compact('formData'));
-    // }
-
     public function googleLogin()
     {
         return Socialite::driver('google')->redirect();
@@ -442,32 +438,7 @@ class StudentController extends Controller
         }
     }
 
-
-    // public function processPayment(Request $request)
-    // {
-    //     // Initialize Razorpay API with your key and secret
-    //     $api = new Api('rzp_test_ci8sxj5IUpXRv1', 'LWdNlyPjctgEHhDrUDnVy7cD');
-
-    //     // Fetch payment details from Razorpay
-    //     $payment_id = $request->razorpay_payment_id;
-    //     // dd($payment_id);
-    //     // die();
-    //     $payment = $api->payment->fetch($payment_id);
-
-    //     // Verify the payment
-    //     if ($payment->status == 'authorized' || $payment->status == 'captured') {
-    //         // Payment successful, store student details in the database
-    //         $this->store_student($request);
-
-    //         // Return success response
-    //         return response()->json(['message' => 'Payment successful. Student details saved.']);
-    //     } else {
-    //         // Payment failed, return error response
-    //         return response()->json(['message' => 'Payment failed. Please try again.'], 400);
-    //     }
-    // }
-
-
+  
     public function store_student(Request $request)
     {
         // Get the authenticated user
@@ -494,5 +465,57 @@ class StudentController extends Controller
 
         // Optionally, you can redirect the user after successful submission
         return redirect()->route('/')->with('success', 'Student details updated successfully.');
+        // return response()->json(['success' => true, 'message' => 'Student details updated successfully.']);
+    }
+    // public function payment(Request $request){
+    //     if(!empty($request->razorpay_payment_id)){
+    //         $api = new Api(env('rzp_test_ci8sxj5IUpXRv1'), env('LWdNlyPjctgEHhDrUDnVy7cD'));
+    //         try{
+    //             $payment = $api->payment->fetch($request->razorpay_payment_id);
+    //             $response = $payment->capture(['amount'=> $payment['amount']]);
+    //         dd($response);  
+    //         }
+    //         catch(\Exception $ex)
+    //         {
+    //             return $ex->getMessage();
+    //        }    
+    //     }
+    // }
+
+    public function payment(Request $request)
+    {
+
+        dd($request);
+                die();
+                
+        if (!empty($request->razorpay_payment_id)) {
+            $api = new Api('rzp_test_ci8sxj5IUpXRv1', 'LWdNlyPjctgEHhDrUDnVy7cD');
+
+            try {
+                $payment = $api->payment->fetch($request->razorpay_payment_id);
+                $response = $payment->capture(['amount' => $payment['amount']]);
+                
+                // Update the Payment_table with payment details
+                $user = Auth::user();
+                $user->payments()->create([
+                    'payment_id' => $payment->id,
+                    'payment_name' => $user->studentDetail->fullname,
+                    'quantity' => 1, // You may adjust this as per your requirement
+                    'amount' => $payment->amount,
+                    'currency' => $payment->currency,
+                    'customer_name' => $user->name,
+                    'customer_email' => $user->email,
+                    'payment_status' => 'success', // Assuming payment is successful
+                    'payment_method' => 'razorpay',
+                ]);
+
+                // Optionally, you can return a success message
+                return response()->json(['success' => true, 'message' => 'Payment details updated successfully.']);
+            } catch (\Exception $ex) {
+                // Handle any exceptions
+                return response()->json(['success' => false, 'error' => $ex->getMessage()]);
+            }
+        }
     }
 }
+

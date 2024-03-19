@@ -69,8 +69,13 @@ Route::middleware('auth:student')->group(function () {
     Route::get('/tests/question&answer', [NormalController::class, 'question_answer'])->name('tests.question&answer');
     Route::get('/student/registration', [NormalController::class, 'registrationPage'])->name('student.registration');
     Route::post('/store-student', [StudentController::class, 'store_student'])->name('store.student');
-    Route::get('/payment/callback', [StudentController::class, 'handlePaymentCallback'])->name('payment.callback');
+    Route::post('/razorpay', [StudentController::class, 'payment'])->name('razorpay.payment');
+
+
+    // Route::get('/payment/callback', [StudentController::class, 'handlePaymentCallback'])->name('payment.callback');
     // Route::post('/process-payment', [StudentController::class, 'processPayment'])->name('process.payment');
+    // Route::get('success_razorpay', [NormalController::class, 'razorpay-success'])->name('success_razorpay');
+    // Route::get('cancel_razorpay', [NormalController::class, 'razorpay-cancel'])->name('cancel_razorpay');
 
     // chapter
     Route::get('chapter/{id}',[ChapterController::class, 'show'])->name('chapter.topics');
