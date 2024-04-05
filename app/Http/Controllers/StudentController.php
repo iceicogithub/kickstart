@@ -20,6 +20,7 @@ use Exception;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 use Razorpay\Api\Api;
+use Session;
 
 class StudentController extends Controller
 {
@@ -302,13 +303,20 @@ class StudentController extends Controller
     {
         try {
             // Check if the recipient is an email
+            // if (filter_var($recipient, FILTER_VALIDATE_EMAIL)) {
+            //     // Check if the email is already registered
+            //     $userExists = Student::where('email', $recipient)->exists();
+            //     if ($userExists) {
+            //         return false;
+            //     }
             if (filter_var($recipient, FILTER_VALIDATE_EMAIL)) {
+
                 // Check if the email is already registered
                 $userExists = Student::where('email', $recipient)->exists();
                 if ($userExists) {
                     return false;
                 }
-
+                
                 // Send OTP via email
                 Mail::raw('Your OTP is: ' . $otp, function ($message) use ($recipient) {
                     $message->to($recipient)->subject('Your OTP');
@@ -440,12 +448,41 @@ class StudentController extends Controller
         }
     }
 
+    // public function store_student(Request $request)
+    // {
+        
+    //     $user = Auth::user();
+
+    //     // Concatenate first name and last name
+    //     $fullname = $request->firstname . ' ' . $request->lastname;
+
+    //     // Update the associated student detail
+    //     $user->studentDetail->update([
+    //         'fullname' => $fullname,
+    //         'gender' => $request->gender,
+    //         'email' => $request->email,
+    //         'phone' => $request->phone,
+    //         'address' => $request->address,
+    //         'country' => $request->country,
+    //         'state' => $request->state,
+    //         'city' => $request->city,
+    //         'pincode' => $request->pincode,
+    //         'college_name' => $request->college_name,
+    //         'year' => $request->year,
+    //         'branch' => $request->branch,
+    //         'area_of_interest' => $request->area_of_interest,
+    //         'cgpa' => $request->cgpa,
+    //     ]);
+
+    //     // Optionally, you can redirect the user after successful submission
+    //     return redirect()->route('/')->with('success', 'Student details updated successfully.');
+    //     // return response()->json(['success' => true, 'message' => 'Student details updated successfully.']);
+    // }
   
     public function store_student(Request $request)
     {
-        // dd($request);
-        // die();
-        // Get the authenticated user
+        dd('hello');
+        die();
         $user = Auth::user();
 
         // Concatenate first name and last name
@@ -469,59 +506,60 @@ class StudentController extends Controller
             'cgpa' => $request->cgpa,
         ]);
 
+
+        $api = new Api(env('rzp_test_ci8sxj5IUpXRv1'), env('LWdNlyPjctgEHhDrUDnVy7cD'));
+
+        $order = $api->order->create([
+            'amount' => 30000, 
+            'currency' => 'INR',
+            'receipt' => 'order_receipt_' . time(),
+            'payment_capture' => 1
+        ]);
+
+        return response()->json([
+            'redirect_url' => route('payment.callback', ['order_id' => $order->id]),
+        ]);
+
+
         // Optionally, you can redirect the user after successful submission
         return redirect()->route('/')->with('success', 'Student details updated successfully.');
-        // return response()->json(['success' => true, 'message' => 'Student details updated successfully.']);
     }
-    // public function payment(Request $request){
-    //     if(!empty($request->razorpay_payment_id)){
-    //         $api = new Api(env('rzp_test_ci8sxj5IUpXRv1'), env('LWdNlyPjctgEHhDrUDnVy7cD'));
-    //         try{
-    //             $payment = $api->payment->fetch($request->razorpay_payment_id);
-    //             $response = $payment->capture(['amount'=> $payment['amount']]);
-    //         dd($response);  
-    //         }
-    //         catch(\Exception $ex)
-    //         {
-    //             return $ex->getMessage();
-    //        }    
-    //     }
-    // }
-
-    public function payment(Request $request)
+    
+    public function paymentCallback(Request $request)
     {
+      
+        $razorpaySignature = $request->header('x-razorpay-signature');
+        $requestBody = $request->getContent();
 
-        dd($request);
-                die();
-                
-        if (!empty($request->razorpay_payment_id)) {
-            $api = new Api('rzp_test_ci8sxj5IUpXRv1', 'LWdNlyPjctgEHhDrUDnVy7cD');
+         $api = new Api(env('rzp_test_ci8sxj5IUpXRv1'), env('LWdNlyPjctgEHhDrUDnVy7cD'));
 
-            try {
-                $payment = $api->payment->fetch($request->razorpay_payment_id);
-                $response = $payment->capture(['amount' => $payment['amount']]);
-                
-                // Update the Payment_table with payment details
-                $user = Auth::user();
-                $user->payments()->create([
-                    'payment_id' => $payment->id,
-                    'payment_name' => $user->studentDetail->fullname,
-                    'quantity' => 1, // You may adjust this as per your requirement
-                    'amount' => $payment->amount,
-                    'currency' => $payment->currency,
-                    'customer_name' => $user->name,
-                    'customer_email' => $user->email,
-                    'payment_status' => 'success', // Assuming payment is successful
-                    'payment_method' => 'razorpay',
-                ]);
+        try {
+        $attributes = [
+            'razorpay_signature' => $razorpaySignature,
+            'razorpay_payment_id' => $request->input('razorpay_payment_id'),
+            'razorpay_order_id' => $request->input('razorpay_order_id'),
+        ];
 
-                // Optionally, you can return a success message
-                return response()->json(['success' => true, 'message' => 'Payment details updated successfully.']);
-            } catch (\Exception $ex) {
-                // Handle any exceptions
-                return response()->json(['success' => false, 'error' => $ex->getMessage()]);
-            }
+        $api->utility->verifyPaymentSignature($attributes);
+        } catch (\Razorpay\Api\Errors\SignatureVerificationError $e) {
+        return response()->json(['error' => 'Invalid signature'], 403);
         }
+
+        // Payment signature verified, update your database with payment details
+        // For example, if you have a payments table, you can store payment details there
+        $payment = Payment::create([
+        // 'user_id' => auth()->user()->id, // Assuming you have authenticated users
+        'amount' => $request->input('amount'),
+        'razorpay_payment_id' => $request->input('razorpay_payment_id'),
+        'razorpay_order_id' => $request->input('razorpay_order_id'),
+        'status' => $request->input('status'),
+        // Add other payment details as needed
+        ]);
+
+        // Redirect the user to a confirmation page
+        return redirect()->route('confirmation');
+    
     }
+
 }
 

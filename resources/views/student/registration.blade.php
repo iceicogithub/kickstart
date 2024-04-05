@@ -148,8 +148,7 @@
 
                 <p class="fw-bold h5 text-start ps-2 py-3">Personal Details:</p>
 
-                <form class="needs-validation" method="post" action="{{ route('store.student') }}"
-                    onsubmit="return validateForm()" novalidate>
+                <form class="needs-validation" id="registrationForm" onsubmit="return validateForm()" novalidate>
                     @csrf
                     {{-- @foreach ($formData as $data) --}}
                     <div class="row">
@@ -322,9 +321,9 @@
 
                     </div>
 
-                {{-- clg-details --}}
+                    {{-- clg-details --}}
 
-                <p class="fw-bold h5 text-start ps-2 py-3">College Details:</p>
+                    <p class="fw-bold h5 text-start ps-2 py-3">College Details:</p>
 
                     <div class="mb-4">
                         <div class="input-group mb-1 px-2">
@@ -405,89 +404,111 @@
 
 
                     <div class="my-4 text-center">
-                        <button type="submit" onclick="showPaymentPopup()"
-                            class="btn btn-warning col-5 shadow">Register
+                        <button type="submit" id="payButton" class="btn btn-warning col-5 shadow">Register
                             & Pay</button>
                     </div>
                 </form>
+
+                <div id="paymentResponse"></div>
+                <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                <script>
+                        $(document).ready(function() {
+                        $('#registrationForm').submit(function(e) {
+                            e.preventDefault();
+
+                            var formData = $(this).serialize();
+
+                            $.ajax({
+                                type: 'POST',
+                                url: '{{ route('store.student') }}',
+                                data: formData,
+                                success: function(response) {
+                                    // Redirect to Razorpay payment gateway
+                                    window.location.href = response.redirect_url;
+                                },
+                                error: function(xhr, status, error) {
+                                    $('#paymentResponse').text("Error: " + xhr.responseText);
+                                }
+                            });
+                        });
+                    });
+
+                    var options = {
+                        "key": "rzp_test_ci8sxj5IUpXRv1",
+                        "amount": "30000",
+                        "currency": "INR",
+                        "description": "Acme Corp",
+                        "image": "https://s3.amazonaws.com/rzp-mobile/images/rzp.jpg",
+                        "prefill": {
+                            "email": "gaurav.kumar@example.com",
+                            "contact": +919900000000,
+                        },
+                        config: {
+                            display: {
+                                blocks: {
+                                    utib: { //name for Axis block
+                                        name: "Pay using Axis Bank",
+                                        instruments: [{
+                                                method: "card",
+                                                issuers: ["UTIB"]
+                                            },
+                                            {
+                                                method: "netbanking",
+                                                banks: ["UTIB"]
+                                            },
+                                        ]
+                                    },
+                                    other: { //  name for other block
+                                        name: "Other Payment modes",
+                                        instruments: [{
+                                                method: "card",
+                                                issuers: ["ICIC"]
+                                            },
+                                            {
+                                                method: 'netbanking',
+                                            }
+                                        ]
+                                    }
+                                },
+                                hide: [{
+                                    method: "upi"
+                                }],
+                                sequence: ["block.utib", "block.other"],
+                                preferences: {
+                                    show_default_blocks: false // Should Checkout show its default blocks?
+                                }
+                            }
+                        },
+                        "handler": function(response) {
+                            alert(response.razorpay_payment_id);
+                        },
+                        "modal": {
+                            "ondismiss": function() {
+                                if (confirm("Are you sure, you want to close the form?")) {
+                                    txt = "You pressed OK!";
+                                    console.log("Checkout form closed by the user");
+                                } else {
+                                    txt = "You pressed Cancel!";
+                                    console.log("Complete the Payment")
+                                }
+                            }
+                        }
+                    };
+                    var rzp1 = new Razorpay(options);
+                    document.getElementById('payButton').onclick = function(e) {
+                        rzp1.open();
+                        e.preventDefault();
+                    }
+                </script>
+
+
 
             </div>
         </div>
     </div>
 
 
-    <!-- Payment popup -->
-    {{-- <div id="paymentPopup" style="display: none;">
-                        <h2>Payment Form</h2> --}}
-    <!-- Razorpay Payment Form -->
-    {{-- <form id="paymentForm" action="{{ route('process.payment') }}" method="POST">
-                            @csrf
-                            <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-                            <button type="button" onclick="confirmPayment()" class="btn btn-success">Confirm
-                                Payment</button> <!-- New Confirm Payment button -->
-                            <input type="hidden" custom="Hidden Element" name="hidden">
-                        </form> --}}
-    <!-- End of Razorpay Payment Form -->
-
-    <!-- Close button for the popup -->
-    {{-- <button type="button" onclick="closePaymentPopup()">Close</button>
-                    </div> --}}
-
-    <!-- Success Modal -->
-    {{-- <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel"
-                        aria-hidden="true"> --}}
-    <!-- Your success modal content -->
-    {{-- </div> --}}
-
-    <!-- JavaScript to show/hide payment popup -->
-    {{-- <script>
-                        function showSuccessModal() {
-                            $('#successModal').modal('show');
-                        }
-
-                        function showPaymentPopup() {
-                            var popup = document.getElementById('paymentPopup');
-                            popup.style.display = 'block';
-                        }
-
-                        function closePaymentPopup() {
-                            var popup = document.getElementById('paymentPopup');
-                            popup.style.display = 'none';
-                        }
-
-                        function confirmPayment() {  --}}
-    {{-- // You can perform any validation here before proceeding with payment
-                            // For now, let's directly open the Razorpay popup
-                            var options = {
-                                "key": "rzp_test_ci8sxj5IUpXRv1",
-                                "amount": "30000",
-                                "currency": "INR",
-                                "description": "Acme Corp",
-                                "prefill": {
-                                    "email": "myemail@example.com",
-                                    "contact": "+919900000000"
-                                },
-                                "handler": function(response) {
-                                    // Handle successful payment response here
-                                    alert('Payment successful!');
-                                    // You may want to submit the form after successful payment
-                                    document.getElementById('paymentForm').submit();
-                                },
-                                "modal": {
-                                    "ondismiss": function() {
-                                        console.log("Checkout form closed by the user");
-                                    }
-                                }
-                            };
-                            var rzp = new Razorpay(options);
-                            rzp.open();
-                        }
-                    </script> --}}
-    {{-- </form>
-            </div>
-        </div>
-    </div> --}}
-    {{-- script for country state city started --}}
     <script>
         function ajaxCall() {
             this.send = function(data, url, method, success, type) {
@@ -660,107 +681,29 @@
             });
         });
     </script>
+    {{-- @if (Session::has('amount'))
+<form action="" method="POST">
+    <script src="https://checkout.razorpay.com/v1/checkout.js"
+            data-key="rzp_test_ci8sxj5IUpXRv1"
+            data-amount="{{Session::get('amount')}}"
+            data-currency="INR"
+            data-order_id="{{Session::get('order_id')}}"
+            data-buttontext="Pay with razorpay"
+            data-name="registration fees"
+            data-theme.color="#F37254"
+    ></script>
+    <input type="hidden" custom="Hidden Element" name="hidden">    
+</form>
+@endif --}}
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Include jQuery library -->
 
 
 
 
-        <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-        {{-- <script src="https://checkout.razorpay.com/v1/checkout.js"></script> --}}
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Include jQuery library -->
-
-<script>
-    $(document).ready(function() {
-        var paymentRoute = $('#paymentButton').data('route'); // Use jQuery to get data-route attribute
-
-        var options = {
-            "key": "rzp_test_ci8sxj5IUpXRv1", // Enter the Key ID generated from the Dashboard
-            "amount": "1000",
-            "currency": "INR",
-            "description": "Acme Corp",
-            "image": "https://s3.amazonaws.com/rzp-mobile/images/rzp.jpg",
-            "prefill": {
-                "email": "gaurav.kumar@example.com",
-                "contact": +919900000000,
-            },
-            "handler": function(response) {
-                alert(response.razorpay_payment_id);
-            },
-            "config": {
-                "display": {
-                    "blocks": {
-                        "utib": { //name for Axis block
-                            "name": "Pay using Axis Bank",
-                            "instruments": [{
-                                    "method": "card",
-                                    "issuers": ["UTIB"]
-                                },
-                                {
-                                    "method": "netbanking",
-                                    "banks": ["UTIB"]
-                                },
-                            ]
-                        },
-                        "other": { //  name for other block
-                            "name": "Other Payment modes",
-                            "instruments": [{
-                                    "method": "card",
-                                    "issuers": ["ICIC"]
-                                },
-                                {
-                                    "method": 'netbanking',
-                                }
-                            ]
-                        }
-                    },
-                    "hide": [{
-                        "method": "upi"
-                    }],
-                    "sequence": ["block.utib", "block.other"],
-                    "preferences": {
-                        "show_default_blocks": false // Should Checkout show its default blocks?
-                    }
-                }
-            },
-            "modal": {
-                "ondismiss": function() {
-                    if (confirm("Are you sure, you want to close the form?")) {
-                        txt = "You pressed OK!";
-                        console.log("Checkout form closed by the user");
-                    } else {
-                        txt = "You pressed Cancel!";
-                        console.log("Complete the Payment")
-                    }
-                }
-            }
-        };
-        var rzp1 = new Razorpay(options);
-
-        $('#paymentButton').click(function(e) {
-            e.preventDefault();
-            console.log(paymentRoute);
-            
-            // Make AJAX request
-            $.ajax({
-                type: 'POST',
-                url: '/razorpay',
-                data: $('#studentForm').serialize(), // Serialize form data
-                success: function(response) {
-                    console.log(response);
-                    rzp1.open(); // Open Razorpay modal after successful AJAX request
-                },
-                error: function(xhr, status, error) {
-                    console.error(xhr.responseText);
-                    // Handle error if needed
-                }
-            });
-        });
-    });
-</script>
-
-        
-        
-        {{-- <script>
-            var paymentRoute = document.getElementById('paymentButton').getAttribute('data-route');
+    {{-- <script>
+        $(document).ready(function() {
+            var paymentRoute = $('#paymentButton').data('route'); // Use jQuery to get data-route attribute
 
             var options = {
                 "key": "rzp_test_ci8sxj5IUpXRv1", // Enter the Key ID generated from the Dashboard
@@ -773,46 +716,43 @@
                     "contact": +919900000000,
                 },
                 "handler": function(response) {
-                alert(response.razorpay_payment_id);
+                    alert(response.razorpay_payment_id);
                 },
-                config: {
-                    display: {
-                        blocks: {
-                            utib: { //name for Axis block
-                                name: "Pay using Axis Bank",
-                                instruments: [{
-                                        method: "card",
-                                        issuers: ["UTIB"]
+                "config": {
+                    "display": {
+                        "blocks": {
+                            "utib": { //name for Axis block
+                                "name": "Pay using Axis Bank",
+                                "instruments": [{
+                                        "method": "card",
+                                        "issuers": ["UTIB"]
                                     },
                                     {
-                                        method: "netbanking",
-                                        banks: ["UTIB"]
+                                        "method": "netbanking",
+                                        "banks": ["UTIB"]
                                     },
                                 ]
                             },
-                            other: { //  name for other block
-                                name: "Other Payment modes",
-                                instruments: [{
-                                        method: "card",
-                                        issuers: ["ICIC"]
+                            "other": { //  name for other block
+                                "name": "Other Payment modes",
+                                "instruments": [{
+                                        "method": "card",
+                                        "issuers": ["ICIC"]
                                     },
                                     {
-                                        method: 'netbanking',
+                                        "method": 'netbanking',
                                     }
                                 ]
                             }
                         },
-                        hide: [{
-                            method: "upi"
+                        "hide": [{
+                            "method": "upi"
                         }],
-                        sequence: ["block.utib", "block.other"],
-                        preferences: {
-                            show_default_blocks: false // Should Checkout show its default blocks?
+                        "sequence": ["block.utib", "block.other"],
+                        "preferences": {
+                            "show_default_blocks": false // Should Checkout show its default blocks?
                         }
                     }
-                },
-                "handler": function(response) {
-                    alert(response.razorpay_payment_id);
                 },
                 "modal": {
                     "ondismiss": function() {
@@ -827,118 +767,33 @@
                 }
             };
             var rzp1 = new Razorpay(options);
-            document.getElementById('paymentButton').onclick = function(e) {
-                console.log(paymentRoute);
-                rzp1.open();
-                e.preventDefault();
-            }
-        </script> --}}
 
-        {{-- <script>
-            document.getElementById('paymentButton').onclick = function(e) {
+            $('#paymentButton').click(function(e) {
                 e.preventDefault();
-        
-                var paymentRoute = document.getElementById('paymentButton').getAttribute('data-route');
-        
-                // Get form data
-                var formData = new FormData(document.getElementById('studentForm'));
-        
+                console.log(paymentRoute);
+
                 // Make AJAX request
                 $.ajax({
                     type: 'POST',
                     url: '/razorpay',
-                    data: formData,
-                    processData: false,
-                    contentType: false,
+                    data: $('#studentForm').serialize(), // Serialize form data
                     success: function(response) {
-                        // Check if payment details were saved successfully
-                        if (response.success) {
-                            // Display success message or handle payment response
-                            alert('Payment details saved successfully!');
-        
-                            // Initialize Razorpay modal after successful payment details saving
-                            var options = {
-                                "key": "rzp_test_ci8sxj5IUpXRv1", // Enter the Key ID generated from the Dashboard
-                                "amount": "30000",
-                                "currency": "INR",
-                                "description": "Acme Corp",
-                                "image": "https://s3.amazonaws.com/rzp-mobile/images/rzp.jpg",
-                                "prefill": {
-                                    "email": "gaurav.kumar@example.com",
-                                    "contact": +919900000000,
-                                },
-                                "config": {
-                                    "display": {
-                                        "blocks": {
-                                            "utib": { //name for Axis block
-                                                "name": "Pay using Axis Bank",
-                                                "instruments": [{
-                                                        "method": "card",
-                                                        "issuers": ["UTIB"]
-                                                    },
-                                                    {
-                                                        "method": "netbanking",
-                                                        "banks": ["UTIB"]
-                                                    },
-                                                ]
-                                            },
-                                            "other": { //  name for other block
-                                                "name": "Other Payment modes",
-                                                "instruments": [{
-                                                        "method": "card",
-                                                        "issuers": ["ICIC"]
-                                                    },
-                                                    {
-                                                        "method": 'netbanking',
-                                                    }
-                                                ]
-                                            }
-                                        },
-                                        "hide": [{
-                                            "method": "upi"
-                                        }],
-                                        "sequence": ["block.utib", "block.other"],
-                                        "preferences": {
-                                            "show_default_blocks": false // Should Checkout show its default blocks?
-                                        }
-                                    }
-                                },
-                                "modal": {
-                                    "ondismiss": function() {
-                                        if (confirm("Are you sure, you want to close the form?")) {
-                                            txt = "You pressed OK!";
-                                            console.log("Checkout form closed by the user");
-                                        } else {
-                                            txt = "You pressed Cancel!";
-                                            console.log("Complete the Payment")
-                                        }
-                                    }
-                                }
-                            };
-                            var rzp1 = new Razorpay(options);
-                            rzp1.open();
-                        } else {
-                            // Alert user about failure in saving payment details
-                            alert('Payment details saving failed. Please try again later.');
-                        }
+                        console.log(response);
+                        rzp1.open(); // Open Razorpay modal after successful AJAX request
                     },
                     error: function(xhr, status, error) {
                         console.error(xhr.responseText);
-                        alert('Payment details saving failed. Please try again later.');
+                        // Handle error if needed
                     }
                 });
-            };
-        </script> --}}
-        
-
-
-
-
-
+            });
+        });
+    </script> --}}
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous">
     </script>
+
 </body>
 
 </html>

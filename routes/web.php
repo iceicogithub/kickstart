@@ -14,20 +14,14 @@ use App\Http\Controllers\SettingsController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
-
 Route::get('/googleLogin', [StudentController::class, 'googleLogin']);
 Route::get('auth/google/call-back', [StudentController::class, 'googleHandle']);
 
+
+Route::post('/initiate-payment', [PaymentController::class, 'initiatePayment']);
+Route::get('/payment', function () {
+    return view('student.payment');
+});
 
 Route::get('clear', function () {
     Artisan::call('cache:clear');
@@ -72,13 +66,11 @@ Route::middleware('auth:student')->group(function () {
     Route::get('/student/registration', [NormalController::class, 'registrationPage'])->name('student.registration');
     Route::post('/student/form', [StudentController::class, 'studentRegister'])->name('student.form');
     Route::post('/store-student', [StudentController::class, 'store_student'])->name('store.student');
-    Route::post('/razorpay', [StudentController::class, 'payment'])->name('razorpay.payment');
+    Route::get('/payment/callback', [StudentController::class, 'paymentCallback'])->name('payment.callback');
+    Route::get('/confirmation', function () {
+        return view('student.success');
+    })->name('confirmation');
 
-
-    // Route::get('/payment/callback', [StudentController::class, 'handlePaymentCallback'])->name('payment.callback');
-    // Route::post('/process-payment', [StudentController::class, 'processPayment'])->name('process.payment');
-    // Route::get('success_razorpay', [NormalController::class, 'razorpay-success'])->name('success_razorpay');
-    // Route::get('cancel_razorpay', [NormalController::class, 'razorpay-cancel'])->name('cancel_razorpay');
 
     // chapter
     Route::get('chapter/{id}',[ChapterController::class, 'show'])->name('chapter.topics');
